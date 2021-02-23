@@ -104,58 +104,20 @@ namespace DRAGONLake
 				Thread.Sleep(700);
 				Writer("The town crumbled at your wake, you make your way through.");
 				Space();
-				MonsterEncounter((int) HEARTS/2, (int) SPE/2, (int) ATK/3, "Goronical Swordsman", (int) EXPNeed/3, (int) GOLD/4, true);
+				MonsterEncounter((int) HEARTS/2, (int) SPE/2, (int) ATK/3, "Goronical Swordsman", (int) EXPNeed/3, (int) GOLD/1.5, true);
 				Space();
 				Writer("After the duel, you trot through the broken town, with other swordsman having duels of their own — deadly duels.");
 				Space();
-				Writer("Swordsman: Hey! You're not going to the DRAGON, right?!");
+				Writer("Swordsman: Hey! You're not going to the DRAGON, right?!");					
 				Space();
-				Writer("yes");
-				Writer("yes");
+				Enter();
+				Writer(name + ": Yeah. Why?");
 				Space();
-				option = Reader();
-				//logic
-				while(!stop)
-				{
-					
-					
-						if(option == "yes")
-						{
-							Space();
-							Enter();
-							Writer(name + ": Yeah. Why?");
-							Space();
-							ThrDot();
-							Space();
-							Writer("Swordsman: D I E .");
-							MonsterEncounter((int) HEARTS/2, (int) SPE/2, (int) ATK/3, "Duel Swordsman", (int) EXPNeed/3, (int) GOLD/2, true);
-							stop = true;
-						}
-
-						else if(option == "no")
-						{
-							Space();
-							Thread.Sleep(2000);
-							Writer(name + ": No. Now get away from me!");
-							Space();
-							ThrDot();
-							Space();
-							Writer("Swordsman: Don't lie to me!");
-							MonsterEncounter((int) HEARTS/2, (int) SPE/2, (int) ATK/3, "Duel Swordsman", (int) EXPNeed/3, (int) GOLD/2, true);
-							stop = true;
-						}
-
-						else
-						{
-							ErrorWrite();
-							Space();
-							Writer("yes");
-							Writer("no");
-							Space();
-							option = Reader();
-						}
-					
-				}
+				ThrDot();
+				Space();
+				Writer("Swordsman: D I E .");
+				MonsterEncounter((int) HEARTS/2, (int) SPE/2, (int) ATK/3, "Duel Swordsman", (int) EXPNeed/3, (int) GOLD, true);
+				stop = true;		
 
 				Space();
 				Writer("After the swordsman, you keep through the area, when you come across a traveling CabinMaster.");
@@ -169,7 +131,7 @@ namespace DRAGONLake
 				Space();
 				Writer("Just then, a swordsman came in for a fight!");
 				Enter();
-				MonsterEncounter((int) HEARTS/2, (int) SPE/3, (int) ATK, "Guy the Swordsman", (int) EXPNeed/3, (int) GOLD/2, true);
+				MonsterEncounter((int) HEARTS/2, (int) SPE/3, (int) ATK, "Guy the Swordsman", (int) EXPNeed/3, (int) GOLD, true);
 				Space();
 				Writer("CabinMaster: Phew! Thanks man! Here's some GOLD for your troubles.");
 				Space();
@@ -186,7 +148,7 @@ namespace DRAGONLake
 				Writer("After you encountered the cheapscape, you continue on your path through duel town, destroying too many foes after too many foes.");
 				MonsterEncounter((int) HEARTS/2, (int) SPE/3, (int) ATK, "Jujutsu Guysen", (int) EXPNeed/3, (int) GOLD/2, true);
 				Space();
-				MonsterEncounter(HEARTS * 2, (int) SPE, (int) ATK/2, "Madara Uchairha", (int) EXPNeed/3, (int) GOLD/4, true);
+				MonsterEncounter(HEARTS * 2, (int) SPE, (int) ATK/2, "Madara Uchairha", (int) EXPNeed/3, (int) GOLD, true);
 				Space();
 				MonsterEncounter((int) HEARTS, (int) SPE, (int) ATK, "Takeyuki", (int) EXPNeed/3, (int) GOLD/2, true);
 				Space();
@@ -217,7 +179,7 @@ namespace DRAGONLake
 				Enter();
 				Writer("Swordsman: Now, time to get this party started! It's time for a DEATH DUEL!!!");
 				Enter();
-				MonsterEncounter(295, 14, 17, "Mysterious Rowdy Swordsman", 4500, 7000, true);
+				MonsterEncounter(70, 18, 9, "Mysterious Rowdy Swordsman", 4500, 7000, true);
       }
 
 			if(option == go1[3] || option == "69")//DEBUG
@@ -1589,15 +1551,9 @@ namespace DRAGONLake
 			}
 			if (Console.ReadKey().Key != ConsoleKey.Enter) 
 			{ 
+
 				Thread.Sleep(7000);
       } 
-			else
-			{
-				Color("red");
-				Writer("Press 'enter' to move on.");
-				Color("null");
-				Space();
-			}
 			Space();
 		}
 
