@@ -1,60 +1,79 @@
 using System;
 using System.IO;
 using System.Threading;
+using System.Windows.Input;
 // 
 // https://bluesock.org/~willkg/dev/ansi.html#ansicodes
-// 
 // RED: [0;31m
 // RESET: [0m
 
-//NOTE: After DRAGON, player is at level 12 and has about 42 HP and 54 ATK, so hp: 115 and attack: 17 is necessary.
+//NOTE: After DRAGON, player is at level 12 and has about 42 HP and 54 ATK, so 250 hp and 20 attack is necessary.
+//NOTE: Balance, Bi-
 
-namespace MyApplication
+namespace DRAGONLake
 {
   class Program
   {
     //variables
-    static float EXP, EXPNeed = 2000, SPE = 6, HP = 20, HEARTS = 20, ATK = 5;
-		static int level = 2, GOLD = 500, WILL = 0;
+    static float EXP, EXPNeed = 2000, SPE = 19, HP = 20, HEARTS = 20, ATK = 5;
+		static int level = 2, GOLD = 500, WILL = 0, re = 0;
 		static string[] inventory = {"potion", "potion", "potion", "null", "null", "null", "null", "null", "null", "null"};
+		static string name;
 
 		static string option = "Samuel";
-		static bool noCabin = false, stop = false;
+		static bool noCabin = false, stop = false, dodge = false;
+		static bool[] firstTime = {true/*SPECIAL*/, true/*attacking, grabbing, running*/, true/*options*/, true/*enter*/, true, true};
+		
+		static Random rando = new Random();
 
     static void Main(string[] args) 
 		{
 			//Starting
 			Console.Clear();
 			Space(3);
-      Writer("THE DRAGON (V0.1.2 ALPHA)");
+      Writer("THE DRAGON (V0.1.4 ALPHA)");
       Writer("START");
       Space();
       //variables
-      string[] go1 = {"spring", "hill", "forest", "debug"};
-      string name;
+      string[] go1 = {"springs", "hills", "forests", "debug"};
       //all of Main
       Writer("Please enter your Player Name: ", 2);
-      name = Reader();
-      if(name == "" || name == " ")
+      name = Console.ReadLine();
+      if(name.Replace(" ", "") == "")
 			{
 				name = "Samuel";
+			}
+			if(name == "oogabooga")
+			{
+				HEARTS = 100;
+				HP = 100;
+				SPE = 100;
+				ATK = 100;
 			}
 			Space(3);
       Writer("Hello " + name + "! There is a DRAGON, and it needs to be slain! Where shall your quest take you first?"); //options to go first
       Space();
-      Writer(go1[0]);
-      Writer(go1[1]);
-      Writer(go1[2]);
+			Color("cyan");
+      Writer(go1[0] + ", 1");
+			Color("yellow");
+      Writer(go1[1] + ", 2");
+			Color("green");
+      Writer(go1[2] + ", 3");
+			Color("null");
       Space();
 
       //go1 options
       option = Reader();
       while(name != "fuck")
 			{
-			if (option == go1[0] || option == "Spring")//spring
+			if (option == go1[0] || option == "Spring" || option == "1" || option == "spring")//spring
 			{
         Space();
 				Writer("The spring? Well, terrible choice! You head	to the spring, but MONSTER ENCOUNTER!");
+				HEARTS -= 2;
+				HP -= 2;
+				SPE -= 2;
+				ATK -= 2;
         Space();
         // MonsterEncounter(7, 3, 19, "Mossatle"); // Just a test
         MonsterEncounter(17, 3, 4, "Mossatle", 1500F, 90, false);
@@ -71,14 +90,14 @@ namespace MyApplication
 				Space();
 				Writer("Zabuzabuzabuzabuza: Hey you! Time to die!");
 				Space();
-				Thread.Sleep(2000);
+				Enter();
 				Space();
 				Writer(name + ": no.");
 				Space();
 				MonsterEncounter(30, 7, 2, "Zabuzabuzabuzabuza", 1200F, 750, true);
 				Space();
 				//Duelsville
-				Thread.Sleep(2000);
+				Enter();
 				Console.Clear();
 				Space(3);
 				Writer("You finally get out of the swamp-like springs, and travel into a town full of swordsman.");
@@ -92,26 +111,29 @@ namespace MyApplication
 				Writer("Swordsman: Hey! You're not going to the DRAGON, right?!");
 				Space();
 				Writer("yes");
-				Writer("no");
+				Writer("yes");
 				Space();
 				option = Reader();
 				//logic
 				while(!stop)
 				{
-					switch(option)
-					{
-						case "yes":
+					
+					
+						if(option == "yes")
+						{
 							Space();
-							Thread.Sleep(2000);
+							Enter();
 							Writer(name + ": Yeah. Why?");
 							Space();
 							ThrDot();
 							Space();
 							Writer("Swordsman: D I E .");
 							MonsterEncounter((int) HEARTS/2, (int) SPE/2, (int) ATK/3, "Duel Swordsman", (int) EXPNeed/3, (int) GOLD/2, true);
-						break;
+							stop = true;
+						}
 
-						case "no":
+						else if(option == "no")
+						{
 							Space();
 							Thread.Sleep(2000);
 							Writer(name + ": No. Now get away from me!");
@@ -120,58 +142,92 @@ namespace MyApplication
 							Space();
 							Writer("Swordsman: Don't lie to me!");
 							MonsterEncounter((int) HEARTS/2, (int) SPE/2, (int) ATK/3, "Duel Swordsman", (int) EXPNeed/3, (int) GOLD/2, true);
-						break;
+							stop = true;
+						}
 
-						default:
+						else
+						{
 							ErrorWrite();
 							Space();
 							Writer("yes");
 							Writer("no");
 							Space();
 							option = Reader();
-						break;
-					}
+						}
+					
 				}
 
 				Space();
 				Writer("After the swordsman, you keep through the area, when you come across a traveling CabinMaster.");
-				Space();
+				Enter();
 				Writer("CabinMaster: Sup! Want to buy something? I'm having a sale!");
 				Space();
 				ThrDot();
 				Writer("CabinMaster: Look, man. I'm running on low here. barely have enough to eat! I'll give you half of if you buy. Heck, I'll throw in an extra for each purchase. Please man, help a guy out here.");
+				Enter();
 				ThrDot();
 				Space();
 				Writer("Just then, a swordsman came in for a fight!");
-				Space();
+				Enter();
 				MonsterEncounter((int) HEARTS/2, (int) SPE/3, (int) ATK, "Guy the Swordsman", (int) EXPNeed/3, (int) GOLD/2, true);
 				Space();
 				Writer("CabinMaster: Phew! Thanks man! Here's some GOLD for your troubles.");
 				Space();
 				Writer("You got 20 GOLD!");
 				GOLD += 20;
-				Space();
+				Enter();
 				Writer(name + ": This isn't jack squat! Cheapscape!");
 				Space();
 				Writer("CabinMaster: I told you, I'm running on empty. Now, are you going to shop or what?");
-				Space();
-				Writer("yes");
-				Writer("no");
-				Space();
-				option = Reader();
-				Space();
 				//Logic
-				
+				Use(492, 897, 2145, 1324, 234);
+				//rest
+				Space();
+				Writer("After you encountered the cheapscape, you continue on your path through duel town, destroying too many foes after too many foes.");
+				MonsterEncounter((int) HEARTS/2, (int) SPE/3, (int) ATK, "Jujutsu Guysen", (int) EXPNeed/3, (int) GOLD/2, true);
+				Space();
+				MonsterEncounter(HEARTS * 2, (int) SPE, (int) ATK/2, "Madara Uchairha", (int) EXPNeed/3, (int) GOLD/4, true);
+				Space();
+				MonsterEncounter((int) HEARTS, (int) SPE, (int) ATK, "Takeyuki", (int) EXPNeed/3, (int) GOLD/2, true);
+				Space();
+				MonsterEncounter((int) HEARTS/2, (int) SPE/2, (int) ATK/2, "Taneukami", (int) EXPNeed/3, (int) GOLD/2, true);
+				Space();
+				Writer("After the encounters with the offly familiar swordsman, you are almost out of Duel Town, when you see a guy.");
+				Enter();
+				Writer("With a quick slash, the person puts you into a swordlock.");
+				Space();
+				Writer("Bam ", 2);
+				Thread.Sleep(200);
+				Writer("Kablam ", 2);
+				Thread.Sleep(200);
+				Writer(" BOOM!", 2);
+				Space();
+				Writer("Swordsman: YEAH. WOO-HOO! THIS is what I like in a sowrdsman!");
+				Enter();
+				Writer(name + ": ...");
+				Enter();
+				Writer("Swordsman: Now! It's time to pick up the ", 2);
+				Color("bold");
+				Writer("HEAT!", 2);
+				Enter();
+				Writer("Swordsman: But first, I want a fair match! Heal up!");
+				Space();
+				Writer("You where healed to Max HP!");
+				HP = HEARTS;
+				Enter();
+				Writer("Swordsman: Now, time to get this party started! It's time for a DEATH DUEL!!!");
+				Enter();
+				MonsterEncounter(295, 14, 17, "Mysterious Rowdy Swordsman", 4500, 7000, true);
       }
 
-			if(option == go1[3])//DEBUG
+			if(option == go1[3] || option == "69")//DEBUG
 			{
 				MonsterEncounter(monName: "Debug Bug", exp: 2000F, gold: 3000,attack: 4 ,hp: 20, speed: 2);
 				MonsterEncounter(monName: "Debug Bug", exp: 3000F, gold: 3000);
 				End(0);
 			}
 
-	    else if (option == go1[2])//forests
+	    else if (option == go1[2] || option == "Forest" || option == "Forests" || option == "forest" || option ==  "3")//forests
 			{
         Space();
 				//forests
@@ -181,12 +237,13 @@ namespace MyApplication
         Space(2);
         //rest of the option
         Writer("You defeated (or maybe ran from) the monster, but your jouney still goes on.");
-        Space();
+				Space();
         Writer("You go through the dangorous forests, destroying all in your path.");
+				Enter();
 				MonsterEncounter(10, 4, 5, "Stealing Steve", 1500F, 1200);
 				Space();
 				//Crossroads
-				Thread.Sleep(3000);
+				Enter();
 				Console.Clear();
 				Writer("You come to a crossroads or a Mine and Moutain. What shall you do?");
         Writer("What shall you do?");
@@ -200,56 +257,56 @@ namespace MyApplication
 				{
 				switch(option) 
 				{
-      	  case "Mine":
+      	  case "1":
+					case "Go to Mine":
+					case "go to mine":
+					case "mine":
+					case "Mine":
       	    Space();
       	    Writer("You go through the dark mines, where you meet a guy");
       	    Space();
       	    Writer("GUY: Hi! You're in the mines, huh. Not to be captin ovious, but you really shouldn't	be here. it's dangorous.");
+      	    Enter();
+      	    Writer("What do you say? (1 for option1, 2 for option 2)");
       	    Space();
-      	    Writer("What do you say? (1 for option1,	2 for option 2)");
+      	    Writer("option 1: " + name + ": I don't care. I gotta mission to do,so scram");
       	    Space();
-      	    Writer(name + ": I don't care. I gotta mission to do,so scram");
-      	    Space();
-						Writer(name + ": Oh ok");
+						Writer("option 2: " + name + ": Oh ok");
 						Space();
       	    option = Reader();
       	    switch(option) {
       	      case "1":
       	        Writer("I warned you.");
 								Space();
-      	        MonsterEncounter(3, 0, 3, "MegaMadGuy", 200F, 300, false);
+      	        MonsterEncounter(23, 5, 9, "MegaMadGuy", 200F, 300, false);
 								Space();
 								Writer("You keep going through the mines,");
-								Space();
+								Enter();
 								MonsterEncounter(25, 4, 6, "Rockalike", 1500F, 130, false);
 								Space();
 								Writer("Going through the tipper-tap of picks, you find a caption.");
 								Space();
 								Writer("Captin [on phone]: Mmmhm. Huhhuh. WHAT?! I'm going to destory him in the name of the law when I find him! What are to details? What? A large sword and his name is '" + name + "'? I'll definitely find and kill him!");
-								Space();
+								Enter();
 								Writer(name + ": Uhhh, hello?");
+								Thread.Sleep(1000);
 								Space();
 								Writer("Captin: Who are you?");
 								Space();
 								Thread.Sleep(3000);
 								Writer(name + ": I'm " + name + ".");
-								Thread.Sleep(300);
-								Writer(".", 2);
-								Thread.Sleep(300);
-								Writer(".", 2);
-								Thread.Sleep(300);
-								Writer(".", 2);
+								ThrDot();
 								Thread.Sleep(2200);
 								Space();
-								Writer("Caption: >:(");
+								Writer("Captin: >:(", 2);
 								Space(2);
 								MonsterEncounter(40, 6, 7, "Caption Joe", 5000F, 2000, true);
 								//Forest: Weeping Ruins
-								Thread.Sleep(1000);
+								Enter();
 								Console.Clear();
-								Space(3);
+								Space(2);
 								Writer("You head out of the mines on the other end to find a hedgeworth of ruins. Big and small; long and short. You walk through, being guilded by your map to the ultimate goal.");
-								Space();
+								Enter();
 								MonsterEncounter(27, 5, 5, "Artifact Stealer", 2000F, 700, false);
 								Space();
 								Writer("You see a potion lying on the ground.");
@@ -363,11 +420,11 @@ namespace MyApplication
 										inventory[9] = "potion";
 									}
 								}
-								Space();
+								Enter();
 								MonsterEncounter(25, 4, 6, "Talus", 1700F, 90, false);
 								Space();
 								Writer("You face the ruins, thinking of what might've lived there, and you remember to keep on path");
-								Space();
+								Enter();
 								MonsterEncounter(30, 8, 8, "Falbed Gaurd", 3000F, 900, true);
 								Space();
 								//Cabin
@@ -377,7 +434,7 @@ namespace MyApplication
 									Space();
 									Writer("CabinMaster: Hello! I like studying past civilizations, but I need money! So I founded this store here. You buy supplies, I get to study. Win win!");
 									
-									Space();
+									Enter();
 									Writer("What do you want to do?");
 									Space();
 									Writer("Shop");
@@ -765,7 +822,7 @@ namespace MyApplication
 									Writer("You see a cabin, but it's empty. no cabns 4 u!");
 								}
 								//rest
-								Space();
+								Enter();
 								Writer("Continuing on your jouney through the Ruined civilization, you encounter many foes.");
 								Space();
 								MonsterEncounter(32, 8, 9, "Fabled Gaurd", 4000F, 950, false);
@@ -777,12 +834,12 @@ namespace MyApplication
 								MonsterEncounter(42, 11, (int) ATK/3, "Stealing Mermaid-Man Thing", 4500F, 2300, true);
 								Space();
 								//Ocean
-								Thread.Sleep(3000);
+								Enter();
 								Console.Clear();
 								Writer("After killing your foe, you are in the ocean. A deep, dark ocean.");
 								Space();
 								Writer("Now, you were originally planning to go on a ship to THE DRAGON. But now, you will most likely have to swim instead.");
-								Thread.Sleep(1000);
+								Enter();
 								Writer(name + ": Oh crap. Now I have to swim hundreds of miles! This is just damning great!");
 								Space();
 								MonsterEncounter(35, 14, 7, "Mosshuat", 2000F, 0, false);
@@ -794,16 +851,16 @@ namespace MyApplication
 								MonsterEncounter(39, 15, 20, "X X X X X X X", 3424F, 883, false);
 								Space();
 								Writer(name + ": Da frick are these fish names?!");
-								Space();
+								Enter();
 								MonsterEncounter(25, 16, 7, "The Fitness Gram", 2900F, 10, true);
 								Space();
-								MonsterEncounter(25, 16, 7, "Pacer Test is", 2900F, 10, true);
+								MonsterEncounter(35, 15, 8, "Pacer Test is", 2900F, 10, true);
 								Space();
-								MonsterEncounter(25, 16, 7, "A Multistage Aerobatic Compacity", 2900F, 10, true);
+								MonsterEncounter(45, 14, 10, "A Multistage Aerobatic Compacity", 2900F, 10, true);
 								Space();
-								MonsterEncounter(25, 16, 7, "That Gets Progressivly Harder", 2900F, 10, true);
+								MonsterEncounter(55, 13, 13, "That Gets Progressivly Harder", 2900F, 10, true);
 								Space();
-								MonsterEncounter(25, 16, 7, "As You Go.", 2900F, 10, true);
+								MonsterEncounter(65, 12, 17, "As You Go.", 2900F, 10, true);
 								Space();
 								Thread.Sleep(2000);
 								Writer(name + ": (ಠ_ಠ)");
@@ -812,7 +869,7 @@ namespace MyApplication
 								Writer("SilverAtom: (•̀.̫•́✧)");
 								Space();
 								ItemUser();
-								MonsterEncounter(69, 0, 11, "Deal with it.", 69F, 69, true);
+								MonsterEncounter(69, 0, 21, "Deal with it.", 69F, 69, true);
 								Space();
 								//Ocean Cave
 								Thread.Sleep(3000);
@@ -854,7 +911,11 @@ namespace MyApplication
       	    }
       	  break;
 
-      	  case "Moutain":
+      	  case "2":
+					case "Go to Moutain":
+					case "go to moutain":
+					case "moutain":
+					case "Moutain":
 						Space();
 						Writer("You go up the steap moutain, where you meet a man in the distance, but when the man gets closer, he gets hairier, then bigger,then it is clear you have not met a man.");
 						Space(2);
@@ -868,7 +929,7 @@ namespace MyApplication
 						{
 							//Cabin
 							Writer("Things aren't looking up for you. The higher you go, the worse it gets. Then, you see a cabin. A nice, humble cabin amist the stormy moutain.");
-							Space();
+							Enter();
 							Writer("CabinMaster: Helloo! Stormy Moutain, Huh? Yeah, I built this cabin so people could rest up on their jouney to the heart.");
 							Space(2);
 							Writer("CabinMaster: So anyway, do you want to rest up for 400 gold? Livng up here isn't easy, you know.");
@@ -882,6 +943,8 @@ namespace MyApplication
 							option = Reader();
 							switch(option)
 							{
+								case "YES":
+								case "Yes":
 								case "yes":
 									GOLD -= 400;
 									HP = HEARTS;
@@ -891,551 +954,13 @@ namespace MyApplication
 									Writer("yes");
 									Writer("no");
 									Space();
-									string dption = Reader();
 									Space();
 									//near shop
-									bool ond = false;
-									//yes/no
-									while(!ond)
-									{
-										switch(dption)
-										{
-										case "yes":
-											Space();
-											Writer("CabinMaster: Great! potions, EXP UPs, hearts! It's yours, my friend! As long as you have enough GOLD!");
-											while(!ond)
-											{
-												Space();
-												Color("yellow");
-												Writer("You have " + GOLD + " GOLD left. Buy wisely!");
-												Color("null");
-												Space();
-												Writer("potion, G200");
-												Writer("potion +, G600");
-												Writer("EXP UP, G400");
-												Writer("ATK UP, G1000");
-												Writer("heart, G1500");
-												Space();
-												Writer("Leave");
-												Space();
-												option = Reader();
-												switch(option)
-												{
-													case "potion":
-														if(GOLD >= 200)
-														{
-															Space();
-															Writer("You bought a potion!");
-
-															GOLD -= 200;
-															Space();
-															Writer("Do you want to use it?");
-															Space();
-															Writer("yes");
-															Writer("no");
-															Space();
-															option = Reader();
-															if(option == "yes") 
-															{
-																Space();
-																Writer("You gained 20 HP!");
-																HP += 20;
-																ond = true;
-															}
-
-															else
-															{
-																GOLD -= 200;
-																if(inventory[0] == "null")
-																{
-																	inventory[0] = "potion";
-																}
-
-																else if(inventory[1] == "null")
-																{
-																	inventory[1] = "potion";
-																}
-
-																else if(inventory[2] == "null")
-																{
-																	inventory[2] = "potion";
-																}
-
-																else if(inventory[3] == "null")
-																{
-																	inventory[3] = "potion";
-																}
-
-																else if(inventory[4] == "null")
-																{
-																	inventory[4] = "potion";
-																}
-
-																else if(inventory[5] == "null")
-																{
-																	inventory[5] = "potion";
-																}
-
-																else if(inventory[6] == "null")
-																{
-																	inventory[6] = "potion";
-																}
-
-																else if(inventory[7] == "null")
-																{
-																	inventory[7] = "potion";
-																}
-
-																else if(inventory[8] == "null")
-																{
-																	inventory[8] = "potion";
-																}
-
-																else if(inventory[9] == "null")
-																{
-																	inventory[9] = "potion";
-																}
-
-																Space();
-																Writer("Do you want to stop shopping?");
-																Space();
-																option = Reader();
-																switch(option)
-																{
-																	case "yes":
-																		ond = true;
-																	break;
-
-																	case "no":
-
-																	break;
-
-																	default:
-																		ErrorWrite();
-																	break;
-																}
-															}
-														}
-
-														else if(GOLD < 200)
-														{
-															Space();
-															Writer("CabinMaster: Sorry, " + name + ", but I can't give credit! Come back to this item when you're a little, MMMMMM, R I C H E R !");
-														}
-														
-													break;
-
-													case "potion +":
-														if(GOLD >= 600)
-														{
-															Space();
-															Writer("You bought a potion +!");
-															GOLD -= 600;
-															Space();
-															Writer("Do you want to use it?");
-															Space();
-															Writer("yes");
-															Writer("no");
-															Space();
-															option = Reader();
-															if(option == "yes") 
-															{
-																Space();
-																Writer("You gained 60 HP!");
-																HP += 60;
-																ond = true;
-															}
-
-															else
-															{	
-																if(inventory[0] == "null")
-																{
-																	inventory[0] = "potion +";
-																}
-
-																else if(inventory[1] == "null")
-																{
-																	inventory[1] = "potion +";
-																}
-
-																else if(inventory[2] == "null")
-																{
-																	inventory[2] = "potion +";
-																}
-
-																else if(inventory[3] == "null")
-																{
-																	inventory[3] = "potion +";
-																}
-
-																else if(inventory[4] == "null")
-																{
-																	inventory[4] = "potion +";
-																}
-
-																else if(inventory[5] == "null")
-																{
-																	inventory[5] = "potion +";
-																}
-
-																else if(inventory[6] == "null")
-																{
-																	inventory[6] = "potion +";
-																}
-
-																else if(inventory[7] == "null")
-																{
-																	inventory[7] = "potion +";
-																}
-
-																else if(inventory[8] == "null")
-																{
-																	inventory[8] = "potion +";
-																}
-
-																else if(inventory[9] == "null")
-																{
-																	inventory[9] = "potion +";
-																}
-															}
-															Space();
-															Writer("Do you want to stop shopping?");
-															Space();
-															option = Reader();
-															switch(option)
-															{
-																case "yes":
-																	ond = true;
-																break;
-
-																case "no":
-
-																break;
-
-																default:
-																	ErrorWrite();
-																break;
-															}
-														}
-
-														else if(GOLD < 600)
-														{
-															Space();
-															Writer("CabinMaster: Sorry, " + name + ", but I can't give credit! Come back to this item when you're a little, MMMMMM, R I C H E R !");
-														}
-													break;
-
-													case "EXP UP":
-														if(GOLD >= 400)
-														{
-															Space();
-															Writer("You bought a EXP UP!");
-															GOLD -= 400;
-															Space();
-															Writer("Do you want to use it?");
-															Space();
-															Writer("yes");
-															Writer("no");
-															Space();
-															option = Reader();
-															if(option == "yes") 
-															{
-																Space();
-																Writer("You gained 1500 EXP!");
-																EXP += 1500;
-																ond = true;
-															}
-
-															else
-															{
-																if(inventory[0] == "null")
-																{
-																	inventory[0] = "EXP UP";
-																}
-
-																else if(inventory[1] == "null")
-																{
-																	inventory[1] = "EXP UP";
-																}
-
-																else if(inventory[2] == "null")
-																{
-																	inventory[2] = "EXP UP";
-																}
-
-																else if(inventory[3] == "null")
-																{
-																	inventory[3] = "EXP UP";
-																}
-
-																else if(inventory[4] == "null")
-																{
-																	inventory[4] = "EXP UP";
-																}
-
-																else if(inventory[5] == "null")
-																{
-																	inventory[5] = "EXP UP";
-																}
-
-																else if(inventory[6] == "null")
-																{
-																	inventory[6] = "EXP UP";
-																}
-
-																else if(inventory[7] == "null")
-																{
-																	inventory[7] = "EXP UP";
-																}
-
-																else if(inventory[8] == "null")
-																{
-																	inventory[8] = "EXP UP";
-																}
-
-																else if(inventory[9] == "null")
-																{
-																	inventory[9] = "EXP UP";
-																}
-															}
-															Space();
-															Writer("Do you want to stop shopping?");
-															Space();
-															option = Reader();
-															switch(option)
-															{
-																case "yes":
-																	ond = true;
-																break;
-
-																case "no":
-
-																break;
-
-																default:
-																	ErrorWrite();
-																break;
-															}
-														}
-														
-														else if(GOLD < 400)
-														{
-															Space();
-															Writer("CabinMaster: Sorry, " + name + ", but I can't give credit! Come back to this item when you're a little, MMMMMM, R I C H E R !");
-														}
-													break;
-
-													case "ATK UP":
-														if(GOLD >= 1000)
-														{
-															Space();
-															Writer("You bought a ATK UP!");
-															GOLD -= 1000;
-															Space();
-															Writer("Do you want to use it?");
-															Space();
-															Writer("yes");
-															Writer("no");
-															Space();
-															option = Reader();
-															if(option == "yes") 
-															{
-																Space();
-																Writer("You gained 5 ATK!");
-																ATK += 5;
-																ond = true;
-															}
-
-															else
-															{
-																if(inventory[0] == "null")
-																{
-																	inventory[0] = "ATK UP";
-																}
-																else if(inventory[1] == "null")
-																{
-																	inventory[1] = "ATK UP";
-																}
-																else if(inventory[2] == "null")
-																{
-																	inventory[2] = "ATK UP";
-																}
-																else if(inventory[3] == "null")
-																{
-																	inventory[3] = "ATK UP";
-																}
-																else if(inventory[4] == "null")
-																{
-																	inventory[4] = "ATK UP";
-																}
-																else if(inventory[5] == "null")
-																{
-																	inventory[5] = "ATK UP";
-																}
-																else if(inventory[6] == "null")
-																{
-																	inventory[6] = "ATK UP";
-																}
-																else if(inventory[7] == "null")
-																{
-																	inventory[7] = "ATK UP";
-																}
-																else if(inventory[8] == "null")
-																{
-																	inventory[8] = "ATK UP";
-																}
-																else if(inventory[9] == "null")
-																{
-																	inventory[9] = "ATK UP";
-																}
-															}
-
-															Space();
-															Writer("Do you want to stop shopping?");
-															Space();
-															option = Reader();
-															switch(option)
-															{
-																case "yes":
-																	ond = true;
-																break;
-
-																case "no":
-
-																break;
-
-																default:
-																	ErrorWrite();
-																break;
-															}
-														}
-
-														else if(GOLD < 1000)
-														{
-															Space();
-															Writer("CabinMaster: Sorry, " + name + ", but I can't give credit! Come back to this item when you're a little, MMMMMM, R I C H E R !");
-														}
-													break;
-
-													case "heart":
-														if(GOLD >= 1500)
-														{
-															Space();
-															Writer("You bought a heart!");
-															Space();
-															Writer("Do you want to use it?");
-															Space();
-															Writer("yes");
-															Writer("no");
-															Space();
-															option = Reader();
-															if(option == "yes") 
-															{
-																Space();
-																Writer("You gained 10 more MAX HP!");
-																HEARTS += 10;
-																HP += 10;
-																ond = true;
-															}
-
-															else
-															{
-																if(inventory[0] == "null")
-																{
-																	inventory[0] = "heart";
-																}
-
-																else if(inventory[1] == "null")
-																{
-																	inventory[1] = "heart";
-																}
-
-																else if(inventory[2] == "null")
-																{
-																	inventory[2] = "heart";
-																}
-
-																else if(inventory[3] == "null")
-																{
-																	inventory[3] = "heart";
-																}
-
-																else if(inventory[4] == "null")
-																{
-																	inventory[4] = "heart";
-																}
-
-																else if(inventory[5] == "null")
-																{
-																	inventory[5] = "heart";
-																}
-
-																else if(inventory[6] == "null")
-																{
-																	inventory[6] = "hear";
-																}
-
-																else if(inventory[7] == "null")
-																{
-																	inventory[7] = "heart";
-																}
-
-																else if(inventory[8] == "null")
-																{
-																	inventory[8] = "heart";
-																}
-
-																else if(inventory[9] == "null")
-																{
-																	inventory[9] = "heart";
-																}
-															}
-														
-															Space();
-															Writer("Do you want to stop shopping?");
-															Space();
-															option = Reader();
-															switch(option)
-															{
-																case "yes":
-																	ond = true;
-																break;
-
-																case "no":
-
-																break;
-
-																default:
-																	ErrorWrite();
-																break;
-															}
-														}
-
-														else if(GOLD < 1500)
-														{
-															Space();
-															Writer("CabinMaster: Sorry, " + name + ", but I can't give credit! Come back to this item when you're a little, MMMMMM, R I C H E R !");
-														}
-													break;
-
-													case "Leave":
-														Space();
-														Writer("CabinMaster: Ok! See ya!");
-														ond = true;
-													break;
-													
-													default:
-														ErrorWrite();
-														Space();
-														Writer("CabinMaster: What would you like to buy?");
-													break;
-												}
-											}
-										break;
-										}
-									}								
+																
 								break;
 								
+								case "No":
+								case "NO":
 								case "no":
 								Space();
 								Writer("CabinMaster: No? Well you'll regret it! See you around, if ever!");
@@ -1464,21 +989,23 @@ namespace MyApplication
 							Writer("You see a cabin, but it is empty, so you move on to a shop next to it.");
 						}
 						//rest
-						Space(2);
+						Enter();
 						Writer("In the drift, you continue to the top. For, reasons. Anyway, you see humanoids again. But this time, they're smaller, and TWO of them!");
 						Space(2);
 						MonsterEncounter(15, 3, 2, "Obscureasnow Mini",3000F, 70);
 						Space(2);
 						Writer("You defeated one, but the other comes charging at you!");
-						Space();
+						Enter();
 						MonsterEncounter(15, 3, 2, "Obscureasnow Mini",3000F, 70);
 						Space(2);
 						Writer("Those little ones were no match for you!");
-						Space(2);
+						Enter();
+						Space();
 						Writer("You head to the top, hoping to be able to find whatever you are looking for. But you hear footsteps. LOUD footsteps. Of a beast, no, a monster. A huge Obscuronsnow appears, threatening you with it's booming chest bumps. DO you, " + name + " know what that means? MONSTER ENCOUNTER.");
+						ItemUser();
 						Space(4);
-						MonsterEncounter(40, 3, 6, "Obscuronsnow Large", 10000F, 300, true);//Boss
-						Space(2);
+						//Boss
+						MonsterEncounter(60, 8, 10, "Obscuronsnow Large", 10000F, 300, true);
 						//Heart Caverns
 						Writer("After crossing paths with the beast, you have defeated it, and therefor you can move on to the heart.");
 						Space();
@@ -1491,6 +1018,7 @@ namespace MyApplication
 						MonsterEncounter(30, 6, 7, "Heart Gaurdian", 1000F, 20, false);
 						Space();
 						Writer(name + ": There's a lot of these 'Heart Gaurdian' things huh?");
+						Enter();
 						MonsterEncounter(30, 6, 7, "Heart Gaurdian", 1000F, 20, false);
 						Space();
 						MonsterEncounter(30, 6, 7, "Heart Gaurdian", 1000F, 20, false);
@@ -1501,38 +1029,41 @@ namespace MyApplication
 						Space(3);
 						MonsterEncounter(67, 1, 12, "Jewled Man", 3500F, GOLD, true);//Mini-Boss
 						Space();
-						Writer(name + ": What was that?! Is that a...man!");
-						Space();
+						Writer(name + ": What was that?! Is that ", 2);
+						Color("bold");
+						Writer("a...man!", 2);
+						Color("bold");
+						Enter();
 						Writer(name + ": What the hell...");
 						Writer("You say as the monster appears to be a man.");
-						Space();
+						Enter();
 						Writer("The realization frightens you, as you head downroad. The gaurdians you see become more agressive, so there is no time to put away your sword.");
+						Enter();
+						MonsterEncounter(70, 8, 11, "Heart Gaurdian", 3000F, 20, false);
 						Space();
-						MonsterEncounter(40, 8, 9, "Heart Gaurdian", 3000F, 20, false);
+						MonsterEncounter(70, 8, 11, "Heart Gaurdian", 3000F, 20, false);
 						Space();
-						MonsterEncounter(40, 8, 9, "Heart Gaurdian", 3000F, 20, false);
+						MonsterEncounter(70, 8, 11, "Heart Gaurdian", 3000F, 20, false);
 						Space();
-						MonsterEncounter(40, 8, 9, "Heart Gaurdian", 3000F, 20, false);
+						MonsterEncounter(70, 8, 11, "Heart Gaurdian", 3000F, 20, false);
 						Space();
-						MonsterEncounter(40, 8, 9, "Heart Gaurdian", 3000F, 20, false);
+						MonsterEncounter(70, 8, 11, "Heart Gaurdian", 3000F, 20, false);
 						Space();
-						MonsterEncounter(40, 8, 9, "Heart Gaurdian", 3000F, 20, false);
-						Space();
-						MonsterEncounter(40, 8, 9, "Heart Gaurdian", 3000F, 20, false);
+						MonsterEncounter(70, 8, 11, "Heart Gaurdian", 3000F, 20, false);
 						Space();
 						Writer(name + ": *Huff* *puff*");
+						Enter();
+						MonsterEncounter(90, 11, 15, "Heart Gaurdian", 3000F, 20, false);
 						Space();
-						MonsterEncounter(50, 11, 11, "Heart Gaurdian", 3000F, 20, false);
+						MonsterEncounter(90, 11, 15, "Heart Gaurdian", 3000F, 20, false);
 						Space();
-						MonsterEncounter(50, 11, 11, "Heart Gaurdian", 3000F, 20, false);
-						Space();
-						MonsterEncounter(54, 11, 11, "Heart Gaurdian", 3000F, 20, false);
+						MonsterEncounter(100, 11, 9, "Heart Gaurdian", 3000F, 20, false);
 						Space(2);
 						Writer(name + ": So...*puff*...many....*huff*");
+						Enter();
+						MonsterEncounter(120, 14, 17, "Heart Gaurdian", 3000F, 20, false);
 						Space();
-						MonsterEncounter(64, 14, 14, "Heart Gaurdian", 3000F, 20, false);
-						Space();
-						MonsterEncounter(64, 14, 14, "Heart Gaurdian", 3000F, 20, false);
+						MonsterEncounter(128, 14, 17, "Heart Gaurdian", 3000F, 20, false);
 						Space();
 						Writer("After 11 ENCOUNTERS, you finally get to the main door. better use an item!");
 						Space();
@@ -1548,7 +1079,7 @@ namespace MyApplication
 						Writer("BAAAAAAAM!");
 						Space();
 						Writer("The gaurdian was a host, and there was something inside! In reality the beast was a DRAGON!");
-						Space();
+						Enter();
 						ItemUser();
 						Space();
 						Writer("Ice DRAGON: RWWWWWAAAAAAAARRRRR!!!");
@@ -1585,7 +1116,7 @@ namespace MyApplication
 			}
 
 
-      else if (option == go1[1]) //hills
+      else if (option == go1[1] || option == "Hills" || option == "Hill" || option == "hill" || option == "2") //hills
 			{
         Writer("The hills? Basic choice! You head towards the hills, but MONSTER ENCOUNTER!");
         MonsterEncounter(5, 1, 4, "Rockalike");
@@ -1775,16 +1306,16 @@ namespace MyApplication
 				//Maximo Boss
 				Space();
 				Writer("STOMP");
-				Thread.Sleep(500);
+				Thread.Sleep(100);
 				Space();
 				Writer("STOMP");
-				Thread.Sleep(500);
+				Thread.Sleep(100);
 				Space();
 				Writer("STOMP");
-				Thread.Sleep(500);
+				Thread.Sleep(100);
 				Space();
 				Writer("STOMP");
-				Thread.Sleep(500);
+				Thread.Sleep(100);
 
 				Space();
 				Writer("M", 2);
@@ -1832,7 +1363,7 @@ namespace MyApplication
 				Space();
 
 				Writer("You keep going, 'laying to rest' the mosters you come by.");
-				Thread.Sleep(500);
+				Thread.Sleep(150);
 				Space(3);
 				Writer("But the feeling won't go away.");
 				Thread.Sleep(1000);
@@ -1935,9 +1466,9 @@ namespace MyApplication
 				Space();
 				Thread.Sleep(300);
 				Writer(".", 2);
-				Thread.Sleep(500);
+				Thread.Sleep(150);
 				Writer(".", 2);
-				Thread.Sleep(500);
+				Thread.Sleep(150);
 				Writer(".", 2);
 				Thread.Sleep(900);
 				Space();
@@ -1969,9 +1500,13 @@ namespace MyApplication
         ErrorWrite();
         Writer("Hello " + name + "! There is a dragon, and it needs to be slain! Where shall your quest take you first?"); //options to go first
         Space();
+				Color("cyan");
         Writer(go1[0]);
+				Color("yellow");
         Writer(go1[1]);
+				Color("green");
         Writer(go1[2]);
+				Color("null");
         Space();
         option = Reader();
       }
@@ -2040,12 +1575,42 @@ namespace MyApplication
 			System.Environment.Exit(ExitCode);  
 		}
 
+		static void Enter()
+		{
+			Space();
+			if(firstTime[3] == true)
+			{
+				Writer("Press enter to continue.");
+				firstTime[3] = false;
+			}
+			else if(firstTime[3] != true)
+			{
+				Writer(">", 2);
+			}
+			if (Console.ReadKey().Key != ConsoleKey.Enter) 
+			{ 
+				Thread.Sleep(7000);
+      } 
+			else
+			{
+				Color("red");
+				Writer("Press 'enter' to move on.");
+				Color("null");
+				Space();
+			}
+			Space();
+		}
+
 		static void Color(string color = "null")
 		{
 			switch(color)
 			{
 				case "null":
 					Writer("[0m", 2);
+				break;
+
+				case "bold":
+					Writer("[0;1m", 2);
 				break;
 
 				case "red":
@@ -2077,6 +1642,503 @@ namespace MyApplication
 				break;
 			}
 		}
+
+		public static void Use(int potions = 200, int potions_plus = 600, int ATK_UPs = 1000, int EXP_UPs = 400, int HEARTS = 1500)
+		{
+			bool ond = false;
+			Writer("Will you shop?");
+			Space();
+			string dption = Reader();
+			//yes/no
+			while(!ond)
+			{
+				switch(dption)
+				{
+				case "yes":
+					Space();
+					Writer("CabinMaster: Great! potions, EXP UPs, hearts! It's yours, my friend! As long as you have enough GOLD!");
+					while(!ond)
+					{
+						Space();
+						Color("yellow");
+						Writer("You have " + GOLD + " GOLD left. Buy wisely!");
+						Color("null");
+						Space();
+						Writer("potion, G" + potions);
+						Writer("potion +, G" + potions_plus);
+						Writer("EXP UP, G" + EXP_UPs);
+						Writer("ATK UP, G" + ATK_UPs);
+						Writer("heart, G" + HEARTS);
+						Space();
+						Writer("Leave");
+						Space();
+						option = Reader();
+						switch(option)
+						{
+							case "potion":
+								if(GOLD >= potions)
+								{
+									Space();
+									Writer("You bought a potion!");
+									GOLD -= potions;
+									Space();
+									Writer("Do you want to use it?");
+									Space();
+									Writer("yes");
+									Writer("no");
+									Space();
+									option = Reader();
+									if(option == "yes") 
+									{
+										Space();
+										Writer("You gained 20 HP!");
+										HP += 20;
+										ond = true;
+									}
+									else
+									{
+										GOLD -= 200;
+										if(inventory[0] == "null")
+										{
+											inventory[0] = "potion";
+										}
+										else if(inventory[1] == "null")
+										{
+											inventory[1] = "potion";
+										}
+										else if(inventory[2] == "null")
+										{
+											inventory[2] = "potion";
+										}
+										else if(inventory[3] == "null")
+										{
+											inventory[3] = "potion";
+										}
+										else if(inventory[4] == "null")
+										{
+											inventory[4] = "potion";
+										}
+										else if(inventory[5] == "null")
+										{
+											inventory[5] = "potion";
+										}
+										else if(inventory[6] == "null")
+										{
+											inventory[6] = "potion";
+										}
+										else if(inventory[7] == "null")
+										{
+											inventory[7] = "potion";
+										}
+										else if(inventory[8] == "null")
+										{
+											inventory[8] = "potion";
+										}
+										else if(inventory[9] == "null")
+										{
+											inventory[9] = "potion";
+										}
+										Space();
+										Writer("Do you want to stop shopping?");
+										Space();
+										option = Reader();
+										switch(option)
+										{
+											case "yes":
+												ond = true;
+											break;
+
+											case "no":
+											break;
+
+											default:
+												ErrorWrite();
+											break;
+										}
+									}
+								}
+
+								else if(GOLD < potions)
+								{
+									Space();
+									Writer("CabinMaster: Sorry, " + name + ", but I can't give credit!");
+								}
+								
+							break;
+
+							case "potion +":
+								if(GOLD >= potions_plus)
+								{
+									Space();
+									Writer("You bought a potion +!");
+									GOLD -= potions_plus;
+									Space();
+									Writer("Do you want to use it?");
+									Space();
+									Writer("yes");
+									Writer("no");
+									Space();
+									option = Reader();
+									if(option == "yes") 
+									{
+										Space();
+										Writer("You gained 60 HP!");
+										HP += 60;
+										ond = true;
+									}
+
+									else
+									{	
+										if(inventory[0] == "null")
+										{
+											inventory[0] = "potion +";
+										}
+										else if(inventory[1] == "null")
+										{
+											inventory[1] = "potion +";
+										}
+										else if(inventory[2] == "null")
+										{
+											inventory[2] = "potion +";
+										}
+										else if(inventory[3] == "null")
+										{
+											inventory[3] = "potion +";
+										}
+										else if(inventory[4] == "null")
+										{
+											inventory[4] = "potion +";
+										}
+										else if(inventory[5] == "null")
+										{
+											inventory[5] = "potion +";
+										}
+										else if(inventory[6] == "null")
+										{
+											inventory[6] = "potion +";
+										}
+										else if(inventory[7] == "null")
+										{
+											inventory[7] = "potion +";
+										}
+										else if(inventory[8] == "null")
+										{
+											inventory[8] = "potion +";
+										}	
+										else if(inventory[9] == "null")
+										{
+											inventory[9] = "potion +";
+										}
+									}
+									Space();
+									Writer("Do you want to stop shopping?");
+									Space();
+									option = Reader();
+									switch(option)
+									{
+										case "yes":
+											ond = true;
+										break;
+
+										case "no":
+										break;
+
+										default:
+											ErrorWrite();
+										break;
+									}
+								}
+								else if(GOLD < potions_plus)
+								{
+									Space();
+									Writer("CabinMaster: Sorry, " + name + ", but I can't give credit!");
+								}
+							break;
+
+							case "EXP UP":
+								if(GOLD >= EXP_UPs)
+								{
+									Space();
+									Writer("You bought a EXP UP!");
+									GOLD -= EXP_UPs;
+									Space();
+									Writer("Do you want to use it?");
+									Space();
+									Writer("yes");
+									Writer("no");
+									Space();
+									option = Reader();
+									if(option == "yes") 
+									{
+										Space();
+										Writer("You gained 1500 EXP!");
+										EXP += 1500;
+										ond = true;
+									}
+									else
+									{
+										if(inventory[0] == "null")
+										{
+											inventory[0] = "EXP UP";
+										}
+										else if(inventory[1] == "null")
+										{
+											inventory[1] = "EXP UP";
+										}		
+										else if(inventory[2] == "null")
+										{
+											inventory[2] = "EXP UP";
+										}
+										else if(inventory[3] == "null")
+										{
+											inventory[3] = "EXP UP";
+										}
+										else if(inventory[4] == "null")
+										{
+											inventory[4] = "EXP UP";
+										}
+										else if(inventory[5] == "null")
+										{
+											inventory[5] = "EXP UP";
+										}
+										else if(inventory[6] == "null")
+										{
+											inventory[6] = "EXP UP";
+										}
+										else if(inventory[7] == "null")
+										{
+											inventory[7] = "EXP UP";
+										}
+										else if(inventory[8] == "null")
+										{
+											inventory[8] = "EXP UP";
+										}
+										else if(inventory[9] == "null")
+										{
+											inventory[9] = "EXP UP";
+										}
+									}
+									Space();
+									Writer("Do you want to stop shopping?");
+									Space();
+									option = Reader();
+									switch(option)
+									{
+										case "yes":
+											ond = true;
+										break;
+
+										case "no":
+										break;
+										default:
+											ErrorWrite();
+										break;
+									}
+								}
+								
+								else if(GOLD < EXP_UPs)
+								{
+									Space();
+									Writer("CabinMaster: Sorry, " + name + ", but I can't give credit!");
+								}
+							break;
+
+							case "ATK UP":
+								if(GOLD >= ATK_UPs)
+								{
+									Space();
+									Writer("You bought a ATK UP!");
+									GOLD -= ATK_UPs;
+									Space();
+									Writer("Do you want to use it?");
+									Space();
+									Writer("yes");
+									Writer("no");
+									Space();
+									option = Reader();
+									if(option == "yes") 
+									{
+										Space();
+										Writer("You gained 5 ATK!");
+										ATK += 5;
+										ond = true;
+									}
+
+									else
+									{
+										if(inventory[0] == "null")
+										{
+											inventory[0] = "ATK UP";
+										}
+										else if(inventory[1] == "null")
+										{
+											inventory[1] = "ATK UP";
+										}
+										else if(inventory[2] == "null")
+										{
+											inventory[2] = "ATK UP";
+										}
+										else if(inventory[3] == "null")
+										{
+											inventory[3] = "ATK UP";
+										}
+										else if(inventory[4] == "null")
+										{
+											inventory[4] = "ATK UP";
+										}
+										else if(inventory[5] == "null")
+										{
+											inventory[5] = "ATK UP";
+										}
+										else if(inventory[6] == "null")
+										{
+											inventory[6] = "ATK UP";
+										}
+										else if(inventory[7] == "null")
+										{
+											inventory[7] = "ATK UP";
+										}
+										else if(inventory[8] == "null")
+										{
+											inventory[8] = "ATK UP";
+										}
+										else if(inventory[9] == "null")
+										{
+											inventory[9] = "ATK UP";
+										}
+									}
+									Space();
+									Writer("Do you want to stop shopping?");
+									Space();
+									option = Reader();
+									switch(option)
+									{
+										case "yes":
+											ond = true;
+										break;
+
+										case "no":
+										break;
+
+										default:
+											ErrorWrite();
+										break;
+									}
+								}
+								else if(GOLD < ATK_UPs)
+								{
+									Space();
+									Writer("CabinMaster: Sorry, " + name + ", but I can't give credit!");
+								}
+							break;
+
+							case "heart":
+								if(GOLD >= HEARTS)
+								{
+									Space();
+									Writer("You bought a heart!");
+									GOLD -= HEARTS;
+									Space();
+									Writer("Do you want to use it?");
+									Space();
+									Writer("yes");
+									Writer("no");
+									Space();
+									option = Reader();
+									if(option == "yes") 
+									{
+										Space();
+										Writer("You gained 10 more MAX HP!");
+										HEARTS += 10;
+										HP += 10;
+										ond = true;
+									}
+									else
+									{
+										if(inventory[0] == "null")
+										{
+											inventory[0] = "heart";
+										}
+										else if(inventory[1] == "null")
+										{
+											inventory[1] = "heart";
+										}
+										else if(inventory[2] == "null")
+										{
+											inventory[2] = "heart";
+										}
+										else if(inventory[3] == "null")
+										{
+											inventory[3] = "heart";
+										}
+										else if(inventory[4] == "null")
+										{
+											inventory[4] = "heart";
+										}	
+										else if(inventory[5] == "null")
+										{
+											inventory[5] = "heart";
+										}	
+										else if(inventory[6] == "null")
+										{
+											inventory[6] = "hear";
+										}	
+										else if(inventory[7] == "null")
+										{
+											inventory[7] = "heart";
+										}
+										else if(inventory[8] == "null")
+										{
+											inventory[8] = "heart";
+										}	
+										else if(inventory[9] == "null")
+										{
+											inventory[9] = "heart";
+										}
+									}
+								
+									Space();
+									Writer("Do you want to stop shopping?");
+									Space();
+									option = Reader();
+									switch(option)
+									{
+										case "yes":
+											ond = true;
+										break;
+
+										case "no":
+										break;
+
+										default:
+											ErrorWrite();
+										break;
+									}
+								}
+								else if(GOLD < HEARTS)
+								{
+									Space();
+									Writer("CabinMaster: Sorry, " + name + ", but I can't give credit!");
+								}
+							break;
+
+							case "Leave":
+								Space();
+								Writer("CabinMaster: Ok! See ya!");
+								ond = true;
+							break;
+							
+							default:
+								ErrorWrite();
+								Space();
+								Writer("CabinMaster: What would you like to buy?");
+							break;
+						}
+					}
+				break;
+				}
+			}	
+		}
 		
 		static string monName = "Enemy";
     static void MonsterEncounter(float hp = 10, float speed = 3, float attack = 2, string monName = "Monster", float exp = 200F, int gold = 30, bool boss = false) 
@@ -2084,12 +2146,60 @@ namespace MyApplication
       //variables
       string[] toDo = {"Attack", "Run", "Grab", "SPECIAL"};
       string Choose;
-			bool firstTime = false;
+			bool noSpecial = false;
       //monster
       Space();
-      Writer("[0;31m" + monName + " is at battle with you! What shall you do?");
+      if(boss == false)
+			{
+				Writer("[0;31m" + monName + " is at battle with you! What shall you do?");
+			}
+			else if(boss == true)
+			{
+				Color("pink");
+				Writer("A great " + monName + " has honorably challenged you to a match! What shall you do, for your life is on the line?");
+			}
+			//tutorial
+			if(firstTime[2] == true)
+			{
+				Space();
+				Color("bold");
+				Writer("It's time to ", 2);
+				Color("pink");
+				Writer("fight!", 2);
+				Color("bold");
+				Writer(" And there are actions you can do by typing!");
+				Space();
+				Enter();
+				Color("red");
+				Writer("Wanna Attack to do damage? type 'Attack' to do some damage, or miss!");
+				Enter();
+				Color("blue");
+				Writer("Maybe this fight ain't up for ya? Type 'Run' to try your chances at escape! You won't always succeed, though!");
+				Enter();
+				Color("green");
+				Writer("And if you need to make a refil, you bag is always up to the task! All you have to do is type 'Grab'!");
+				Enter();
+				Space();
+				Color("red");
+				Writer("Beware, for the enemy can Attack too! And if they are faster than you, their attack will hit first, and you can die!");
+				Space();
+				Enter();
+				Color("bold");
+				Writer("That's why you should always use a combination of these three options, to keep the enemy on their toes!");
+				Enter();
+				Color("yellow");
+				Writer("Using just one will never work.");
+				Color("null");
+				Enter();
+				Space();
+				Writer("So now, it's time to show this " + monName + " what you're made of!");
+				Space(3);
+				firstTime[2] = false;
+			}
+			//fight
 			Writer("Your HP: " + HP + ", " + monName + " HP: " + hp);
-			Writer("[0;0m");
+			noSpecial = false;
+			Color("null");
       Space();
       Color("cyan");
 			Writer(toDo[3]);
@@ -2104,28 +2214,38 @@ namespace MyApplication
       Choose = Reader();
       Space();
       bool fighting = true;
-      while(fighting != false) {
+      while(fighting != false) 
+			{
         fighting = HP > 0 && hp > 0;
         
 				
 				switch(Choose) 
 				{
-					case "SPECIAL":
-						if(WILL >= 20)
+					case "1":
+					case "Special":
+					case "special":
+					case "SPECIAL": 
+						if(WILL >= 20 && noSpecial == false)
 						{
+							Space();
+							Color("blue");
 							Writer("SPECIAL Attack time!");
-							if(firstTime == true)
+							if(firstTime[0] == true)
 							{
-								Writer("When you have enough WILL, you can preform a awesome attack!");
+								Writer("When you have enough ARTHUR'S WILL, you can preform a awesome attack once per battle!");
 								Space();
-								Writer("In order to build this force, you need to do Attacks!");
+								Writer("In order to build this force, however, you need to do some ", 2);
+								Color("pink");
+								Writer("Atttacks!");
+								Color("blue");
 								Space();
-								Writer("Critical hits give more, and weak hits give less than neutral (normal) hits!");
+								Writer("Critical hits give the most WILL, while weak hits give the least, and neutral (normal) hits give, well, a neutral amount!");
 								Color("red");
-								Writer("Beware, for you loose WILL when a monster hits you, but you can loose less when your ATK is higher!");
+								Writer("Though you should beware, for you loose WILL when a monster hits you! But you can loose less WILL when your ATK is higher!");
 								Color("null");
+								Space();
 								Writer("Now, time for you to use your WILL!");
-								firstTime = false;
+								firstTime[0] = false;
 							}
 
 							Space();
@@ -2135,20 +2255,29 @@ namespace MyApplication
 							Writer("120 WILL: UPLIFTING UPPERCUT, 1");
 							Writer("160 WILL: MACHSLASH, 2");
 							Writer("100 WILL: SPEED SLICE, 3");
-							Writer("90 WILL: BUSTER BEAM, 4");
-							Writer("220 WILL: OMNI-ULTACUTTER, 5");
+							Writer("40 WILL: BUSTER BEAM, 4");
+							Writer("220 WILL: OMNIWEB-ULTACUTTER, 5");
+							Space();
+							Writer("20 WILL: Dodge, 6");
+							Writer("End, 7");
 							Space();
 							option = Reader();
-							while(stop)
+							stop = false;
+							while(stop == false)
 							{
 								switch(option)
 								{
 									case "1":
+									case "UPLIFTING UPPERCUT":								
+									case "uplifting uppercut":
+									case "Uplifting Uppercut":
 										if(WILL >= 120)
 										{
 											Space();
-											Writer("You preformed the UPLIFTING UPPERCUT! " + monName + " was slashed up, and sliced down! dealing " + hp - (int) ATK * 1.5 + " damage!");
+											Writer("You preformed the UPLIFTING UPPERCUT! " + monName + " was slashed up, and sliced down! dealing " + Convert.ToInt32(ATK * 1.7) + " damage!");
+											hp -= Convert.ToInt32(ATK * 1.7);
 											WILL -= 120;
+											noSpecial = true;
 										}
 
 										else
@@ -2156,32 +2285,28 @@ namespace MyApplication
 											Space();
 											Writer("You tried, but you didn't have enough WILL, and failed!");
 											WILL = 0;
+											noSpecial = true;
+										}
+										stop = true;
+										if(hp <= 0)
+										{
+											continue;
 										}
 									break;
 
-									case "UPLIFTING UPPERCUT"
-										if(WILL >= 120)
-										{
-											Space();
-											Writer("You preformed the UPLIFTING UPPERCUT! " + monName + " was slashed up, and sliced down! dealing " + hp - (int) ATK * 1.5 + " damage!");
-											WILL -= 120;
-										}
-
-										else
-										{
-											Space();
-											Writer("You tried, but you didn't have enough WILL, and failed!");
-											WILL = 0;
-										}
-									break;
-
-									case "2":
+									case "2":								
+									case "MACHSLASH":									
+									case "machslash":
+									case "mach slash":
+									case "Mach Slash":
+									case "MachSlash":
 										if(WILL >= 160)
 										{
 											Space();
-											Writer("You preformed the MACHSLASH! " + monName + " was slashed 100 times! dealing " + 50 + " damage!");
+											Writer("You preformed the MACHSLASH! " + monName + " was slashed 100 times! dealing " + 70 + " damage!");
 											WILL -= 120;
-											hp -= 50;
+											hp -= 70;
+											noSpecial = true;
 										}
 
 										else
@@ -2189,17 +2314,563 @@ namespace MyApplication
 											Space();
 											Writer("You tried to do the MACHSLASH, but failed!");
 											WILL = 0;
+											noSpecial = true;
 										}
+										stop = true;
+										if(hp <= 0)
+										{
+											continue;
+										}
+									break;
+
+									case "3":									
+									case "SPEED SLICE":
+									case "speed slice":
+									case "Speed Slice":
+										if(WILL >= 100)
+										{
+											Space();
+											Writer("You preformed the SPEED SLICE! " + monName + " was slashed through at blinding speeds, dealing " + 50 + " damage!");
+											WILL -= 100;
+											hp -= 50;
+											noSpecial = true;
+										}
+
+										else
+										{
+											Space();
+											Writer("You tried to do the SPEED SLICE, but failed!");
+											WILL = 0;
+											noSpecial = true;
+										}
+										stop = true;
+										if(hp <= 0)
+										{
+											continue;
+										}
+										stop = true;
+									break;
+
+									case "4":
+									case "BUSTER BEAM":
+									case "buster beam":
+									case "Buster Beam":
+										if(WILL >= 40)
+										{
+											Space();
+											Writer("You preformed the BUSTER BEAM! " + monName + " was blasted with a sword beam made of WILL, dealing " + Convert.ToInt32(ATK * 2.5) + " damage!");
+											WILL -= 40;
+											hp -= Convert.ToInt32(ATK * 2.5);
+											noSpecial = true;
+										}
+
+										else
+										{
+											Space();
+											Writer("You tried to do the BUSTER BEAM, but failed!");
+											WILL = 0;
+											noSpecial = true;
+										}
+										stop = true;
+										if(hp <= 0)
+										{
+											continue;
+										}
+									break;
+
+									case "5":
+									case "omniweb-ultacutter":
+									case "omniweb ultacutter":
+									case "Omniweb-Ultacutter":
+									case "Omniweb Ultacutter":
+									case "ULTACUTTER":
+									case "Ultacutter":
+									case "OMNIWEB":
+									case "omniweb":
+									case "Omniweb":
+										if(WILL >= 220)
+										{
+											Space();
+											Writer("You preformed the OMNIWEB-ULTACUTTER! " + monName + " was slashed too many times to count! Making a web formation dealing " + Convert.ToInt32(ATK * 2.5) + " damage!");
+											WILL -= 220;
+											hp -= Convert.ToInt32(ATK * 2.5);
+											noSpecial = true;
+										}
+
+										else
+										{
+											Space();
+											Writer("You tried to do the OMNIWEB-ULTACUTTER, but failed miserabely! You took damage!");
+											WILL = 0;
+											HP -= 10;
+											noSpecial = true;
+										}
+										stop = true;
+										if(hp <= 0)
+										{
+											continue;
+										}
+									break;
+
+									case "6":
+									case "Dodge":
+									case "dodge":
+										Space();
+										Writer("You dodged the incoming attack!");
+										dodge = true;
+										stop = true;
+									break;
+
+									case "7":
+									case "End":
+									case "end":
+										Writer("You decided not to do a SPECIAL Attack. ");
+										if(SPE <= 22)
+										{
+											Writer("But my thinking of it, you don't have the time to do something else!", 2);
+										}
+										else if(SPE > 22)
+										{
+											Space();
+											Writer("What next?");
+											Space();
+											Color("cyan");
+											Writer(toDo[3]);
+											Color("pink");
+											Writer(toDo[0]);
+											Color("blue");
+      								Writer(toDo[1]);
+											Color("green");
+      								Writer(toDo[2]);
+											Color("null");
+      								Space();
+      								Choose = Reader();
+											while(stop == false)
+											{
+													if(Choose == "Attack" || Choose == "attack")
+													{
+														if(HP <= 0)
+														{
+															Space(3);
+															Writer("YOU DIED!");
+															End(0);
+														}
+
+														if(hp <= 0)
+														{
+															continue;
+														}
+														//turn
+														//player death check
+														if(HP <= 0)
+														{
+														Space(3);
+														Writer("YOU DIED!");
+														End(0);
+														}
+														//player
+            								Random r = new Random();
+														int re = r.Next(1, 13);
+														switch(re)//miss: 2(17%), weak: 2(17%), nutral: 5(42%), critical: 3(25%)
+														{
+															case 1: //weak
+																Space();
+																Color("yellow");
+																Writer("You chose attack! " + monName + " lost " + (int) ATK * 2/3 + " hp! That was a weak hit!");
+																Color("null");
+																hp -= (int) ATK * 2/3;
+																WILL += 5;
+															break;
+															case 2: //nutral
+																Space();
+																Color("green");
+																Writer("You chose attack! " + monName + " lost " + ATK + " hp!");
+																Color("null");
+																hp -= ATK;
+																WILL += 10;
+															break;
+															case 3: //critical
+																Space();
+																Color("green");
+																Writer("CRITICAL HIT!");
+																Writer(monName + " lost " + (int) ATK * 5/3 + " hp!");
+																Color("null");
+																hp -= (int) ATK * 5/3;
+																WILL += 20;
+															break;
+															case 4: //miss
+																Space();
+																Color("red");
+																Writer("You missed! " + monName + " didn't get hit!");
+																Color("null");
+																WILL -= 10;
+															break;
+															case 5: //nutral
+																Space();
+																Color("green");
+																Writer("You chose attack! " + monName + " lost " + ATK + " hp!");
+																Color("null");
+																hp -= ATK;
+																WILL += 10;
+															break;
+															case 6: //nutral
+																Space();
+																Color("green");
+																Writer("You chose attack! " + monName + " lost " + ATK + " hp!");
+																Color("null");
+																hp -= ATK;
+																WILL += 10;
+															break;
+															case 7: //critical hit
+																Space();
+																Color("green");
+																Writer("CRITICAL HIT!");
+																Writer(monName + " lost " + (int) ATK * 5/3 + " hp!");
+																Color("null");
+																hp -= (int) ATK * 5/3;
+																WILL += 20;
+															break;
+															case 8: //nutral
+																Space();
+																Color("green");
+																Writer("You chose attack! " + monName + " lost " + ATK + " hp!");
+																Color("null");
+																hp -= ATK;
+																WILL += 10;
+															break;
+															case 9: //weak
+																Space();
+																Color("yellow");
+																Writer("You chose attack! " + monName + " lost " + (int) ATK * 2/3 + " hp! That was a weak hit!");
+																Color("null");
+																hp -= (int) ATK * 2/3;
+																WILL += 5;
+															break;
+															case 10: //nutral
+																Space();
+																Color("green");
+																Writer("You chose attack! " + monName + " lost " + ATK + " hp!");
+																Color("null");
+																hp -= ATK;
+																WILL += 10;
+															break;
+															case 11: //miss
+																Space();
+																Color("red");
+																Writer("You missed! " + monName + " didn't get hit!");
+																Color("null");
+															break;
+															case 12: //critical hit
+																Space();
+																Color("green");
+																Writer("CRITICAL HIT!");
+																Writer(monName + " lost " + (int) ATK * 5/3 + " hp!");
+																Color("null");
+																hp -= (int) ATK * 5/3;
+																WILL += 20;
+															break;
+														}
+														//monster death check
+														if(hp <= 0)
+														{
+														continue;
+														}
+															
+														Space(2);
+														Writer("You have " + HP + " HP and " + monName + " has " + hp + " HP");
+														//choosing
+            								if(HP <= 0)
+														{
+															Space(3);
+															Writer("YOU DIED!");
+															End(0);
+														}
+
+														if(hp <= 0)
+														{
+															continue;
+														}
+														stop = true;
+													}
+
+													else if(Choose == "Run" || Choose == "run")
+													{
+														if(HP <= 0)
+														{
+															Space(3);
+															Writer("YOU DIED!");
+															End(0);
+														}
+
+														if(hp <= 0)
+														{
+															continue;
+														}
+            								//random # gen
+            								Random rand = new Random(); 
+            								int roller = rand.Next(1, 4);
+														if(!boss && SPE >= speed)
+														{
+            									//logic
+            									Space();
+															if (roller == 3) 
+															{
+            								  	Writer("You ran away!");
+            								  	return;
+            									} else if (roller != 3) 
+															{
+            								  	Writer("You tried to run, But it failed!");
+															}
+														}
+														else if(boss == true)
+														{
+															Writer("You can't run from a Boss Monster!");
+														} 
+														else
+														{
+															Writer("You were too slow to run from the " + monName + "!");
+														}
+														//end
+														Space(2);
+														Writer("You have " + HP + " HP and " + monName + " has " + hp + " HP");
+														//choose
+														if(HP <= 0)
+														{
+															Space(3);
+															Writer("YOU DIED!");
+															End(0);
+														}
+
+														if(hp <= 0)
+														{
+															continue;
+														}
+														stop = true;
+													}
+
+													if(Choose == "Grab" || Choose == "grab")
+													{
+														ItemUser();
+														stop = true;
+													}	
+											}
+										}
+										stop = true;
+									break;
+
+									default:
+										ErrorWrite();
+										Color("cyan");
+										Writer("120 WILL: UPLIFTING UPPERCUT, 1");
+										Writer("160 WILL: MACHSLASH, 2");
+										Writer("100 WILL: SPEED SLICE, 3");
+										Writer("40 WILL: BUSTER BEAM, 4");
+										Writer("220 WILL: OMNIWEB-ULTACUTTER, 5");
+										Space();
+										Writer("20 WILL: Dodge, 6");
+										Writer("End, 7");
+										Space();
+										option = Reader();
 									break;
 								}
 							}
+							//monster death check
+							if(hp <= 0)
+							{
+							continue;
+							}
+							if(!dodge)
+							{
+								//monster
+								Space();
+								Color("red");
+								Writer(monName + " did " + attack + " hp to you!");
+								Color("null");
+								HP -= attack;
+								WILL -= Convert.ToInt32(attack - ATK/6);
+							}
+
+							else if(dodge == true)
+							{
+								Space();
+								Writer("The " + monName + " did no damage, because you dodged the attack! This gives you time to use an item!");
+								Color("null");
+								WILL -= 10;
+								dodge = false;
+								Space();
+								ItemUser();
+							}
+							//end
+							Space(2);
+							Writer("You have " + HP + " HP and " + monName + " has " + hp + " HP");
+							//choose
+							if(HP <= 0)
+							{
+								Space(3);
+								Writer("YOU DIED!");
+								End(0);
+							}
+
+							if(hp <= 0)
+							{
+								continue;
+							}
+							Space();
+							Writer("What next?");
+							Space();
+      				Color("cyan");
+							Writer(toDo[3]);
+							Color("pink");
+							Writer(toDo[0]);
+							Color("blue");
+      				Writer(toDo[1]);
+							Color("green");
+      				Writer(toDo[2]);
+							Color("null");
+      				Space();
+      				Choose = Reader();
+						}
+
+						else if(WILL <= 20)
+						{
+							Color("red");
+							Writer("You don't have enough WILL to do any special attacks!");
+							Color("null");
+							//monster death check
+							if(hp <= 0)
+							{
+								continue;
+							}
+							//monster
+							Space();
+							Color("red");
+							Writer(monName + " did " + attack + " hp to you!");
+							Color("null");
+							HP -= attack;
+							WILL -= Convert.ToInt32(attack - ATK/6);
+							//end
+							Space(2);
+							Writer("You have " + HP + " HP and " + monName + " has " + hp + " HP");
+							//choose
+							if(HP <= 0)
+							{
+								Space(3);
+								Writer("YOU DIED!");
+								End(0);
+							}
+	
+							if(hp <= 0)
+							{
+								continue;
+							}
+
+							Space();
+							Writer("What next?");
+							Space();
+      				Color("cyan");
+							Writer(toDo[3]);
+							Color("pink");
+							Writer(toDo[0]);
+							Color("blue");
+      				Writer(toDo[1]);
+							Color("green");
+      				Writer(toDo[2]);
+							Color("null");
+      				Space();
+      				Choose = Reader();
+						}
+
+						else if(noSpecial == true)
+						{
+							Space();
+							Color("red");
+							Writer("You have done a SPECIAL Attack! Now you can't do another in this battle.");
+							Color("null");
+							Space();
+							Writer("Dodge, 6");
+							Space();
+							Writer("End, 7");
+							Space();
+							option = Reader();
+							if(option == "6" || option == "Dodge" || option == "dodge")
+							{
+								Space();
+								Writer("You dodged the incoming attack!");
+								dodge = true;
+								stop = true;
+							}
+
+							else if(option == "End" || option == "end" || option == "7")
+							{
+								Writer("You decided not to do a SPECIAL Attack.");
+							}
+							//monster death check
+							if(hp <= 0)
+							{
+								continue;
+							}
+							//monster
+							if(dodge == true)
+							{
+								Space();
+								Writer("The " + monName + " did no damage, because you dodged the attack! This gives you time to use an item!");
+								Color("null");
+								WILL -= 10;
+								dodge = false;
+								Space();
+								ItemUser();
+							}
+							else if(dodge == false)
+							{
+								Space();
+								Color("red");
+								Writer(monName + " did " + attack + " hp to you!");
+								Color("null");
+								HP -= attack;
+								WILL -= Convert.ToInt32(attack - ATK/6);
+							}
+							//end
+							Space(2);
+							Writer("You have " + HP + " HP and " + monName + " has " + hp + " HP");
+							//choose
+							if(HP <= 0)
+							{
+								Space(3);
+								Writer("YOU DIED!");
+								End(0);
+							}
+	
+							if(hp <= 0)
+							{
+								continue;
+							}
+
+							Space();
+							Writer("What next?");
+							Space();
+      				Color("cyan");
+							Writer(toDo[3]);
+							Color("pink");
+							Writer(toDo[0]);
+							Color("blue");
+      				Writer(toDo[1]);
+							Color("green");
+      				Writer(toDo[2]);
+							Color("null");
+      				Space();
+      				Choose = Reader();
 						}
 					break;
-
-					case "Special":
-
-					break;
 					
+					case "2":
+					case "attack":
+					case "ATK":
+					case "atk":
+					case "Atk":
+					case "Attaack":
+					case "Atttack":
+					case "Atttaaack":
+					case "ATtack":
 					case "Attack":
             if(HP <= 0)
 						{
@@ -2346,7 +3017,7 @@ namespace MyApplication
 							Writer(monName + " did " + attack + " hp to you!");
 							Color("null");
             	HP -= attack;
-							WILL -= attack - (int) ATK/6;
+							WILL -= Convert.ToInt32(attack - ATK/6);
 						}
 						if(SPE < speed)//monster first
 						{
@@ -2361,7 +3032,7 @@ namespace MyApplication
 							Writer(monName + " did " + attack + " hp to you!");
 							Color("null");
 							HP -= attack;
-							WILL -= attack - ATK/6;
+							WILL -= Convert.ToInt32(attack - ATK/6);
 							//player death check
 							if(HP <= 0)
 							{
@@ -2369,6 +3040,7 @@ namespace MyApplication
 							Writer("YOU DIED!");
 							End(0);
 							}
+							re = rando.Next(1, 13);
 							//player
 							switch(re)//miss: 2(17%), weak: 2(17%), nutral: 5(42%), critical: 3(25%)
 							{
@@ -2448,9 +3120,9 @@ namespace MyApplication
 								case 9: //weak
 									Space();
 									Color("yellow");
-									Writer("You chose attack! " + monName + " lost " + (int) ATK * 2/3 + " hp! That was a weak hit!");
+									Writer("You chose attack! " + monName + " lost " + Convert.ToInt32(ATK * 2/3) + " hp! That was a weak hit!");
 									Color("null");
-									hp -= (int) ATK * 2/3;
+									hp -= Convert.ToInt32(ATK * 2/3);
 									WILL += 5;
 								break;
 
@@ -2474,9 +3146,9 @@ namespace MyApplication
 									Space();
 									Color("green");
 									Writer("CRITICAL HIT!");
-									Writer(monName + " lost " + (int) ATK * 5/3 + " hp!");
+									Writer(monName + " lost " + Convert.ToInt32(ATK * 5/3) + " hp!");
 									Color("null");
-									hp -= (int) ATK * 5/3;
+									hp -= Convert.ToInt32(ATK * 5/3);
 									WILL += 20;
 								break;
 							}
@@ -2498,20 +3170,24 @@ namespace MyApplication
 						}
 
 						Space();
-            Writer("What next?");
-            Space();
-            Color("pink");
+						Writer("What next?");
+						Space();
+      			Color("cyan");
+						Writer(toDo[3]);
+						Color("pink");
 						Writer(toDo[0]);
 						Color("blue");
       			Writer(toDo[1]);
 						Color("green");
       			Writer(toDo[2]);
 						Color("null");
-            Space();
-            Choose = Reader();
+      			Space();
+      			Choose = Reader();
           break;
 
-          case "Run":
+          case "3":
+					case "run":
+					case "Run":
 						if(HP <= 0)
 						{
 							Space(3);
@@ -2524,66 +3200,71 @@ namespace MyApplication
 							continue;
 						}
             //random # gen
-            Random rand = new Random(); 
-            int roller = rand.Next(1, 4);
+            Random randa = new Random(); 
+            int rollea = randa.Next(1, 4);
 						if(!boss && SPE >= speed)
 						{
             	//logic
             	Space();
-							if (roller == 3) 
+							if (rollea == 3) 
 							{
               	Writer("You ran away!");
               	return;
-            	} else if (roller != 3) 
+            	} else if (rollea != 3) 
 							{
               	Writer("You tried to run, But it failed!");
 							}
-						}else if(boss == true)
+						}
+						else if(boss == true)
 						{
 							Writer("You can't run from a Boss Monster!");
-						} else
+						} 
+						else
 						{
 							Writer("You were too slow to run from the " + monName + "!");
 						}
+					
+            //monster
+            Space();
+						Color("red");
+						Writer(monName + " did " + attack + " hp to you!");
+						Color("null");
+						HP -= attack;
+						//end
+						Space(2);
+						Writer("You have " + HP + " HP and " + monName + " has " + hp + " HP");
+						//choose
+						if(HP <= 0)
+						{
+							Space(3);
+							Writer("YOU DIED!");
+							End(0);
+						}
 						
+						if(hp <= 0)
+						{
+							continue;
+						}
 
-              //monster
-              Space();
-							Color("red");
-							Writer(monName + " did " + attack + " hp to you!");
-							Color("null");
-							HP -= attack;
-							//end
-							Space(2);
-							Writer("You have " + HP + " HP and " + monName + " has " + hp + " HP");
-							//choose
-							if(HP <= 0)
-							{
-								Space(3);
-								Writer("YOU DIED!");
-								End(0);
-							}
-							
-							if(hp <= 0)
-							{
-								continue;
-							}
-              Space();
-              Writer("What next?");
-              Space();
-              Color("pink");
-							Writer(toDo[0]);
-							Color("blue");
-      				Writer(toDo[1]);
-							Color("green");
-      				Writer(toDo[2]);
-							Color("null");
-              Space();
-              Choose = Reader();
-            
+            Space();
+						Writer("What next?");
+						Space();
+      			Color("cyan");
+						Writer(toDo[3]);
+						Color("pink");
+						Writer(toDo[0]);
+						Color("blue");
+      			Writer(toDo[1]);
+						Color("green");
+      			Writer(toDo[2]);
+						Color("null");
+      			Space();
+      			Choose = Reader();
           break;
 
-          case "Grab":
+          case "4":
+					case "grab":
+					case "Grab":
             if(HP <= 0)
 						{
 							Space(3);
@@ -2594,6 +3275,21 @@ namespace MyApplication
 						{
 							continue;
 						}
+						//tutorial
+						if(firstTime[1] == true)
+						{
+							Color("green");
+							Space();
+							Writer("Time to grab something from your bag!");
+							Writer("When you grab, you get something from the 10 slots in your bag.");
+							Space();
+							Writer("Each slot in your bag is marked with a number from 0-9. Type the corrisponding number to use that Item!");
+							Writer("now you know all about grabbing!");
+							Space();
+							firstTime[1] = false;
+							Color("null");
+						}
+
 						//Logic
             Space();
 						bool ender = false;
@@ -3482,17 +4178,19 @@ namespace MyApplication
 							continue;
 						}
 						Space();
-            Writer("What next?");
-            Space();
-            Color("pink");
+						Writer("What next?");
+						Space();
+      			Color("cyan");
+						Writer(toDo[3]);
+						Color("pink");
 						Writer(toDo[0]);
 						Color("blue");
       			Writer(toDo[1]);
 						Color("green");
       			Writer(toDo[2]);
 						Color("null");
-            Space();
-            Choose = Reader();
+      			Space();
+      			Choose = Reader();
           break;
 
           default:
@@ -3500,6 +4198,8 @@ namespace MyApplication
             Space();
             Writer("What next?");
             Space();
+						Color("cyan");
+						Writer(toDo[3]);
             Color("pink");
 						Writer(toDo[0]);
 						Color("blue");
@@ -3517,6 +4217,7 @@ namespace MyApplication
 				Space();
 				Writer("[0;36m" + monName + " was defeated! You can move on!");
 				Writer("[0;0m");
+				noSpecial = false;
 				//GOLD system
 				GOLD += gold;
 				Space();
@@ -3850,7 +4551,7 @@ namespace MyApplication
 									{
 										case "potion":
 											Space();
-											Writer("You recieved 20 HP!");
+											Writer("You ecieved 20 HP!");
 											HP += 20;
 											if(HP > HEARTS)
 											{
@@ -5866,6 +6567,18 @@ namespace MyApplication
 
 		static string Reader()
 		{
+			if(firstTime[2] == true)
+			{
+				Space();
+				Writer("It's time for you to do some options!");
+				Enter();
+				Writer("When doing options, it is integral for you to type it exactly as it appears, otherwise it may not work!");
+				Enter();
+				Writer("The options may be typing what is says, or it may be typing numbers. What option it is, it will tell you!");
+				Enter();
+				Writer("Now go out there, and choose your life away!");
+				firstTime[2] = false;;
+			}
 			return Console.ReadLine();
 		}
 
@@ -5879,69 +6592,244 @@ namespace MyApplication
 			string[] producers = {"SilverAtom", "DaRubyMiner360"};
 			Space(5);
 			Console.Clear();
+			Color("bold");
 			Writer("CREDITS");
 			Space();
-			Thread.Sleep(500);
+			Thread.Sleep(150);
 			Space();
-			Thread.Sleep(500);
+			Thread.Sleep(150);
 			Space();
-			Thread.Sleep(500);
+			Thread.Sleep(150);
 			Space();
-			Thread.Sleep(500);
+			Thread.Sleep(150);
 			Space();
-			Thread.Sleep(500);
+			Thread.Sleep(150);
 			Space();
-			Thread.Sleep(500);
+			Thread.Sleep(150);
 			Space();
-			Thread.Sleep(500);
+			Thread.Sleep(150);
 			Space();
-			Thread.Sleep(500);
+			Thread.Sleep(150);
 			Space();
-			Thread.Sleep(500);
+			Thread.Sleep(150);
 			Space();
-			Thread.Sleep(500);
+			Thread.Sleep(150);
 			Space();
-			Thread.Sleep(500);
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
 			Color("blue");
 			Writer("Producer: " + producers[0]);
 			Color("null");
 			Space();
-			Thread.Sleep(500);
+			Thread.Sleep(150);
 			Space();
-			Thread.Sleep(500);
+			Thread.Sleep(150);
 			Space();
-			Thread.Sleep(500);
+			Thread.Sleep(150);
 			Space();
-			Thread.Sleep(500);
+			Thread.Sleep(150);
 			Space();
-			Thread.Sleep(500);
+			Thread.Sleep(150);
 			Space();
-			Thread.Sleep(500);
+			Thread.Sleep(150);
 			Space();
-			Thread.Sleep(500);
+			Thread.Sleep(150);
 			Space();
-			Thread.Sleep(500);
+			Thread.Sleep(150);
 			Space();
-			Thread.Sleep(500);
+			Thread.Sleep(150);
 			Space();
-			Thread.Sleep(500);
+			Thread.Sleep(150);
 			Space();
-			Thread.Sleep(500);
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
 			Color("red");
 			Writer("Coding Assistance: " + producers[1]);
 			Color("null");
 			Space();
-			Thread.Sleep(500);
+			Thread.Sleep(150);
 			Space();
-			Thread.Sleep(500);
+			Thread.Sleep(150);
 			Space();
-			Thread.Sleep(500);
+			Thread.Sleep(150);
 			Space();
-			Thread.Sleep(500);
+			Thread.Sleep(150);
 			Space();
-			Thread.Sleep(500);
+			Thread.Sleep(150);
 			Space();
-			Thread.Sleep(500);
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
+			Space();
+			Thread.Sleep(150);
 			Space();
 			Thread.Sleep(3000);
 			Space();
