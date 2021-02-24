@@ -7,7 +7,8 @@ This is version **0.1.4**. I will show Improvements here to the game.
 
 #
 **2/22/2021** 
-- Fixed SPECIAL Attacks, and they are now ready for use.
+**Fixes:**
+- Fixed **SPECIAL Attacks**, and they are now **ready for use**.
 #
 **2/23/2021** 
 **Changes:**
@@ -22,7 +23,9 @@ This is version **0.1.4**. I will show Improvements here to the game.
 #
 **2/24/2021**
 **Changes:**
+- Added **more story** to the ***'springs'.***
+- **Welcome a new character: Mark!** say hello!
 
 **Fixes:**
-- Added balancing to the *'Mossatle', 'Shellaty', 'Kamakasimite', 'Takeyuki',* and *'Zabuzabuzabuzabuzabu'* fights.
+- Added balancing to the *'Mossatle', 'Shellaty', 'Kamakasimite', 'Takeyuki', 'Jujutsu Guysen',* and *'Zabuzabuzabuzabuza'* fights.
 - added flexibility to the **hard mode** option.

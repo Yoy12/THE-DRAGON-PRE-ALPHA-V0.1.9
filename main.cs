@@ -186,7 +186,7 @@ namespace DRAGONLake
 				//rest
 				Space();
 				Writer("After you encountered the cheapscape, you continue on your path through duel town, destroying too many foes after too many foes.");
-				MonsterEncounter((int) HEARTS/2, (int) SPE/3, (int) ATK, "Jujutsu Guysen", (int) EXPNeed/3, (int) GOLD/2, true);
+				MonsterEncounter((int) HEARTS/2, (int) SPE/3, (int) ATK/4, "Jujutsu Guysen", (int) EXPNeed/3, (int) GOLD/2, true);
 				Space();
 				MonsterEncounter(HEARTS * 2, (int) SPE, (int) ATK/2, "Madara Uchairha", (int) EXPNeed/3, (int) GOLD, true);
 				Space();
@@ -242,11 +242,197 @@ namespace DRAGONLake
 				Enter();
 				Writer("After your jolly but painful meeting, you finally leave the duel-torn village. In its wake, you crumble on the path to the DRAGON, killing many, many, many things that are unlcuky enough to be in traveling way.");
 				Enter();
-				MonsterEncounter(120, 21, 14, "Bunillaby", 234, 3435, false);
+				MonsterEncounter(90, 21, 14, "Bunillaby", 234, 3435, false);
 				Space();
-				MonsterEncounter(108, 19, 20, "Fuzilite", 786, 843, false);
+				MonsterEncounter(85, 19, 16, "Fuzilite", 786, 843, false);
 				Space();
-				MonsterEncounter(127, 10, 20, "Rockalike", 300, 3500, false);
+				MonsterEncounter(96, 10, 15, "Rockalike", 300, 3500, false);
+				Space();
+				Writer("You keep treking on, the monsters stronger than ever. You push and push, knowing at any moment, a monster could spell your doom.");
+				Enter();
+				Writer("But you can't let that happen, for you have a goal in mind.");
+				Enter();
+				MonsterEncounter(84, 8, 7, "Talus", 4534, 9970, false);
+				Space();
+				MonsterEncounter(86, 22, 12, "Bunillaby", 786, 899, false);
+				Space();
+				//Cabin
+				if(noCabin == false)
+				{
+					Writer("You find a cabin on the path, and in need of some well deserved rest, you go in.");
+					Enter();
+					Writer("CabinMaster: Welcome! You are the 1,000,000th customer! Congradulations! I shall give you 1% off everything as a reward for coming to this amazing cabin which has had 999,999 customers before you! Enjoy your generous sale that comes from luck!");
+					Enter();
+					Writer(name + ": 1% off? Greedy critz!");
+					Enter();
+					Writer("CabinMaster: Buisiness is a hard thing, you know. Now, what will you do here?");
+					Enter();
+					stop = false;
+					while(stop != true)
+					{
+						Color("yellow");
+						Writer("You have " + GOLD + " GOLD and ", 2);
+						Color("red");
+						Writer(HP + " HP left. ", 2);
+						Color("yellow");
+						Writer("Buy wisely!", 2);
+						Color("green");
+						Space();
+						Writer("1: Shop");
+						Color("bold");
+						Writer("2: Rest, G247");
+						Color("null");
+						Space();
+						Writer("3: Leave");
+						Space();
+						option = Reader();
+						//It's time for your favorite thing: Logic!!! Yayyy...*sob* *sob*
+						switch(option)
+						{
+							case "2":
+							case "REST":
+							case "rest":
+							case "Rest":
+								Space();
+								Writer("You had a nice good rest on a crappy bed. HP fully restored!");
+								HP = HEARTS;
+								GOLD -= 247;
+								Space();
+								Writer("CabinMaster: Good afternoon! You had a nice, long sleep sleep didn't you? Our beds are top quality, you know!");
+								Enter();
+								Writer(name + ": ...");
+								Enter();
+
+								Color("yellow");
+								Writer("You have " + GOLD + " GOLD and ", 2);
+								Color("red");
+								Writer(HP + " HP left. ", 2);
+								Color("yellow");
+								Writer("Buy wisely!", 2);
+								Color("green");
+								Space();
+								Writer("1: Shop");
+								Color("bold");
+								Writer("2: Rest, G247");
+								Color("null");
+								Space();
+								Writer("Leave");
+								Space();
+								option = Reader();
+							break;
+
+							case "1":
+							case "SHOP":
+							case "shop":
+							case "Shop":
+								Space();
+								Use(198, 594, 990, 396, 1485);
+
+								Space();
+								Color("yellow");
+								Writer("You have " + GOLD + " GOLD and ", 2);
+								Color("red");
+								Writer(HP + " HP left. ", 2);
+								Color("yellow");
+								Writer("Buy wisely!", 2);
+								Color("green");
+								Space();
+								Writer("1: Shop");
+								Color("bold");
+								Writer("2: Rest, G247");
+								Color("null");
+								Space();
+								Writer("Leave");
+								Space();
+								option = Reader();
+							break;
+
+							case "3":
+							case "LEAVE":
+							case "leave":
+							case "Leave":
+								Space();
+								Writer("CabinMaster: Ok. I hope you had your fill here. See ya!");
+								stop = true;
+							break;
+
+							default:
+								Writer("CabinMaster: Speak in english, kiddo.");
+								ErrorWrite();
+
+								Color("yellow");
+								Writer("You have " + GOLD + " GOLD and ", 2);
+								Color("red");
+								Writer(HP + " HP left. ", 2);
+								Color("yellow");
+								Writer("Buy wisely!", 2);
+								Color("green");
+								Space();
+								Writer("1: Shop");
+								Color("bold");
+								Writer("2: Rest, G247");
+								Color("null");
+								Space();
+								Writer("Leave");
+								Space();
+								option = Reader();
+							break;
+						}
+					}
+				}
+
+				else if(noCabin == true)
+				{
+					Writer("You see a Cabin, but it says: ", 2);
+					Color("red");
+					Writer("YOU ARE NOT WELCOME, " + name + ".");
+					Space();
+					Writer("No cabins 4 u!");
+				}
+				//Mark encounter/Savanna
+				Enter();
+				Console.Clear();
+				Space(2);
+				Writer("After the  town, you go into a dry savanna, lush with fauna and deserted with flora. Going through, you learn to appreciate the wildlife of the savanna, and its natural cycle in life.");
+				Enter();
+				Color("bold");
+				Writer("KABLAM!!!");
+				Enter();
+				Writer("CLING, CHABLING, BAM, BOOM, CLANK!!!");
+				Enter();
+				Writer("Mark: Now THIS is battling! Yeah! WHOO! Alright!");
+				Writer("You keep yourself on your toes as the ground is obliterated by the slashing of mighty swords.");
+				Color("null");
+				Enter();
+				Writer("Struggling to keep up, you manage to push him back.");
+				Enter();
+				Writer("Mark: 1, 2, 3, 4; I declare a Duel War!", 2);
+				Thread.Sleep(2000);
+				Color("bold");
+				Writer("Mark: 5, 6, 7, 8; Time to put the score straight!", 2);
+				Color("null");
+				Space();
+				MonsterEncounter(140, 23, 18, "[1;34mMonotonous Mark[1;31m", 9000F, 2000, true);
+				Space();
+				Writer("Mark: *Huff* puff* *Huff* *puff*...You're...*huff* *puff*...good at this...*huff* *puff*");
+				Enter();
+				Writer("Mark: I thought...catching you by suprise...would be your downfall...but even when I'm smart I...I don't even win!");
+				Writer("Mark: You truly are amazing...By the way...what's your name?");
+				Enter();
+				Writer(name + ": My name ", 2);
+				Thread.Sleep(1200);
+				Writer("is " + name + ".", 2);
+				Enter();
+				Writer("Mark: " + name + ", huh? Nice name. Well, see ya!");
+				Writer("After that, he jumps away.");
+				Enter();
+				//rest
+				Writer("After the yet again brief encounter, you go through this new and beutiful area; encounters with more swordsman on the path to the DRAGON more common, as this is the quickest route. Which makes is even more ", 2);
+				Color("red");
+				Writer("dangorous.", 2);
+				Color("null");
+				Enter();
+				MonsterEncounter(60, 10, 10, "Macro Man", 400F, 1000, true);
       }
 
 			if(option == go1[3] || option == "69")//DEBUG
@@ -2200,7 +2386,7 @@ namespace DRAGONLake
 				Writer("Maybe this fight ain't up for ya? Type 'Run' to try your chances at escape! You won't always succeed, though!");
 				Enter();
 				Color("green");
-				Writer("And if you need to make a refil, you bag is always up to the task! All you have to do is type 'Grab'!");
+				Writer("And if you need to make a refil, your bag is always up to the task! All you have to do is type 'Grab'!");
 				Enter();
 				Space();
 				Color("red");
