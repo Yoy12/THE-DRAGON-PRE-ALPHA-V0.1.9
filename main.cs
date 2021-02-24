@@ -51,7 +51,7 @@ namespace DRAGONLake
 				ATK = 100;
 			}
 			Space(3);
-      Writer("Hello " + name + "! There is a DRAGON, and it needs to be slain! Where shall your quest take you first?"); //options to go first
+      Writer("Hello " + name + "! There is a DRAGON, and it needs to be slain! Where shall you go to give it its deserved fate?"); //options to go first
       Space();
 			Color("cyan");
       Writer(go1[0] + ", 1");
@@ -69,13 +69,52 @@ namespace DRAGONLake
 			if (option == go1[0] || option == "Spring" || option == "1" || option == "spring")//spring
 			{
         Space();
-				Writer("The spring? Well, terrible choice! You head	to the spring, but MONSTER ENCOUNTER!");
+				Writer("The spring? Well, terrible choice!");
+				Space();
+				Color("bold");
+				Writer("This option is ", 2);
+				Color("red");
+				Writer("hard mode. ", 2);
+				Color("bold");
+				Writer("Do you REALLY want to do this option?");
+				Space();
+				Writer("yes");
+				Writer("no");
+				Space();
+				option = Reader();
+				while(stop != true)
+				{
+					if(option == "yes" || option == "Yes" || option == "YES" || option == "1")
+					{
+						stop = true;
+						Color("null");
+					}
+
+					else if(option == "no" || option == "No" || option == "NO" || option == "2")
+					{
+						End();
+					}
+
+					else
+					{
+						Space();
+						ErrorWrite();
+						Writer("yes");
+						Writer("no");
+						Space();
+						option = Reader();
+					}
+				}
 				HEARTS -= 2;
 				HP -= 2;
 				SPE -= 2;
 				ATK -= 2;
         Space();
-        // MonsterEncounter(7, 3, 19, "Mossatle"); // Just a test
+				//swamp springs
+				Writer("You go through the desolate springs, which look more like a swamp.");
+				Enter();
+				Writer("Then, of course, MONSTER ENCOUNTER.");
+				Enter();
         MonsterEncounter(17, 3, 4, "Mossatle", 1500F, 90, false);
 				Space();
 				Writer("The springs, infested, are crawling with monsters.");
@@ -84,7 +123,7 @@ namespace DRAGONLake
 				Space();
 				Writer("Each more deadly than the last.");
 				Space();
-				MonsterEncounter(1, 8, 15, "Kamakasemite", 900F, 0, false);
+				MonsterEncounter(1, 18, 20, "Kamakasemite", 1100F, 0, false);
 				Space();
 				Writer(name + ": Why am I even here...");
 				Space();
@@ -94,7 +133,7 @@ namespace DRAGONLake
 				Space();
 				Writer(name + ": no.");
 				Space();
-				MonsterEncounter(30, 7, 2, "Zabuzabuzabuzabuza", 1200F, 750, true);
+				MonsterEncounter(30, 7, 5, "Zabuzabuzabuzabuza", 1200F, 750, true);
 				Space();
 				//Duelsville
 				Enter();
@@ -104,7 +143,7 @@ namespace DRAGONLake
 				Thread.Sleep(700);
 				Writer("The town crumbled at your wake, you make your way through.");
 				Space();
-				MonsterEncounter((int) HEARTS/2, (int) SPE/2, (int) ATK/3, "Goronical Swordsman", (int) EXPNeed/3, (int) GOLD/1.5, true);
+				MonsterEncounter((int) HEARTS/2, (int) SPE/2, (int) ATK/3, "Goronical Swordsman", (int) EXPNeed/3, (int) GOLD/2, true);
 				Space();
 				Writer("After the duel, you trot through the broken town, with other swordsman having duels of their own — deadly duels.");
 				Space();
@@ -125,7 +164,7 @@ namespace DRAGONLake
 				Writer("CabinMaster: Sup! Want to buy something? I'm having a sale!");
 				Space();
 				ThrDot();
-				Writer("CabinMaster: Look, man. I'm running on low here. barely have enough to eat! I'll give you half of if you buy. Heck, I'll throw in an extra for each purchase. Please man, help a guy out here.");
+				Writer("CabinMaster: Look, man. I'm running on low here. barely have enough to eat! I'll give you half off if you buy from me. Heck, I'll throw in an extra for each purchase. Please man, help a guy out here.");
 				Enter();
 				ThrDot();
 				Space();
@@ -142,6 +181,7 @@ namespace DRAGONLake
 				Space();
 				Writer("CabinMaster: I told you, I'm running on empty. Now, are you going to shop or what?");
 				//Logic
+				Space();
 				Use(492, 897, 2145, 1324, 234);
 				//rest
 				Space();
@@ -150,7 +190,7 @@ namespace DRAGONLake
 				Space();
 				MonsterEncounter(HEARTS * 2, (int) SPE, (int) ATK/2, "Madara Uchairha", (int) EXPNeed/3, (int) GOLD, true);
 				Space();
-				MonsterEncounter((int) HEARTS, (int) SPE, (int) ATK, "Takeyuki", (int) EXPNeed/3, (int) GOLD/2, true);
+				MonsterEncounter((int) HEARTS, (int) SPE, (int) ATK/2, "Takeyuki", (int) EXPNeed/3, (int) GOLD/2, true);
 				Space();
 				MonsterEncounter((int) HEARTS/2, (int) SPE/2, (int) ATK/2, "Taneukami", (int) EXPNeed/3, (int) GOLD/2, true);
 				Space();
@@ -159,10 +199,11 @@ namespace DRAGONLake
 				Writer("With a quick slash, the person puts you into a swordlock.");
 				Space();
 				Writer("Bam ", 2);
-				Thread.Sleep(200);
+				Thread.Sleep(1000);
 				Writer("Kablam ", 2);
-				Thread.Sleep(200);
+				Thread.Sleep(1000);
 				Writer(" BOOM!", 2);
+				Thread.Sleep(1000);
 				Space();
 				Writer("Swordsman: YEAH. WOO-HOO! THIS is what I like in a sowrdsman!");
 				Enter();
@@ -179,7 +220,33 @@ namespace DRAGONLake
 				Enter();
 				Writer("Swordsman: Now, time to get this party started! It's time for a DEATH DUEL!!!");
 				Enter();
-				MonsterEncounter(70, 18, 9, "Mysterious Rowdy Swordsman", 4500, 7000, true);
+				MonsterEncounter(75, 18, 12, "Mysterious Rowdy Swordsman", 4500, 7000, true);
+				Writer(name + ": *huff* *puff*");
+				Thread.Sleep(1700);
+				Space();
+				Writer("Swordsman: *Huff* *Puff*");
+				Enter();
+				Writer("Swordsman: I've never been beaten before...Wow! You really are amazing with thay big sword of yours! I have always been looking for a challenge since I became a swordsman, but I have never been able to find one.");
+				Enter();
+				Writer("Swordsman: No matter where I looked; other swordsman, colleuges from my academy, my sensei, or even monsters couldn't handle my blade. But you...you showed be something that Rhonido Sensei always told me...");
+				Enter();
+				Writer("Swordsman: That everyone has a superior in their skill. And that it is important that we listen and respect them!");
+				Enter();
+				ThrDot();
+				Writer("Swordsman: I'm not going to do that to you though!", 2);
+				Space();
+				ThrDot();
+				Writer(name + ": bruh.");
+				Enter();
+				Writer("Mark: Anyway, my name's Mark, and I'll see you again!");
+				Enter();
+				Writer("After your jolly but painful meeting, you finally leave the duel-torn village. In its wake, you crumble on the path to the DRAGON, killing many, many, many things that are unlcuky enough to be in traveling way.");
+				Enter();
+				MonsterEncounter(120, 21, 14, "Bunillaby", 234, 3435, false);
+				Space();
+				MonsterEncounter(108, 19, 20, "Fuzilite", 786, 843, false);
+				Space();
+				MonsterEncounter(127, 10, 20, "Rockalike", 300, 3500, false);
       }
 
 			if(option == go1[3] || option == "69")//DEBUG
@@ -1460,14 +1527,14 @@ namespace DRAGONLake
 			{
         Space();
         ErrorWrite();
-        Writer("Hello " + name + "! There is a dragon, and it needs to be slain! Where shall your quest take you first?"); //options to go first
+        Writer("Hello " + name + "! There is a dragon, and it needs to be slain!  Where shall you go to give it its deserved fate?"); //options to go first
         Space();
 				Color("cyan");
-        Writer(go1[0]);
+        Writer(go1[0] + ", 1");
 				Color("yellow");
-        Writer(go1[1]);
+        Writer(go1[1] + ", 2");
 				Color("green");
-        Writer(go1[2]);
+        Writer(go1[2] + ", 3");
 				Color("null");
         Space();
         option = Reader();
@@ -1527,7 +1594,7 @@ namespace DRAGONLake
     static void ErrorWrite() 
 		{
       Color("red");
-			Writer("Sorry, write it exactly as it appears. Otherwise it won't work!");
+			Writer("Remember to write exactly as it appears in terminal. Otherwise it won't work!");
       Color("null");
 			Space();
     }
@@ -3238,10 +3305,10 @@ namespace DRAGONLake
 							Space();
 							Writer("Time to grab something from your bag!");
 							Writer("When you grab, you get something from the 10 slots in your bag.");
-							Space();
+							Enter();
 							Writer("Each slot in your bag is marked with a number from 0-9. Type the corrisponding number to use that Item!");
 							Writer("now you know all about grabbing!");
-							Space();
+							Enter();
 							firstTime[1] = false;
 							Color("null");
 						}
@@ -6532,8 +6599,11 @@ namespace DRAGONLake
 				Enter();
 				Writer("The options may be typing what is says, or it may be typing numbers. What option it is, it will tell you!");
 				Enter();
+				Color("bold");
 				Writer("Now go out there, and choose your life away!");
-				firstTime[2] = false;;
+				Writer("(You might want to press enter to see the options again!)");
+				Color("null");
+				firstTime[2] = false;
 			}
 			return Console.ReadLine();
 		}

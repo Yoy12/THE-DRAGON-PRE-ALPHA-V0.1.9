@@ -18,4 +18,11 @@ This is version **0.1.4**. I will show Improvements here to the game.
 **Fixes:**
 - Fixed bug where the "Duel Swordsman" fight would not load, and would be skipped. Therefore, to fix the bug, **the options to the fight have now been erased.**
 - Added **balancing** to the **'Mysterious Rowdy Swordsoman'** and **'Madara Uchaira'** fights.
-- Made enemies give more GOLD.
+- Made some enemies in *'springs'* give more GOLD.
+#
+**2/24/2021**
+**Changes:**
+
+**Fixes:**
+- Added balancing to the *'Mossatle', 'Shellaty', 'Kamakasimite', 'Takeyuki',* and *'Zabuzabuzabuzabuzabu'* fights.
+- added flexibility to the **hard mode** option.
