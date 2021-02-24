@@ -18,10 +18,11 @@ namespace DRAGONLake
     static float EXP, EXPNeed = 2000, SPE = 19, HP = 20, HEARTS = 20, ATK = 5;
 		static int level = 2, GOLD = 500, WILL = 0, re = 0;
 		static string[] inventory = {"potion", "potion", "potion", "null", "null", "null", "null", "null", "null", "null"};
+		static string[] go1 = {"springs", "hills", "forests", "debug"};
 		static string name;
 
 		static string option = "Samuel";
-		static bool noCabin = false, stop = false, dodge = false;
+		static bool noCabin = false, stop = false, dodge = false, debug = false;
 		static bool[] firstTime = {true/*SPECIAL*/, true/*attacking, grabbing, running*/, true/*options*/, true/*enter*/, true, true};
 		
 		static Random rando = new Random();
@@ -29,14 +30,19 @@ namespace DRAGONLake
     static void Main(string[] args) 
 		{
 			//Starting
-			Console.Clear();
+			if(debug == true)
+			{
+
+			}
+			if(debug == false)
+			{
+				Console.Clear();
+			}
 			Space(3);
+			//All of the game
       Writer("THE DRAGON (V0.1.4 ALPHA)");
       Writer("START");
       Space();
-      //variables
-      string[] go1 = {"springs", "hills", "forests", "debug"};
-      //all of Main
       Writer("Please enter your Player Name: ", 2);
       name = Console.ReadLine();
       if(name.Replace(" ", "") == "")
@@ -50,6 +56,51 @@ namespace DRAGONLake
 				SPE = 100;
 				ATK = 100;
 			}
+			Space();
+			Writer("Do you want tutorials?");
+			Space();
+			Writer("yes");
+			Writer("no");
+			Space();
+			option = Console.ReadLine();
+			while(stop == false)
+			{
+				switch(option)
+				{
+					case "2":
+					case "NO":
+					case "No":
+					case "no":
+						firstTime[0] = false;
+						firstTime[1] = false;
+						firstTime[2] = false;
+						firstTime[3] = false;
+						firstTime[4] = false;
+						firstTime[5] = false;
+
+						stop = true;
+					break;
+
+					case "1":
+					case "YES":
+					case "Yes":
+					case "yes":
+						stop = true;
+					break;
+
+					default:
+						Space();
+						ErrorWrite();
+						Space();
+						Writer("yes");
+						Writer("no");
+						Space();
+						option = Reader();
+					break;
+				}
+			}
+			stop = false;
+			//starting
 			Space(3);
       Writer("Hello " + name + "! There is a DRAGON, and it needs to be slain! Where shall you go to give it its deserved fate?"); //options to go first
       Space();
@@ -62,7 +113,7 @@ namespace DRAGONLake
 			Color("null");
       Space();
 
-      //go1 options
+      //game's first half
       option = Reader();
       while(name != "fuck")
 			{
@@ -154,7 +205,8 @@ namespace DRAGONLake
 				Space();
 				ThrDot();
 				Space();
-				Writer("Swordsman: D I E .");
+				Writer("Swordsman: D I E .", 2);
+				Enter();
 				MonsterEncounter((int) HEARTS/2, (int) SPE/2, (int) ATK/3, "Duel Swordsman", (int) EXPNeed/3, (int) GOLD, true);
 				stop = true;		
 
@@ -205,7 +257,7 @@ namespace DRAGONLake
 				Writer(" BOOM!", 2);
 				Thread.Sleep(1000);
 				Space();
-				Writer("Swordsman: YEAH. WOO-HOO! THIS is what I like in a sowrdsman!");
+				Writer("Swordsman: YEAH. WOO-HOO! THIS is what I like in a swordsman!");
 				Enter();
 				Writer(name + ": ...");
 				Enter();
@@ -244,9 +296,9 @@ namespace DRAGONLake
 				Enter();
 				MonsterEncounter(90, 21, 14, "Bunillaby", 234, 3435, false);
 				Space();
-				MonsterEncounter(85, 19, 16, "Fuzilite", 786, 843, false);
+				MonsterEncounter(85, 19, 12, "Fuzilite", 786, 843, false);
 				Space();
-				MonsterEncounter(96, 10, 15, "Rockalike", 300, 3500, false);
+				MonsterEncounter(96, 10, 10, "Rockalike", 300, 3500, false);
 				Space();
 				Writer("You keep treking on, the monsters stronger than ever. You push and push, knowing at any moment, a monster could spell your doom.");
 				Enter();
@@ -433,6 +485,10 @@ namespace DRAGONLake
 				Color("null");
 				Enter();
 				MonsterEncounter(60, 10, 10, "Macro Man", 400F, 1000, true);
+				Space();
+				MonsterEncounter(90, 12, 29, "Friezan'", 900F, 3000, true);
+				Space();
+
       }
 
 			if(option == go1[3] || option == "69")//DEBUG
@@ -1230,15 +1286,15 @@ namespace DRAGONLake
 						Space();
 						MonsterEncounter(30, 6, 7, "Heart Gaurdian", 1000F, 20, false);
 						Space();
-						MonsterEncounter(30, 6, 7, "Heart Gaurdian", 1000F, 20, false);
+						MonsterEncounter(32, 6, 7, "Heart Gaurdian", 1000F, 20, false);
 						Space();
 						Writer(name + ": There's a lot of these 'Heart Gaurdian' things huh?");
 						Enter();
-						MonsterEncounter(30, 6, 7, "Heart Gaurdian", 1000F, 20, false);
+						MonsterEncounter(36, 6, 7, "Heart Gaurdian", 1000F, 20, false);
 						Space();
-						MonsterEncounter(30, 6, 7, "Heart Gaurdian", 1000F, 20, false);
+						MonsterEncounter(42, 6, 7, "Heart Gaurdian", 1000F, 20, false);
 						Space();
-						MonsterEncounter(30, 6, 7, "Heart Gaurdian", 1000F, 20, false);
+						MonsterEncounter(50, 6, 7, "Heart Gaurdian", 1000F, 20, false);
 						Space();
 						Writer("You stop for a well needed break from the onslaught of Gaurdians on your tail, to sharpen your sword and stuff. Sitting on the ground, there is a beating presence. Then, and jewl-like arm sits on your shoulder.");
 						Space(3);
@@ -1254,9 +1310,9 @@ namespace DRAGONLake
 						Enter();
 						Writer("The realization frightens you, as you head downroad. The gaurdians you see become more agressive, so there is no time to put away your sword.");
 						Enter();
-						MonsterEncounter(70, 8, 11, "Heart Gaurdian", 3000F, 20, false);
+						MonsterEncounter(62, 8, 11, "Heart Gaurdian", 3000F, 20, false);
 						Space();
-						MonsterEncounter(70, 8, 11, "Heart Gaurdian", 3000F, 20, false);
+						MonsterEncounter(69, 8, 11, "Heart Gaurdian", 3000F, 20, false);
 						Space();
 						MonsterEncounter(70, 8, 11, "Heart Gaurdian", 3000F, 20, false);
 						Space();
@@ -1854,20 +1910,24 @@ namespace DRAGONLake
 
 		public static void Use(int potions = 200, int potions_plus = 600, int ATK_UPs = 1000, int EXP_UPs = 400, int HEARTS = 1500)
 		{
-			bool ond = false;
+			bool ond = false, kend = false;
 			Writer("Will you shop?");
 			Space();
-			string dption = Reader();
+			Writer("yes");
+			Writer("no");
+			Space();
+			option = Reader();
 			//yes/no
 			while(!ond)
 			{
-				switch(dption)
+				switch(option)
 				{
 				case "yes":
 					Space();
 					Writer("CabinMaster: Great! potions, EXP UPs, hearts! It's yours, my friend! As long as you have enough GOLD!");
 					while(!ond)
 					{
+						kend = false;
 						Space();
 						Color("yellow");
 						Writer("You have " + GOLD + " GOLD left. Buy wisely!");
@@ -1965,6 +2025,30 @@ namespace DRAGONLake
 											break;
 										}
 									}
+									while(kend == false)
+									{
+										Space();
+										Writer("Do you want to stop shopping?");
+										Space();
+										option = Reader();
+										switch(option)
+										{
+											case "yes":
+												ond = true;
+												kend = true;
+											break;
+
+											case "no":
+												kend = true;
+											break;
+
+											default:
+												ErrorWrite();
+												Space();
+												option = Reader();
+											break;
+										}
+									}
 								}
 
 								else if(GOLD < potions)
@@ -2039,22 +2123,30 @@ namespace DRAGONLake
 											inventory[9] = "potion +";
 										}
 									}
-									Space();
-									Writer("Do you want to stop shopping?");
-									Space();
-									option = Reader();
-									switch(option)
+									
+									while(kend == false)
 									{
-										case "yes":
-											ond = true;
-										break;
+										Space();
+										Writer("Do you want to stop shopping?");
+										Space();
+										option = Reader();
+										switch(option)
+										{
+											case "yes":
+												ond = true;
+												kend = true;
+											break;
 
-										case "no":
-										break;
+											case "no":
+												kend = true;
+											break;
 
-										default:
-											ErrorWrite();
-										break;
+											default:
+												ErrorWrite();
+												Space();
+												option = Reader();
+											break;
+										}
 									}
 								}
 								else if(GOLD < potions_plus)
@@ -2127,21 +2219,29 @@ namespace DRAGONLake
 											inventory[9] = "EXP UP";
 										}
 									}
-									Space();
-									Writer("Do you want to stop shopping?");
-									Space();
-									option = Reader();
-									switch(option)
+									while(kend == false)
 									{
-										case "yes":
-											ond = true;
-										break;
+										Space();
+										Writer("Do you want to stop shopping?");
+										Space();
+										option = Reader();
+										switch(option)
+										{
+											case "yes":
+												ond = true;
+												kend = true;
+											break;
 
-										case "no":
-										break;
-										default:
-											ErrorWrite();
-										break;
+											case "no":
+												kend = true;
+											break;
+
+											default:
+												ErrorWrite();
+												Space();
+												option = Reader();
+											break;
+										}
 									}
 								}
 								
@@ -2216,22 +2316,29 @@ namespace DRAGONLake
 											inventory[9] = "ATK UP";
 										}
 									}
-									Space();
-									Writer("Do you want to stop shopping?");
-									Space();
-									option = Reader();
-									switch(option)
+									while(kend == false)
 									{
-										case "yes":
-											ond = true;
-										break;
+										Space();
+										Writer("Do you want to stop shopping?");
+										Space();
+										option = Reader();
+										switch(option)
+										{
+											case "yes":
+												ond = true;
+												kend = true;
+											break;
 
-										case "no":
-										break;
+											case "no":
+												kend = true;
+											break;
 
-										default:
-											ErrorWrite();
-										break;
+											default:
+												ErrorWrite();
+												Space();
+												option = Reader();
+											break;
+										}
 									}
 								}
 								else if(GOLD < ATK_UPs)
@@ -2306,22 +2413,29 @@ namespace DRAGONLake
 										}
 									}
 								
-									Space();
-									Writer("Do you want to stop shopping?");
-									Space();
-									option = Reader();
-									switch(option)
+									while(kend == false)
 									{
-										case "yes":
-											ond = true;
-										break;
+										Space();
+										Writer("Do you want to stop shopping?");
+										Space();
+										option = Reader();
+										switch(option)
+										{
+											case "yes":
+												ond = true;
+												kend = true;
+											break;
 
-										case "no":
-										break;
+											case "no":
+												kend = true;
+											break;
 
-										default:
-											ErrorWrite();
-										break;
+											default:
+												ErrorWrite();
+												Space();
+												option = Reader();
+											break;
+										}
 									}
 								}
 								else if(GOLD < HEARTS)
@@ -4472,6 +4586,9 @@ namespace DRAGONLake
 				{
 					switch(sption)
 					{
+						case "1":
+						case "YES":
+						case "Yes":
 						case "yes":
 							Writer("Which item? (0 - 10)");
 							Space();
@@ -5375,6 +5492,9 @@ namespace DRAGONLake
 						end = true;
 						break;
 
+						case "2":
+						case "NO":
+						case "No":
 						case "no":
 							end = true;
 						break;
@@ -5411,6 +5531,9 @@ namespace DRAGONLake
 				{
 					switch(uption)
 					{
+						case "1"
+						case "YES":
+						case "Yes":
 						case "yes":
 							Writer("Which item? (0 - 10)");
 							Space();
@@ -6314,6 +6437,9 @@ namespace DRAGONLake
 						end = true;
 						break;
 
+						case "2"
+						case "NO":
+						case "No":
 						case "no":
 							end = true;
 						break;

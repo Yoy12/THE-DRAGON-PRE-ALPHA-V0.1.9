@@ -25,7 +25,10 @@ This is version **0.1.4**. I will show Improvements here to the game.
 **Changes:**
 - Added **more story** to the ***'springs'.***
 - **Welcome a new character: Mark!** say hello!
+- Added an option to **turn off tutorials.**
 
 **Fixes:**
 - Added balancing to the *'Mossatle', 'Shellaty', 'Kamakasimite', 'Takeyuki', 'Jujutsu Guysen',* and *'Zabuzabuzabuzabuza'* fights.
 - added flexibility to the **hard mode** option.
+- **Balanced the *'Heart Gaurdians'***, as there was a diffuculty spike after the *'Jewled Man'* fight.
+- **Fixed the tutorials option**, as the options *'yes'* and *'no'* were inverted in function.
