@@ -7,7 +7,7 @@ using System.Windows.Input;
 // RED: [0;31m
 // RESET: [0m
 
-//NOTE: After DRAGON, player is at level 12 and has about 42 HP and 54 ATK, so 250 hp and 20 attack is necessary.
+//NOTE: After DRAGON, player is at level 12 and has about 42 HP and 54 - 64 ATK, so 250 hp and 20 attack is necessary.
 //NOTE: Balance, Bi-
 
 namespace DRAGONLake
@@ -16,14 +16,14 @@ namespace DRAGONLake
   {
     //variables
     static float EXP, EXPNeed = 2000, SPE = 19, HP = 20, HEARTS = 20, ATK = 5;
-		static int level = 2, GOLD = 500, WILL = 0, re = 0;
-		static string[] inventory = {"potion", "potion", "potion", "null", "null", "null", "null", "null", "null", "null"};
+		static int level = 2, GOLD = 500, WILL = 400, re = 0;
+		static string[] inventory = {"potion", "potion", "potion", "null", "null", "null", "null", "null", "null", "null", "null"/*not used until aftergame*/};
 		static string[] go1 = {"springs", "hills", "forests", "debug"};
 		static string name;
 
 		static string option = "Samuel";
-		static bool noCabin = false, stop = false, dodge = false, debug = false;
-		static bool[] firstTime = {true/*SPECIAL*/, true/*attacking, grabbing, running*/, true/*options*/, true/*enter*/, true, true};
+		static bool noCabin = false, stop = false, dodge = false, debug = true;
+		static bool[] firstTime = {true/*SPECIAL*/, true/*attacking, grabbing, running*/, true/*options*/, true/*enter*/, true/*shopping*/, true}, From = {true/*springs*/, true/*hills*/, true/*forests*/};
 		
 		static Random rando = new Random();
 
@@ -51,10 +51,31 @@ namespace DRAGONLake
 			}
 			if(name == "oogabooga")
 			{
+				Space();
+				Color("red");
+				Writer("ENTERED 'BUFF' CHEAT. Happy cheating!");
+				Color("bold");
 				HEARTS = 100;
 				HP = 100;
 				SPE = 100;
 				ATK = 100;
+			}
+			if(name == "Yessurr")
+			{
+				Space();
+				Color("red");
+				Writer("ENTERED 'RICH' CHEAT. Happy cheating!");
+				Color("bold");
+				inventory[0] = "potion +";
+				inventory[1] = "potion +";
+				inventory[2] = "potion +";
+				inventory[3] = "potion +";
+				inventory[4] = "potion +";
+				inventory[5] = "ATK UP";
+				inventory[6] = "ATK UP";
+				inventory[7] = "ATK UP";
+				inventory[8] = "ATK UP";
+				inventory[9] = "ATK UP";
 			}
 			Space();
 			Writer("Do you want tutorials?");
@@ -95,7 +116,7 @@ namespace DRAGONLake
 						Writer("yes");
 						Writer("no");
 						Space();
-						option = Reader();
+						option = Console.ReadLine();
 					break;
 				}
 			}
@@ -231,7 +252,10 @@ namespace DRAGONLake
 				Enter();
 				Writer(name + ": This isn't jack squat! Cheapscape!");
 				Space();
-				Writer("CabinMaster: I told you, I'm running on empty. Now, are you going to shop or what?");
+				Writer("CabinMaster: I told you, I'm running on empty. Now, are you going to shop or what?", 2);
+				Color("red");
+				Writer("If I were you, I would buy my bag full! The enemies outside the town are strong and fierce!", 2);
+				Color("null");
 				//Logic
 				Space();
 				Use(492, 897, 2145, 1324, 234);
@@ -298,15 +322,11 @@ namespace DRAGONLake
 				Space();
 				MonsterEncounter(85, 19, 12, "Fuzilite", 786, 843, false);
 				Space();
-				MonsterEncounter(96, 10, 10, "Rockalike", 300, 3500, false);
-				Space();
 				Writer("You keep treking on, the monsters stronger than ever. You push and push, knowing at any moment, a monster could spell your doom.");
 				Enter();
 				Writer("But you can't let that happen, for you have a goal in mind.");
 				Enter();
 				MonsterEncounter(84, 8, 7, "Talus", 4534, 9970, false);
-				Space();
-				MonsterEncounter(86, 22, 12, "Bunillaby", 786, 899, false);
 				Space();
 				//Cabin
 				if(noCabin == false)
@@ -327,7 +347,7 @@ namespace DRAGONLake
 						Color("red");
 						Writer(HP + " HP left. ", 2);
 						Color("yellow");
-						Writer("Buy wisely!", 2);
+						Writer("Buy wisely! (1 - 3)", 2);
 						Color("green");
 						Space();
 						Writer("1: Shop");
@@ -425,7 +445,7 @@ namespace DRAGONLake
 								Writer("2: Rest, G247");
 								Color("null");
 								Space();
-								Writer("Leave");
+								Writer("3: Leave");
 								Space();
 								option = Reader();
 							break;
@@ -486,15 +506,131 @@ namespace DRAGONLake
 				Enter();
 				MonsterEncounter(60, 10, 10, "Macro Man", 400F, 1000, true);
 				Space();
-				MonsterEncounter(90, 12, 29, "Friezan'", 900F, 3000, true);
+				MonsterEncounter(90, 12, 8, "Friezan'", 900F, 3000, true);
 				Space();
+				Writer("The savanna is vast, and you encounter many animals. It is a very nice place to camp as well. And you find yourself putting out your campfire just to see the beuty of the stars.");
+				Enter();
+				Writer("You trek and trek, its grass yellowish but soft, and-");
+				Enter();
+				Color("bold");
+				Writer("T H U M P!!!");
+				Enter();
+				MonsterEncounter(101, 8, 8, "Rockalike", 1100F, 2, true);
+				Space();
+				Writer("G a U gH!! W hY dOe DiSs HaPpEn O mE ?/? I fE eL iKe CrA p 1 WhY/? WH YYY Y?!?1/");
+				Enter();
+				Writer("i H A TE wHeN tHIs hApP enS..> M aN...");
+				Enter();
+				Writer(name + ": It TALKS?!");
+				Enter();
+				Writer("Rockalike: WeL lL Ye ACH!1 ByE, CriTZ!");
+				Enter();
+				Writer("After cursing at you, it rolles away while you stay confused on how a monster talked.");
+				Enter();
+				MonsterEncounter(30, 24, 12, "Dare Demon", 2000F, 300, false);
+				//town arc
+				Enter();
+				Console.Clear();
+				Space();
+				Writer("Continuing, you come across a deserted village, though this one is unlike duel town.");
+				Enter();
+				Writer("Walking in, you see a terrible scene; sick people, injured folk, and a little boy trying to take care of them all, along with is siblings. You walk to see the damage, when you see a familiar face; ", 2);
+				Color("blue");
+				Writer("Mark!", 2);
+				Color("null");
+				Enter();
+				Writer(name + ": What are you doing here Mark?! I thought you where only into battling?");
+				Enter();
+				Writer("Mark: I am, but when justice calls, I am its right hand man!");
+				Enter();
+				Writer(name + ": What is THAT supposed to mean?");
+				Enter();
+				Writer("Mark: It MEANS that I like to help the poor, " + name + "! You should be helping too!");
+				Enter();
+				Writer("What will you say?");
+				Space();
+				Color("red");
+				Writer("option 1: " + name + ": I know...I was seeing these people in need. I really sould help!");
+				Color("green");
+				Writer("option 2: " + name + ": I'm a mercinary, not a medic! You can save these people on your own. I want to stay out of this.");
+				Color("null");
+				Space();
+				option = Reader();
+				//logic
+				stop = false;
+				while(stop == false)
+				{
+					switch(option)
+					{
+						case "1":
+						case "1:":
+						case "option 1":
+						case "option 1:":
+						case "I know...I was seeing these people in need. I really sould help!":
+							Space();
+							Writer("Mark: Now THAT'S the mark of a true swordsman! It's good to help people in need!");
+							Enter();
+							Writer(name + "[embarrassed]: Whatever...");
+							stop = true;
+						break;
 
+						case "2":
+						case "2:":
+						case "option 2":
+						case "option 2:":
+						case "I'm a mercinary, not a medic! You can save these people on your own. I want to stay out of this.":
+							Space();
+							Writer("Mark: What a critz! Mark, I didn't know you were this heartless!");
+							Enter();
+							Writer(name + ": For a mercinary, to have a heart is a bad thing, you know.");
+							Enter();
+							Writer("Mark: At least ", 2);
+							Color("bold");
+							Writer("try!", 2);
+							Color("null");
+							Space();
+							Writer(name + ": How about ", 2);
+							Color("bold");
+							Writer("no?", 2);
+							Color("null");
+							stop = true;
+						break;
+
+						default:
+							Space();
+							ErrorWrite();
+							Writer("What will you say?");
+							Space();
+							Color("red");
+							Writer("option 1: " + name + ": I know...I was seeing these people in need. I really sould help!");
+							Color("green");
+							Writer("option 2: " + name + ": I'm a mercinary, not a medic! You can save these people on your own. I want to stay out of this.");
+							Color("null");
+							Space();
+							option = Reader();
+						break;
+					}
+				}
+				//rest
+				Space();
+				Writer("Mark: Anyway, right now are priority is getting the guys who caused this. Right now I heard they're heading for ", 2);
+				Color("red");
+				Writer("THE DRAGON.", 2);
+				Color("null");
+				Enter();
+				Writer(name + ": So, how are they getting there?");
+				Enter();
+				Writer("Mark: They're getting there by ship. We can take a boat and take them out! And once we do that, we can take the stuff they stole!");
+				Enter();
+				Writer(name + ": Seems simple enough. So how do you think");;
       }
 
 			if(option == go1[3] || option == "69")//DEBUG
 			{
 				MonsterEncounter(monName: "Debug Bug", exp: 2000F, gold: 3000,attack: 4 ,hp: 20, speed: 2);
 				MonsterEncounter(monName: "Debug Bug", exp: 3000F, gold: 3000);
+				Writer("END");
+				Enter();
 				End(0);
 			}
 
@@ -516,11 +652,11 @@ namespace DRAGONLake
 				//Crossroads
 				Enter();
 				Console.Clear();
-				Writer("You come to a crossroads or a Mine and Moutain. What shall you do?");
+				Writer("You come to a crossroads or a Mine and Mountain. What shall you do?");
         Writer("What shall you do?");
         Space();
         Writer("Go to Mine");
-        Writer("Go to Moutain");
+        Writer("Go to Mountain");
         //Logic
         Space();
         option = Reader();
@@ -542,11 +678,13 @@ namespace DRAGONLake
       	    Space();
       	    Writer("option 1: " + name + ": I don't care. I gotta mission to do,so scram");
       	    Space();
-						Writer("option 2: " + name + ": Oh ok");
+						Writer("option 2: " + name + ": *sniff* o k.");
 						Space();
       	    option = Reader();
       	    switch(option) {
       	      case "1":
+							case "I don't care. I gotta mission to do,so scram":
+							case "option 1":
       	        Writer("I warned you.");
 								Space();
       	        MonsterEncounter(23, 5, 9, "MegaMadGuy", 200F, 300, false);
@@ -555,7 +693,7 @@ namespace DRAGONLake
 								Enter();
 								MonsterEncounter(25, 4, 6, "Rockalike", 1500F, 130, false);
 								Space();
-								Writer("Going through the tipper-tap of picks, you find a caption.");
+								Writer("Going through the tipper-tap of picks, you stumble into a caption.");
 								Space();
 								Writer("Captin [on phone]: Mmmhm. Huhhuh. WHAT?! I'm going to destory him in the name of the law when I find him! What are to details? What? A large sword and his name is '" + name + "'? I'll definitely find and kill him!");
 								Enter();
@@ -708,10 +846,10 @@ namespace DRAGONLake
 									Enter();
 									Writer("What do you want to do?");
 									Space();
-									Writer("Shop");
-									Writer("Rest, G300");
+									Writer("1: Shop");
+									Writer("2: Rest, G300");
 									Space();
-									Writer("Leave");
+									Writer("3: Leave");
 									Space();
 									option = Reader();
 									bool cockend = false;
@@ -719,6 +857,10 @@ namespace DRAGONLake
 									{
 										switch(option)
 										{
+											case "1":
+											case "1:":
+											case "SHOP":
+											case "shop":
 											case "Shop":
 												Space();
 												Writer("Great! Here's the options. I don't have much, but I hope you are satisfied!");
@@ -821,10 +963,16 @@ namespace DRAGONLake
 																	option = Reader();
 																	switch(option)
 																	{
+																		case "1":
+																		case "YES":
+																		case "Yes":
 																		case "yes":
 																			napend = true;
 																		break;
 
+																		case "2":
+																		case "NO":
+																		case "No":
 																		case "no":
 
 																		break;
@@ -922,10 +1070,16 @@ namespace DRAGONLake
 																option = Reader();
 																switch(option)
 																{
+																	case "1":
+																	case "YES":
+																	case "Yes":
 																	case "yes":
 																		napend = true;
 																	break;
 
+																	case "2":
+																	case "NO":
+																	case "No":
 																	case "no":
 
 																	break;
@@ -1014,10 +1168,16 @@ namespace DRAGONLake
 																option = Reader();
 																switch(option)
 																{
+																	case "1":
+																	case "YES":
+																	case "Yes":
 																	case "yes":
 																		napend = true;
 																	break;
 
+																	case "2":
+																	case "NO":
+																	case "No":
 																	case "no":
 
 																	break;
@@ -1060,6 +1220,10 @@ namespace DRAGONLake
 												}
 											break;
 
+											case "2":
+											case "2:":
+											case "REST":
+											case "rest":
 											case "Rest":
 												Space();
 												Writer("Welp, rest up! I have a guest room over there!");
@@ -1068,9 +1232,12 @@ namespace DRAGONLake
 												HP = HEARTS;
 												Thread.Sleep(1200);
 												Console.Clear();
-												cockend = true;
 											break;
 
+											case "3":
+											case "3:":
+											case "LEAVE":
+											case "leave":
 											case "Leave":
 												Space();
 												Writer("CabinMaster: Ok. see ya!");
@@ -1168,13 +1335,15 @@ namespace DRAGONLake
 								End();
       	      break;
 
-      	      case "2":
+      	      case "*sniff* o k.": 
+							case "2":
+							case "option 2:":
       	        Writer("GUY: Good. Well, nice meeting	you. Bye!");
       	        Space(2);
 								Writer("What shall you do?");
       					Space();
       					Writer("Go back to Mine");
-      					Writer("Go to Moutain");
+      					Writer("Go to Mountain");
       					//Logic
       					Space();
       					option = Reader();
@@ -1183,12 +1352,12 @@ namespace DRAGONLake
       	  break;
 
       	  case "2":
-					case "Go to Moutain":
-					case "go to moutain":
-					case "moutain":
-					case "Moutain":
+					case "Go to Mountain":
+					case "go to mountain":
+					case "mountain":
+					case "Mountain":
 						Space();
-						Writer("You go up the steap moutain, where you meet a man in the distance, but when the man gets closer, he gets hairier, then bigger,then it is clear you have not met a man.");
+						Writer("You go up the steap Mountain, where you meet a man in the distance, but when the man gets closer, he gets hairier, then bigger,then it is clear you have not met a man.");
 						Space(2);
 						MonsterEncounter(25, 2, 3, "Obscurasnow Medium",4000F, 150);
 						//rest
@@ -1199,9 +1368,9 @@ namespace DRAGONLake
 						if(noCabin == false)
 						{
 							//Cabin
-							Writer("Things aren't looking up for you. The higher you go, the worse it gets. Then, you see a cabin. A nice, humble cabin amist the stormy moutain.");
+							Writer("Things aren't looking up for you. The higher you go, the worse it gets. Then, you see a cabin. A nice, humble cabin amist the stormy Mountain.");
 							Enter();
-							Writer("CabinMaster: Helloo! Stormy Moutain, Huh? Yeah, I built this cabin so people could rest up on their jouney to the heart.");
+							Writer("CabinMaster: Helloo! Stormy Mountain, Huh? Yeah, I built this cabin so people could rest up on their jouney to the heart.");
 							Space(2);
 							Writer("CabinMaster: So anyway, do you want to rest up for 400 gold? Livng up here isn't easy, you know.");
 							Space();
@@ -1278,7 +1447,7 @@ namespace DRAGONLake
 						//Boss
 						MonsterEncounter(60, 8, 10, "Obscuronsnow Large", 10000F, 300, true);
 						//Heart Caverns
-						Writer("After crossing paths with the beast, you have defeated it, and therefor you can move on to the heart.");
+						Writer("After crossing paths with the beast, you have defeated it, and therefore you can move on to the heart.");
 						Space();
 						MonsterEncounter(30, 6, 7, "Heart Gaurdian", 1000F, 20, false);
 						Space();
@@ -1365,11 +1534,12 @@ namespace DRAGONLake
 						inventory[10] = "null";
 						Thread.Sleep(1000);
 						Space(3);
-						Writer("Ingraning whatever that means in your mind, you make your way out of the moutains, the city in the horizon. All for one purpose: ");
+						Writer("Ingraning whatever that means in your mind, you make your way out of the Mountains, the city in the horizon. All for one purpose: ");
 						Thread.Sleep(3000);
 						Space(5);
 						Writer("To destroy the DRAGON.");
 						Thread.Sleep(2000);
+						From[2] = true;
 						EndGame();
 						Credits();
 						End();
@@ -1378,7 +1548,7 @@ namespace DRAGONLake
 					default:
       	    ErrorWrite();
 						Space();
-						Writer("Where to? Mine or Moutain?");
+						Writer("Where to? Mine or Mountain?");
 						Space();
 						option = Reader();
       	  break;
@@ -1416,7 +1586,7 @@ namespace DRAGONLake
 					{
 						case "yes":
 							Space();
-							Writer("Angelina: Awesome! My name's Angelina, so report to me by using the 'R' key. Alright?");
+							Writer("Angelina: Awesome! My name's Angelina, so report to me when finished with your task. Alright?");
 							Space(2);
 							Writer("TASK: KILL 3 BUSHABLES");
 							eeend = true;
@@ -1618,7 +1788,7 @@ namespace DRAGONLake
 				Thread.Sleep(1000);
 				ItemUser();
 				//MAXIMO ENCOUNTER
-				MonsterEncounter(58, 9, 10, "MAXIMO", 4500F, 3000, true);
+				MonsterEncounter(100, 9, 12, "MAXIMO", 4500F, 3000, true);
 				//rest
 				Writer("With the MAXIMO gone, you see a path downroad. Embarking on that path goes through a canyon known as DRAGON CLIMB CANYON.");
 				Space();
@@ -1638,16 +1808,16 @@ namespace DRAGONLake
 				Space(3);
 				Writer("But the feeling won't go away.");
 				Thread.Sleep(1000);
-				Space();
+				Enter();
 				Writer("A LandShark soars at you from out of nowhere, and gets a free hit! -9 damage! Mini-Boss Encounter!");
 				HP -= 9;
 				Space();
-				MonsterEncounter(62, 11, 10, "LandShark", 1700F, 120, true);//LandShark Miniboss
+				MonsterEncounter(120, 11, 10, "LandShark", 2700F, 120, true);//LandShark Miniboss
 				Space();
 				Writer("That chilly feeling still resides in your soul, the presence of a looming threat keeps you at your sword handle. Some monsters aproach you, but they are slashed to bits before a battle starts.");
-				Space(2);
+				Enter();
 				Writer("You keep walking, listening, brewing a plan for which you will partake when the monster approaches. Your palms are sweating bineith your gloves, legs tightening to anticipate a threat. The presence feels like a never-ending gaze that watches your every movement; stalking you, examining you, feeling you.");
-				Space(2);
+				Enter();
 				Writer("M", 2);
 				Thread.Sleep(300);
 				Writer("a", 2);
@@ -1760,6 +1930,7 @@ namespace DRAGONLake
 				Space(5);
 				Thread.Sleep(3000);
 				Writer("THE DRAGON");
+				From[1] = true;
 				EndGame();
 				Credits();
 				End();
@@ -1851,7 +2022,7 @@ namespace DRAGONLake
 			Space();
 			if(firstTime[3] == true)
 			{
-				Writer("Press enter to continue.");
+				Writer("Press enter to continue. You also continue when you see '>'.");
 				firstTime[3] = false;
 			}
 			else if(firstTime[3] != true)
@@ -1922,8 +2093,43 @@ namespace DRAGONLake
 			{
 				switch(option)
 				{
+				case "1":
+				case "YES":
+				case "Yes":
 				case "yes":
 					Space();
+					if(firstTime[4] == true)
+					{
+						Space();
+						Color("yellow");
+						Writer("It's time to do some ", 2);
+						Color("green");
+						Writer("cash money!", 2);
+						Enter();
+						Color("bold");
+						Writer("When shopping, you should always assume that you're gonna need a lot of stuff. After all, monsters isn't always nice!");
+						Enter();
+						Writer("There are also many types of Items; I'll tell you about all of them!");
+						Enter();
+						Color("blue");
+						Writer("potion: These useful tools heal 20HP when you have 20 - 39 HP, these can suffice. You can check HP in the beginning and endd of each battle!");
+						Enter();
+						Writer("potion +: A more powerful version of the standard potion. This one heals three times as much, healing 60HP! Although it is 2x as expencive. These are good for those who have an HP level of 40 - 199. So these are the best type!");
+						Enter();
+						Color("pink");
+						Writer("ATK UP: Time to power up! the ATK UP increases your ATK by 3 points! Alone they can be insegnificant, but multiple of these can make you as powerful as ever!");
+						Enter();
+						Color("green");
+						Writer("EXP UP: Gain some EXP with an EXP UP! Gain Another level in clutch situations to pull through on the battlefield!");
+						Enter();
+						Color("red");
+						Writer("heart: Beat strong with a heart! This, unlike potions, increase your Max HP, making you even more tanky! These Items are great, although expencive. Sometimes it may be best for one to rely on leveling up instead.");
+						Enter();
+						Color("bold");
+						Writer("No that you know about all the items in the shop, you can shop intelligently! just remember to Leave when you're done! See ya!");
+						Enter();
+						firstTime[4] = false;
+					}
 					Writer("CabinMaster: Great! potions, EXP UPs, hearts! It's yours, my friend! As long as you have enough GOLD!");
 					while(!ond)
 					{
@@ -1933,17 +2139,20 @@ namespace DRAGONLake
 						Writer("You have " + GOLD + " GOLD left. Buy wisely!");
 						Color("null");
 						Space();
-						Writer("potion, G" + potions);
-						Writer("potion +, G" + potions_plus);
-						Writer("EXP UP, G" + EXP_UPs);
-						Writer("ATK UP, G" + ATK_UPs);
-						Writer("heart, G" + HEARTS);
+						Writer("1: potion, G" + potions);
+						Writer("2: potion +, G" + potions_plus);
+						Writer("3: EXP UP, G" + EXP_UPs);
+						Writer("4: ATK UP, G" + ATK_UPs);
+						Writer("5: heart, G" + HEARTS);
 						Space();
-						Writer("Leave");
+						Writer("6: Leave");
 						Space();
 						option = Reader();
 						switch(option)
 						{
+							case "1":
+							case "1:":
+							case "Potion":
 							case "potion":
 								if(GOLD >= potions)
 								{
@@ -1962,7 +2171,6 @@ namespace DRAGONLake
 										Space();
 										Writer("You gained 20 HP!");
 										HP += 20;
-										ond = true;
 									}
 									else
 									{
@@ -2059,6 +2267,11 @@ namespace DRAGONLake
 								
 							break;
 
+							case "2":
+							case "2:":
+							case "Potion +":
+							case "potion plus":
+							case "Potion Plus":
 							case "potion +":
 								if(GOLD >= potions_plus)
 								{
@@ -2077,7 +2290,6 @@ namespace DRAGONLake
 										Space();
 										Writer("You gained 60 HP!");
 										HP += 60;
-										ond = true;
 									}
 
 									else
@@ -2156,6 +2368,10 @@ namespace DRAGONLake
 								}
 							break;
 
+							case "3":
+							case "3:":
+							case "exp up":
+							case "Exp Up":
 							case "EXP UP":
 								if(GOLD >= EXP_UPs)
 								{
@@ -2174,7 +2390,6 @@ namespace DRAGONLake
 										Space();
 										Writer("You gained 1500 EXP!");
 										EXP += 1500;
-										ond = true;
 									}
 									else
 									{
@@ -2252,6 +2467,10 @@ namespace DRAGONLake
 								}
 							break;
 
+							case "4":
+							case "4:":
+							case "atk up":
+							case "Atk Up":
 							case "ATK UP":
 								if(GOLD >= ATK_UPs)
 								{
@@ -2270,7 +2489,6 @@ namespace DRAGONLake
 										Space();
 										Writer("You gained 5 ATK!");
 										ATK += 5;
-										ond = true;
 									}
 
 									else
@@ -2348,6 +2566,9 @@ namespace DRAGONLake
 								}
 							break;
 
+							case "5":
+							case "5:":
+							case "Heart":
 							case "heart":
 								if(GOLD >= HEARTS)
 								{
@@ -2367,7 +2588,6 @@ namespace DRAGONLake
 										Writer("You gained 10 more MAX HP!");
 										HEARTS += 10;
 										HP += 10;
-										ond = true;
 									}
 									else
 									{
@@ -2445,6 +2665,10 @@ namespace DRAGONLake
 								}
 							break;
 
+							case "6":
+							case "6:":
+							case "LEAVE":
+							case "leave":
 							case "Leave":
 								Space();
 								Writer("CabinMaster: Ok! See ya!");
@@ -2454,10 +2678,39 @@ namespace DRAGONLake
 							default:
 								ErrorWrite();
 								Space();
-								Writer("CabinMaster: What would you like to buy?");
+								Writer("CabinMaster: What would you like to do?");
+								Space();
+								Writer("1: Shop");
+								Writer("2: Rest, G300");
+								Space();
+								Writer("3: Leave");
+								Space();
+								option = Reader();
 							break;
 						}
 					}
+				break;
+
+				case "2":
+				case "NO":
+				case "No":
+				case "no":
+					Space();
+					Writer("CabinMaster: Have a nice day!");
+					Space();
+					ond = true;
+				break;
+
+				default:
+					Writer("CabinMaster: Eh?");
+					Space();
+					ErrorWrite();
+					Writer("Will you shop?");
+					Space();
+					Writer("yes");
+					Writer("no");
+					Space();
+					option = Reader();
 				break;
 				}
 			}	
@@ -2482,7 +2735,7 @@ namespace DRAGONLake
 				Writer("A great " + monName + " has honorably challenged you to a match! What shall you do, for your life is on the line?");
 			}
 			//tutorial
-			if(firstTime[2] == true)
+			if(firstTime[1] == true)
 			{
 				Space();
 				Color("bold");
@@ -2517,7 +2770,7 @@ namespace DRAGONLake
 				Space();
 				Writer("So now, it's time to show this " + monName + " what you're made of!");
 				Space(3);
-				firstTime[2] = false;
+				firstTime[1] = false;
 			}
 			//fight
 			Writer("Your HP: " + HP + ", " + monName + " HP: " + hp);
@@ -5531,7 +5784,7 @@ namespace DRAGONLake
 				{
 					switch(uption)
 					{
-						case "1"
+						case "1":
 						case "YES":
 						case "Yes":
 						case "yes":
@@ -6437,7 +6690,7 @@ namespace DRAGONLake
 						end = true;
 						break;
 
-						case "2"
+						case "2":
 						case "NO":
 						case "No":
 						case "no":

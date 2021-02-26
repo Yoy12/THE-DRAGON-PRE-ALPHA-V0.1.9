@@ -32,3 +32,13 @@ This is version **0.1.4**. I will show Improvements here to the game.
 - added flexibility to the **hard mode** option.
 - **Balanced the *'Heart Gaurdians'***, as there was a diffuculty spike after the *'Jewled Man'* fight.
 - **Fixed the tutorials option**, as the options *'yes'* and *'no'* were inverted in function.
+- **fixed issue** where **Attacking tutorial would not happen.**
+#
+**2/25/2021**
+**Changes:**
+- Added more story to the *'springs'*.
+
+**Fixes:**
+- **Fixed shopping**, as it had some bugs that would worsen the experience.
+- **Tweaked shopping** to give a **better experience.**
+- More bug fixes.
