@@ -45,6 +45,7 @@ namespace DRAGONLake
       Space();
       Writer("Please enter your Player Name: ", 2);
       name = Console.ReadLine();
+			name.Replace(" ", "") = "";
       if(name.Replace(" ", "") == "")
 			{
 				name = "Samuel";
@@ -76,6 +77,17 @@ namespace DRAGONLake
 				inventory[7] = "ATK UP";
 				inventory[8] = "ATK UP";
 				inventory[9] = "ATK UP";
+			}
+			if(name == "Nehemaih")
+			{
+				Space();
+				Color("red");
+				Writer("ENTERED 'STRONG' CHEAT. Happy cheating!");
+				Color("bold");
+				ATK = 20;
+				HP = 40;
+				HEARTS = 40;
+				SPE = 20;
 			}
 			Space();
 			Writer("Do you want tutorials?");
