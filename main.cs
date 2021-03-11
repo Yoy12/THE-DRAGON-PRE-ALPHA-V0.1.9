@@ -24,6 +24,8 @@ namespace DRAGONLake
 		static string option = "Samuel";
 		static bool noCabin = false, stop = false, dodge = false, debug = true;
 		static bool[] firstTime = {true/*SPECIAL*/, true/*attacking, grabbing, running*/, true/*options*/, true/*enter*/, true/*shopping*/, true}, From = {true/*springs*/, true/*hills*/, true/*forests*/};
+
+		static Object[] Mark = new Object[] {120/*hp, 0*/, 25/*speed, 1*/, 23/*attack, 2*/, "Mark Conjure"/*name, 3*/};
 		
 		static Random rando = new Random();
 
@@ -40,17 +42,16 @@ namespace DRAGONLake
 			}
 			Space(3);
 			//All of the game
-      Writer("THE DRAGON (V0.1.4 ALPHA)");
+      Writer("THE DRAGON (V0.1.4 PRE-ALPHA)");
       Writer("START");
       Space();
       Writer("Please enter your Player Name: ", 2);
       name = Console.ReadLine();
-			name.Replace(" ", "") = "";
       if(name.Replace(" ", "") == "")
 			{
 				name = "Samuel";
 			}
-			if(name == "oogabooga")
+			if(name.Replace(" ", "") == "oogabooga")
 			{
 				Space();
 				Color("red");
@@ -61,7 +62,7 @@ namespace DRAGONLake
 				SPE = 100;
 				ATK = 100;
 			}
-			if(name == "Yessurr")
+			if(name.Replace(" ", "") == "Yessurr")
 			{
 				Space();
 				Color("red");
@@ -78,7 +79,7 @@ namespace DRAGONLake
 				inventory[8] = "ATK UP";
 				inventory[9] = "ATK UP";
 			}
-			if(name == "Nehemaih")
+			if(name.Replace(" ", "") == "Nehemaih")
 			{
 				Space();
 				Color("red");
@@ -217,7 +218,7 @@ namespace DRAGONLake
 				Space();
 				Writer(name + ": no.");
 				Space();
-				MonsterEncounter(30, 7, 5, "Zabuzabuzabuzabuza", 1200F, 750, true);
+				MonsterEncounter(30, 7, 5, "Zabuzabuzabuzabuza", 1200F, 190, true);
 				Space();
 				//Duelsville
 				Enter();
@@ -227,7 +228,7 @@ namespace DRAGONLake
 				Thread.Sleep(700);
 				Writer("The town crumbled at your wake, you make your way through.");
 				Space();
-				MonsterEncounter((int) HEARTS/2, (int) SPE/2, (int) ATK/3, "Goronical Swordsman", (int) EXPNeed/3, (int) GOLD/2, true);
+				MonsterEncounter((int) HEARTS/2, (int) SPE/2, (int) ATK/3, "Goronical Swordsman", (int) EXPNeed/3, (int) GOLD/3, true);
 				Space();
 				Writer("After the duel, you trot through the broken town, with other swordsman having duels of their own — deadly duels.");
 				Space();
@@ -240,7 +241,7 @@ namespace DRAGONLake
 				Space();
 				Writer("Swordsman: D I E .", 2);
 				Enter();
-				MonsterEncounter((int) HEARTS/2, (int) SPE/2, (int) ATK/3, "Duel Swordsman", (int) EXPNeed/3, (int) GOLD, true);
+				MonsterEncounter((int) HEARTS/2, (int) SPE/2, (int) ATK/3, "Duel Swordsman", (int) EXPNeed/3, (int) GOLD/3, true);
 				stop = true;		
 
 				Space();
@@ -255,7 +256,7 @@ namespace DRAGONLake
 				Space();
 				Writer("Just then, a swordsman came in for a fight!");
 				Enter();
-				MonsterEncounter((int) HEARTS/2, (int) SPE/3, (int) ATK, "Guy the Swordsman", (int) EXPNeed/3, (int) GOLD, true);
+				MonsterEncounter((int) HEARTS/2, (int) SPE/3, (int) ATK, "Guy the Swordsman", (int) EXPNeed/3, (int) GOLD/3, true);
 				Space();
 				Writer("CabinMaster: Phew! Thanks man! Here's some GOLD for your troubles.");
 				Space();
@@ -276,11 +277,11 @@ namespace DRAGONLake
 				Writer("After you encountered the cheapscape, you continue on your path through duel town, destroying too many foes after too many foes.");
 				MonsterEncounter((int) HEARTS/2, (int) SPE/3, (int) ATK/4, "Jujutsu Guysen", (int) EXPNeed/3, (int) GOLD/2, true);
 				Space();
-				MonsterEncounter(HEARTS * 2, (int) SPE, (int) ATK/2, "Madara Uchairha", (int) EXPNeed/3, (int) GOLD, true);
+				MonsterEncounter(HEARTS * 2, (int) SPE, (int) ATK/2, "Madara Uchairha", (int) EXPNeed/3, (int) GOLD/2, true);
 				Space();
-				MonsterEncounter((int) HEARTS, (int) SPE, (int) ATK/2, "Takeyuki", (int) EXPNeed/3, (int) GOLD/2, true);
+				MonsterEncounter((int) HEARTS, (int) SPE, (int) ATK/2, "Takeyuki", (int) EXPNeed/3, (int) GOLD/5, true);
 				Space();
-				MonsterEncounter((int) HEARTS/2, (int) SPE/2, (int) ATK/2, "Taneukami", (int) EXPNeed/3, (int) GOLD/2, true);
+				MonsterEncounter((int) HEARTS/2, (int) SPE/2, (int) ATK/2, "Taneukami", (int) EXPNeed/3, (int) GOLD/3, true);
 				Space();
 				Writer("After the encounters with the offly familiar swordsman, you are almost out of Duel Town, when you see a guy.");
 				Enter();
@@ -308,7 +309,7 @@ namespace DRAGONLake
 				Enter();
 				Writer("Swordsman: Now, time to get this party started! It's time for a DEATH DUEL!!!");
 				Enter();
-				MonsterEncounter(75, 18, 12, "Mysterious Rowdy Swordsman", 4500, 7000, true);
+				MonsterEncounter(75, 18, 12, "Mysterious Rowdy Swordsman", 4500, 3000, true);
 				Writer(name + ": *huff* *puff*");
 				Thread.Sleep(1700);
 				Space();
@@ -330,15 +331,15 @@ namespace DRAGONLake
 				Enter();
 				Writer("After your jolly but painful meeting, you finally leave the duel-torn village. In its wake, you crumble on the path to the DRAGON, killing many, many, many things that are unlcuky enough to be in traveling way.");
 				Enter();
-				MonsterEncounter(90, 21, 14, "Bunillaby", 234, 3435, false);
+				MonsterEncounter(90, 21, 14, "Bunillaby", 234, 700, false);
 				Space();
-				MonsterEncounter(85, 19, 12, "Fuzilite", 786, 843, false);
+				MonsterEncounter(85, 19, 12, "Fuzilite", 786, 903, false);
 				Space();
 				Writer("You keep treking on, the monsters stronger than ever. You push and push, knowing at any moment, a monster could spell your doom.");
 				Enter();
 				Writer("But you can't let that happen, for you have a goal in mind.");
 				Enter();
-				MonsterEncounter(84, 8, 7, "Talus", 4534, 9970, false);
+				MonsterEncounter(84, 8, 7, "Talus", 4534, 880, false);
 				Space();
 				//Cabin
 				if(noCabin == false)
@@ -496,7 +497,7 @@ namespace DRAGONLake
 				Writer("Mark: 5, 6, 7, 8; Time to put the score straight!", 2);
 				Color("null");
 				Space();
-				MonsterEncounter(140, 23, 18, "[1;34mMonotonous Mark[1;31m", 9000F, 2000, true);
+				MonsterEncounter(140, 23, 18, "[1;34mMonotonous Mark[1;31m", 9000F, 4000, true);
 				Space();
 				Writer("Mark: *Huff* puff* *Huff* *puff*...You're...*huff* *puff*...good at this...*huff* *puff*");
 				Enter();
@@ -516,9 +517,9 @@ namespace DRAGONLake
 				Writer("dangorous.", 2);
 				Color("null");
 				Enter();
-				MonsterEncounter(60, 10, 10, "Macro Man", 400F, 1000, true);
+				MonsterEncounter(60, 10, 10, "Macro Man", 400F, 900, true);
 				Space();
-				MonsterEncounter(90, 12, 8, "Friezan'", 900F, 3000, true);
+				MonsterEncounter(90, 12, 8, "Friezan'", 900F, 1540, true);
 				Space();
 				Writer("The savanna is vast, and you encounter many animals. It is a very nice place to camp as well. And you find yourself putting out your campfire just to see the beuty of the stars.");
 				Enter();
@@ -527,7 +528,7 @@ namespace DRAGONLake
 				Color("bold");
 				Writer("T H U M P!!!");
 				Enter();
-				MonsterEncounter(101, 8, 8, "Rockalike", 1100F, 2, true);
+				MonsterEncounter(101, 8, 8, "Rockalike", 1100F, 290, true);
 				Space();
 				Writer("G a U gH!! W hY dOe DiSs HaPpEn O mE ?/? I fE eL iKe CrA p 1 WhY/? WH YYY Y?!?1/");
 				Enter();
@@ -539,7 +540,7 @@ namespace DRAGONLake
 				Enter();
 				Writer("After cursing at you, it rolles away while you stay confused on how a monster talked.");
 				Enter();
-				MonsterEncounter(30, 24, 12, "Dare Demon", 2000F, 300, false);
+				MonsterEncounter(30, 24, 12, "Dare Demon", 2000F, 470, false);
 				//town arc
 				Enter();
 				Console.Clear();
@@ -634,13 +635,143 @@ namespace DRAGONLake
 				Enter();
 				Writer("Mark: They're getting there by ship. We can take a boat and take them out! And once we do that, we can take the stuff they stole!");
 				Enter();
-				Writer(name + ": Seems simple enough. So how do you think");;
+				Writer(name + ": Seems simple enough. So how do you think we'll get to them, now that we are quite the way away from the shore?");
+				Enter();
+				Writer("Mark: Simple. We'll ", 2);
+				Color("red");
+				Writer("fire ", 2);
+				Color("null");
+				Writer("our way there!", 2);
+				Enter();
+				Writer(name + ": What do you mean?");
+				Enter();
+				Writer("Mark: Simple! We take a foward cannon. When we go, we will be at the shore where they'll be! Chances are that they have yet to leave, so we can catch up to them!");
+				Enter();
+				Writer(name + ": Seems legit.");
+				Space();
+				Writer("Mark: Great! Just remember to get ready first! We may be there for a while");
+				Enter();
+				Writer("Townspeople: We thank you greatly for what you two are doing for us. Here is some GOLD for your troubles.");
+				Enter();
+				Writer("You gained 500 GOLD!");
+				GOLD += 500;
+				Enter();
+				Writer(name + ": You mean 'little' GOLD don't you.");
+				Enter();
+				Writer("Mark: Shut up!");
+				Enter();
+				Color("yellow");
+				Writer("You have " + GOLD + " GOLD and ", 2);
+				Color("pink");
+				Writer(HP + " HP left. ", 2);
+				Color("bold");
+				Writer("Be wise!", 2);
+				Color("null");
+				ItemUser();
+				Enter();
+				//ship
+				Console.Clear();
+				Space();
+				Writer("You both get into separate cannons, each prepared — hopefully — for the hardships ahead.");
+				Enter();
+				Writer("Mark: I hope you're ready for this!");
+				Space();
+				Color("bold");
+				Writer(name + ": P e r h a p s.");
+				Enter();
+				ThrDot();
+				Thread.Sleep(1200);
+				Writer("BAM!");
+				Color("null");
+				Space();
+				Writer("With a blast, you are off, off away.");
+				Enter();
+				Writer("PLUNK!");
+				Enter();
+				Writer("Mark [hurt]: Man! Perhaps I shouldn't have made us travel by cannon, that hurt like fu-");
+				Space();
+				Writer(name + ": Keep the game T rated, please.");
+				Enter();
+				Writer("Mark: Frick...");
+				Enter();
+				Writer("You see a pirate in the distance. What do you do?");
+				stop = false;
+				while(stop == false)
+				{
+					Space();
+					Color("green");
+					Writer("option 1: " + name + "[thinking]: Frick these guys, I'm not going to point it out.");
+					Color("red");
+					Writer("option 2: " + name + "[thinking]: For once, I want to be helpful. I'll tell Mark about that guy.");
+					Color("null");
+					Space();
+					option = Reader();
+					Space();
+					switch(option)
+					{
+						case "Option 1:":
+						case "option 1:":
+						case "Option 1: ":
+						case "option 1: ":
+						case "Option One:":
+						case "option one:":
+						case "Option One: ":
+						case "option one: ":
+						case "1":
+						case "One:":
+						case "one:":
+						case "One: ":
+						case "one: ":
+						case "1: ":
+						case "1:":
+							Writer(name + ": ...");
+							Space();
+							Writer("After a little bit, the pirates leave the shore.");
+							Space();
+							Writer("Mark: Hey, dammit! They're getting away!");
+							Enter();
+							Writer(name + "[playing innocent]: Huh.");
+							Enter();
+							Writer("Mark: Darn, we're going to have to travel by sea!");
+							Enter();
+							Writer(name + ": Why not boat?");
+							Enter();
+							Writer("Mark: Because I don't know how to use a boat.");
+							Enter();
+							Writer("Mark: So now, let's strap down, put on our swimming suits, and let's get swimming!");
+							Enter();
+							//ocean
+							Console.Clear();
+						break;
+
+						case "Option 2:":
+						case "option 2:":
+						case "Option 2: ":
+						case "option 2: ":
+						case "Option Two:":
+						case "option two:":
+						case "Option Two: ":
+						case "option two: ":
+						case "2":
+						case "Two:":
+						case "two:":
+						case "Two: ":
+						case "two: ":
+						case "2: ":
+						case "2:":
+							Writer(name + ": Look! Over there! A pirate!");
+							Enter();
+							Writer("Great! Let's annialate him!");
+							MonsterEncounter(100, 30, 19, "Ol' Pirate Joe (Sweeper)", 600F, 600, false);
+						break;
+					}
+				}
       }
 
 			if(option == go1[3] || option == "69")//DEBUG
 			{
-				MonsterEncounter(monName: "Debug Bug", exp: 2000F, gold: 3000,attack: 4 ,hp: 20, speed: 2);
-				MonsterEncounter(monName: "Debug Bug", exp: 3000F, gold: 3000);
+				MonsterEncounter(monName: "Debug Bug", exp: 2000F, gold: 3000,attack: 4 ,hp: 20, speed: 2, doubleBattle: true);
+				MonsterEncounter(monName: "Debug Bug", exp: 3000F, gold: 3000, doubleBattle: true);
 				Writer("END");
 				Enter();
 				End(0);
@@ -2729,7 +2860,7 @@ namespace DRAGONLake
 		}
 		
 		static string monName = "Enemy";
-    static void MonsterEncounter(float hp = 10, float speed = 3, float attack = 2, string monName = "Monster", float exp = 200F, int gold = 30, bool boss = false) 
+    static void MonsterEncounter(float hp = 10,  float speed = 3, float attack = 2, string monName = "Monster",  float exp = 200F, int gold = 30, bool boss = false, bool doubleBattle = false, bool twoEnemy = false,float hpTwo = 10,float speedTwo = 4,float attackTwo = 1,string monNameTwo = "Monster 2") 
 		{
       //variables
       string[] toDo = {"Attack", "Run", "Grab", "SPECIAL"};
@@ -2737,14 +2868,43 @@ namespace DRAGONLake
 			bool noSpecial = false;
       //monster
       Space();
-      if(boss == false)
+      if(doubleBattle == true)
 			{
-				Writer("[0;31m" + monName + " is at battle with you! What shall you do?");
+				if(boss == false && twoEnemy == true)
+				{
+					Writer("[0;31m" + monName + " and " + monNameTwo + " is at battle with you! What shall you do?");
+				}
+
+				else if (boss == false && twoEnemy == false)
+				{
+					Writer("[0;31m" + monName + " is at battle with you! What shall you do?");
+				}
+
+				else if(boss == true && twoEnemy == false)
+				{
+					Color("pink");
+					Writer("A great " + monName + " has honorably challenged you to a match! What shall you do, for your life is on the line?");
+				}
+
+				if(boss == true && twoEnemy == true)
+				{
+					Color("pink");
+					Writer("A great " + monName + " and " + monNameTwo + " has honorably challenged you to a match! What shall you do, for your life is on the line?");
+				}
 			}
-			else if(boss == true)
+
+			else if (doubleBattle == false)
 			{
-				Color("pink");
-				Writer("A great " + monName + " has honorably challenged you to a match! What shall you do, for your life is on the line?");
+				if(boss == false)
+				{
+					Writer("[0;31m" + monName + " and is at battle with you! What shall you do?");
+				}
+
+				if(boss == true)
+				{
+					Color("pink");
+					Writer("A great " + monName + " has honorably challenged you to a match! What shall you do, for your life is on the line?");
+				}
 			}
 			//tutorial
 			if(firstTime[1] == true)
@@ -3460,317 +3620,1104 @@ namespace DRAGONLake
 					case "Atttaaack":
 					case "ATtack":
 					case "Attack":
-            if(HP <= 0)
+            if(doubleBattle == false && twoEnemy == false)
 						{
-							Space(3);
-							Writer("YOU DIED!");
-							End(0);
-						}
-
-						if(hp <= 0)
-						{
-							continue;
-						}
-						//turn
-            if(SPE >= speed)//player first
-						{
-							//player death check
 							if(HP <= 0)
 							{
-							Space(3);
-							Writer("YOU DIED!");
-							End(0);
+								Space(3);
+								Writer("YOU DIED!");
+								End(0);
 							}
-							//player
-            	Random r = new Random();
-							int re = r.Next(1, 13);
-							switch(re)//miss: 2(17%), weak: 2(17%), nutral: 5(42%), critical: 3(25%)
-							{
-								case 1: //weak
-									Space();
-									Color("yellow");
-									Writer("You chose attack! " + monName + " lost " + (int) ATK * 2/3 + " hp! That was a weak hit!");
-									Color("null");
-									hp -= (int) ATK * 2/3;
-									WILL += 5;
-								break;
 
-								case 2: //nutral
-									Space();
-									Color("green");
-									Writer("You chose attack! " + monName + " lost " + ATK + " hp!");
-									Color("null");
-									hp -= ATK;
-									WILL += 10;
-								break;
-
-								case 3: //critical
-									Space();
-									Color("green");
-									Writer("CRITICAL HIT!");
-									Writer(monName + " lost " + (int) ATK * 5/3 + " hp!");
-									Color("null");
-									hp -= (int) ATK * 5/3;
-									WILL += 20;
-								break;
-
-								case 4: //miss
-									Space();
-									Color("red");
-									Writer("You missed! " + monName + " didn't get hit!");
-									Color("null");
-									WILL -= 10;
-								break;
-
-								case 5: //nutral
-									Space();
-									Color("green");
-									Writer("You chose attack! " + monName + " lost " + ATK + " hp!");
-									Color("null");
-									hp -= ATK;
-									WILL += 10;
-								break;
-
-								case 6: //nutral
-									Space();
-									Color("green");
-									Writer("You chose attack! " + monName + " lost " + ATK + " hp!");
-									Color("null");
-									hp -= ATK;
-									WILL += 10;
-								break;
-
-								case 7: //critical hit
-									Space();
-									Color("green");
-									Writer("CRITICAL HIT!");
-									Writer(monName + " lost " + (int) ATK * 5/3 + " hp!");
-									Color("null");
-									hp -= (int) ATK * 5/3;
-									WILL += 20;
-								break;
-
-								case 8: //nutral
-									Space();
-									Color("green");
-									Writer("You chose attack! " + monName + " lost " + ATK + " hp!");
-									Color("null");
-									hp -= ATK;
-									WILL += 10;
-								break;
-
-								case 9: //weak
-									Space();
-									Color("yellow");
-									Writer("You chose attack! " + monName + " lost " + (int) ATK * 2/3 + " hp! That was a weak hit!");
-									Color("null");
-									hp -= (int) ATK * 2/3;
-									WILL += 5;
-								break;
-
-								case 10: //nutral
-									Space();
-									Color("green");
-									Writer("You chose attack! " + monName + " lost " + ATK + " hp!");
-									Color("null");
-									hp -= ATK;
-									WILL += 10;
-								break;
-
-								case 11: //miss
-									Space();
-									Color("red");
-									Writer("You missed! " + monName + " didn't get hit!");
-									Color("null");
-								break;
-
-								case 12: //critical hit
-									Space();
-									Color("green");
-									Writer("CRITICAL HIT!");
-									Writer(monName + " lost " + (int) ATK * 5/3 + " hp!");
-									Color("null");
-									hp -= (int) ATK * 5/3;
-									WILL += 20;
-								break;
-							}
-							//monster death check
 							if(hp <= 0)
 							{
-							continue;
+								continue;
 							}
-							//monster
+							//turn
+            	if(SPE >= speed)//player first
+							{
+								//player death check
+								if(HP <= 0)
+								{
+								Space(3);
+								Writer("YOU DIED!");
+								End(0);
+								}
+								//player
+            		Random r = new Random();
+								int re = r.Next(1, 13);
+								switch(re)//miss: 2(17%), weak: 2(17%), nutral: 5(42%), critical: 3(25%)
+								{
+									case 1: //weak
+										Space();
+										Color("yellow");
+										Writer("You chose attack! " + monName + " lost " + (int) ATK * 2/3 + " hp! That was a weak hit!");
+										Color("null");
+										hp -= (int) ATK * 2/3;
+										WILL += 5;
+									break;
+
+									case 2: //nutral
+										Space();
+										Color("green");
+										Writer("You chose attack! " + monName + " lost " + ATK + " hp!");
+										Color("null");
+										hp -= ATK;
+										WILL += 10;
+									break;
+
+									case 3: //critical
+										Space();
+										Color("green");
+										Writer("CRITICAL HIT!");
+										Writer(monName + " lost " + (int) ATK * 5/3 + " hp!");
+										Color("null");
+										hp -= (int) ATK * 5/3;
+										WILL += 20;
+									break;
+
+									case 4: //miss
+										Space();
+										Color("red");
+										Writer("You missed! " + monName + " didn't get hit!");
+										Color("null");
+										WILL -= 10;
+									break;
+
+									case 5: //nutral
+										Space();
+										Color("green");
+										Writer("You chose attack! " + monName + " lost " + ATK + " hp!");
+										Color("null");
+										hp -= ATK;
+										WILL += 10;
+									break;
+
+									case 6: //nutral
+										Space();
+										Color("green");
+										Writer("You chose attack! " + monName + " lost " + ATK + " hp!");
+										Color("null");
+										hp -= ATK;
+										WILL += 10;
+									break;
+
+									case 7: //critical hit
+										Space();
+										Color("green");
+										Writer("CRITICAL HIT!");
+										Writer(monName + " lost " + (int) ATK * 5/3 + " hp!");
+										Color("null");
+										hp -= (int) ATK * 5/3;
+										WILL += 20;
+									break;
+
+									case 8: //nutral
+										Space();
+										Color("green");
+										Writer("You chose attack! " + monName + " lost " + ATK + " hp!");
+										Color("null");
+										hp -= ATK;
+										WILL += 10;
+									break;
+
+									case 9: //weak
+										Space();
+										Color("yellow");
+										Writer("You chose attack! " + monName + " lost " + (int) ATK * 2/3 + " hp! That was a weak hit!");
+										Color("null");
+										hp -= (int) ATK * 2/3;
+										WILL += 5;
+									break;
+
+									case 10: //nutral
+										Space();
+										Color("green");
+										Writer("You chose attack! " + monName + " lost " + ATK + " hp!");
+										Color("null");
+										hp -= ATK;
+										WILL += 10;
+									break;
+
+									case 11: //miss
+										Space();
+										Color("red");
+										Writer("You missed! " + monName + " didn't get hit!");
+										Color("null");
+									break;
+
+									case 12: //critical hit
+										Space();
+										Color("green");
+										Writer("CRITICAL HIT!");
+										Writer(monName + " lost " + (int) ATK * 5/3 + " hp!");
+										Color("null");
+										hp -= (int) ATK * 5/3;
+										WILL += 20;
+									break;
+								}
+								//monster death check
+								if(hp <= 0)
+								{
+								continue;
+								}
+								//monster
+								Space();
+								Color("red");
+								Writer(monName + " did " + attack + " hp to you!");
+								Color("null");
+            		HP -= attack;
+								WILL -= Convert.ToInt32(attack - ATK/6);
+							}
+							if(SPE < speed)//monster first
+							{
+								//monster death check
+								if(hp <= 0)
+								{
+								continue;
+								}
+								//monster
+								Space();
+								Color("red");
+								Writer(monName + " did " + attack + " hp to you!");
+								Color("null");
+								HP -= attack;
+								WILL -= Convert.ToInt32(attack - ATK/6);
+								//player death check
+								if(HP <= 0)
+								{
+								Space(3);
+								Writer("YOU DIED!");
+								End(0);
+								}
+								re = rando.Next(1, 13);
+								//player
+								switch(re)//miss: 2(17%), weak: 2(17%), nutral: 5(42%), critical: 3(25%)
+								{
+									case 1: //weak
+										Space();
+										Color("yellow");
+										Writer("You chose attack! " + monName + " lost " + (int) ATK * 2/3 + " hp! That was a weak hit!");
+										Color("null");
+										hp -= (int) ATK * 2/3;
+										WILL += 5;
+									break;
+
+									case 2: //nutral
+										Space();
+										Color("green");
+										Writer("You chose attack! " + monName + " lost " + ATK + " hp!");
+										Color("null");
+										hp -= ATK;
+										WILL += 10;
+									break;
+
+									case 3: //critical
+										Space();
+										Color("green");
+										Writer("CRITICAL HIT!");
+										Writer(monName + " lost " + (int) ATK * 5/3 + " hp!");
+										Color("null");
+										hp -= (int) ATK * 5/3;
+										WILL += 20;
+									break;
+
+									case 4: //miss
+										Space();
+										Color("red");
+										Writer("You missed! " + monName + " didn't get hit!");
+										Color("null");
+										WILL -= 10;
+									break;
+
+									case 5: //nutral
+										Space();
+										Color("green");
+										Writer("You chose attack! " + monName + " lost " + ATK + " hp!");
+										Color("null");
+										hp -= ATK;
+										WILL += 10;
+									break;
+
+									case 6: //nutral
+										Space();
+										Color("green");
+										Writer("You chose attack! " + monName + " lost " + ATK + " hp!");
+										Color("null");
+										hp -= ATK;
+										WILL += 10;
+									break;
+
+									case 7: //critical hit
+										Space();
+										Color("green");
+										Writer("CRITICAL HIT!");
+										Writer(monName + " lost " + (int) ATK * 5/3 + " hp!");
+										Color("null");
+										hp -= (int) ATK * 5/3;
+										WILL += 20;
+									break;
+
+									case 8: //nutral
+										Space();
+										Color("green");
+										Writer("You chose attack! " + monName + " lost " + ATK + " hp!");
+										Color("null");
+										hp -= ATK;
+										WILL += 10;
+									break;
+
+									case 9: //weak
+										Space();
+										Color("yellow");
+										Writer("You chose attack! " + monName + " lost " + Convert.ToInt32(ATK * 2/3) + " hp! That was a weak hit!");
+										Color("null");
+										hp -= Convert.ToInt32(ATK * 2/3);
+										WILL += 5;
+									break;
+
+									case 10: //nutral
+										Space();
+										Color("green");
+										Writer("You chose attack! " + monName + " lost " + ATK + " hp!");
+										Color("null");
+										hp -= ATK;
+										WILL += 10;
+									break;
+
+									case 11: //miss
+										Space();
+										Color("red");
+										Writer("You missed! " + monName + " didn't get hit!");
+										Color("null");
+									break;
+
+									case 12: //critical hit
+										Space();
+										Color("green");
+										Writer("CRITICAL HIT!");
+										Writer(monName + " lost " + Convert.ToInt32(ATK * 5/3) + " hp!");
+										Color("null");
+										hp -= Convert.ToInt32(ATK * 5/3);
+										WILL += 20;
+									break;
+								}
+							}
+            	//end
+							Space(2);
+							Writer("You have " + HP + " HP and " + monName + " has " + hp + " HP");
+							//choosing
+            	if(HP <= 0)
+							{
+								Space(3);
+								Writer("YOU DIED!");
+								End(0);
+							}
+
+							if(hp <= 0)
+							{
+								continue;
+							}
+
 							Space();
-							Color("red");
-							Writer(monName + " did " + attack + " hp to you!");
+							Writer("What next?");
+							Space();
+      				Color("cyan");
+							Writer(toDo[3]);
+							Color("pink");
+							Writer(toDo[0]);
+							Color("blue");
+      				Writer(toDo[1]);
+							Color("green");
+      				Writer(toDo[2]);
 							Color("null");
-            	HP -= attack;
-							WILL -= Convert.ToInt32(attack - ATK/6);
+      				Space();
+      				Choose = Reader();
 						}
-						if(SPE < speed)//monster first
+
+						else if (doubleBattle == true && twoEnemy == false)
 						{
-							//monster death check
-							if(hp <= 0)
-							{
-							continue;
-							}
-							//monster
-							Space();
-							Color("red");
-							Writer(monName + " did " + attack + " hp to you!");
-							Color("null");
-							HP -= attack;
-							WILL -= Convert.ToInt32(attack - ATK/6);
-							//player death check
 							if(HP <= 0)
 							{
-							Space(3);
-							Writer("YOU DIED!");
-							End(0);
+								Space(3);
+								Writer("YOU DIED!");
+								End(0);
 							}
-							re = rando.Next(1, 13);
-							//player
-							switch(re)//miss: 2(17%), weak: 2(17%), nutral: 5(42%), critical: 3(25%)
+
+							if(hp <= 0)
 							{
-								case 1: //weak
-									Space();
-									Color("yellow");
-									Writer("You chose attack! " + monName + " lost " + (int) ATK * 2/3 + " hp! That was a weak hit!");
-									Color("null");
-									hp -= (int) ATK * 2/3;
-									WILL += 5;
-								break;
-
-								case 2: //nutral
-									Space();
-									Color("green");
-									Writer("You chose attack! " + monName + " lost " + ATK + " hp!");
-									Color("null");
-									hp -= ATK;
-									WILL += 10;
-								break;
-
-								case 3: //critical
-									Space();
-									Color("green");
-									Writer("CRITICAL HIT!");
-									Writer(monName + " lost " + (int) ATK * 5/3 + " hp!");
-									Color("null");
-									hp -= (int) ATK * 5/3;
-									WILL += 20;
-								break;
-
-								case 4: //miss
-									Space();
-									Color("red");
-									Writer("You missed! " + monName + " didn't get hit!");
-									Color("null");
-									WILL -= 10;
-								break;
-
-								case 5: //nutral
-									Space();
-									Color("green");
-									Writer("You chose attack! " + monName + " lost " + ATK + " hp!");
-									Color("null");
-									hp -= ATK;
-									WILL += 10;
-								break;
-
-								case 6: //nutral
-									Space();
-									Color("green");
-									Writer("You chose attack! " + monName + " lost " + ATK + " hp!");
-									Color("null");
-									hp -= ATK;
-									WILL += 10;
-								break;
-
-								case 7: //critical hit
-									Space();
-									Color("green");
-									Writer("CRITICAL HIT!");
-									Writer(monName + " lost " + (int) ATK * 5/3 + " hp!");
-									Color("null");
-									hp -= (int) ATK * 5/3;
-									WILL += 20;
-								break;
-
-								case 8: //nutral
-									Space();
-									Color("green");
-									Writer("You chose attack! " + monName + " lost " + ATK + " hp!");
-									Color("null");
-									hp -= ATK;
-									WILL += 10;
-								break;
-
-								case 9: //weak
-									Space();
-									Color("yellow");
-									Writer("You chose attack! " + monName + " lost " + Convert.ToInt32(ATK * 2/3) + " hp! That was a weak hit!");
-									Color("null");
-									hp -= Convert.ToInt32(ATK * 2/3);
-									WILL += 5;
-								break;
-
-								case 10: //nutral
-									Space();
-									Color("green");
-									Writer("You chose attack! " + monName + " lost " + ATK + " hp!");
-									Color("null");
-									hp -= ATK;
-									WILL += 10;
-								break;
-
-								case 11: //miss
-									Space();
-									Color("red");
-									Writer("You missed! " + monName + " didn't get hit!");
-									Color("null");
-								break;
-
-								case 12: //critical hit
-									Space();
-									Color("green");
-									Writer("CRITICAL HIT!");
-									Writer(monName + " lost " + Convert.ToInt32(ATK * 5/3) + " hp!");
-									Color("null");
-									hp -= Convert.ToInt32(ATK * 5/3);
-									WILL += 20;
-								break;
+								continue;
 							}
-						}
-            //end
-						Space(2);
-						Writer("You have " + HP + " HP and " + monName + " has " + hp + " HP");
-						//choosing
-            if(HP <= 0)
-						{
-							Space(3);
-							Writer("YOU DIED!");
-							End(0);
-						}
+							//turn
+            	if(SPE >= speed && SPE >= (float)Mark[1])//player first
+							{
+								//player death check
+								if(HP <= 0)
+								{
+									Space(3);
+									Writer("YOU DIED!");
+									End(0);
+								}
+								//player
+            		Random r = new Random();
+								int re = r.Next(1, 13);
+								switch(re)//miss: 2(17%), weak: 2(17%), nutral: 5(42%), critical: 3(25%)
+								{
+									case 1: //weak
+										Space();
+										Color("yellow");
+										Writer("You chose attack! " + monName + " lost " + (int) ATK * 2/3 + " hp! That was a weak hit!");
+										Color("null");
+										hp -= (int) ATK * 2/3;
+										WILL += 5;
+									break;
 
-						if(hp <= 0)
-						{
-							continue;
-						}
+									case 2: //nutral
+										Space();
+										Color("green");
+										Writer("You chose attack! " + monName + " lost " + ATK + " hp!");
+										Color("null");
+										hp -= ATK;
+										WILL += 10;
+									break;
 
-						Space();
-						Writer("What next?");
-						Space();
-      			Color("cyan");
-						Writer(toDo[3]);
-						Color("pink");
-						Writer(toDo[0]);
-						Color("blue");
-      			Writer(toDo[1]);
-						Color("green");
-      			Writer(toDo[2]);
-						Color("null");
-      			Space();
-      			Choose = Reader();
+									case 3: //critical
+										Space();
+										Color("green");
+										Writer("CRITICAL HIT!");
+										Writer(monName + " lost " + (int) ATK * 5/3 + " hp!");
+										Color("null");
+										hp -= (int) ATK * 5/3;
+										WILL += 20;
+									break;
+
+									case 4: //miss
+										Space();
+										Color("red");
+										Writer("You missed! " + monName + " didn't get hit!");
+										Color("null");
+										WILL -= 10;
+									break;
+
+									case 5: //nutral
+										Space();
+										Color("green");
+										Writer("You chose attack! " + monName + " lost " + ATK + " hp!");
+										Color("null");
+										hp -= ATK;
+										WILL += 10;
+									break;
+
+									case 6: //nutral
+										Space();
+										Color("green");
+										Writer("You chose attack! " + monName + " lost " + ATK + " hp!");
+										Color("null");
+										hp -= ATK;
+										WILL += 10;
+									break;
+
+									case 7: //critical hit
+										Space();
+										Color("green");
+										Writer("CRITICAL HIT!");
+										Writer(monName + " lost " + (int) ATK * 5/3 + " hp!");
+										Color("null");
+										hp -= (int) ATK * 5/3;
+										WILL += 20;
+									break;
+
+									case 8: //nutral
+										Space();
+										Color("green");
+										Writer("You chose attack! " + monName + " lost " + ATK + " hp!");
+										Color("null");
+										hp -= ATK;
+										WILL += 10;
+									break;
+
+									case 9: //weak
+										Space();
+										Color("yellow");
+										Writer("You chose attack! " + monName + " lost " + (int) ATK * 2/3 + " hp! That was a weak hit!");
+										Color("null");
+										hp -= (int) ATK * 2/3;
+										WILL += 5;
+									break;
+
+									case 10: //nutral
+										Space();
+										Color("green");
+										Writer("You chose attack! " + monName + " lost " + ATK + " hp!");
+										Color("null");
+										hp -= ATK;
+										WILL += 10;
+									break;
+
+									case 11: //miss
+										Space();
+										Color("red");
+										Writer("You missed! " + monName + " didn't get hit!");
+										Color("null");
+									break;
+
+									case 12: //critical hit
+										Space();
+										Color("green");
+										Writer("CRITICAL HIT!");
+										Writer(monName + " lost " + (int) ATK * 5/3 + " hp!");
+										Color("null");
+										hp -= (int) ATK * 5/3;
+										WILL += 20;
+									break;
+								}
+								if((float)Mark[1] > speed)
+								{
+									//mark death check/attack
+									if((float)Mark[0] <= 0)
+									{
+										Space();
+										Writer("Mark is beat! He can't fight!");
+									}
+									else if ((float)Mark[0] > 0)
+									{
+										Space();
+										Color("green");
+										Writer((string)Mark[3] + " did " + (float)Mark[2] + " damage!");
+										hp -= (float)Mark[2];
+									}
+									//monster death check
+									if(hp <= 0)
+									{
+										continue;
+									}
+									//monster
+									re = rando.Next(0, 2);
+									if(re == 0)
+									{
+										Space();
+										Color("red");
+										Writer(monName + " did " + attack + " hp to you!");
+										Color("null");
+            				HP -= attack;
+										WILL -= Convert.ToInt32(attack - ATK/6);
+									}
+
+									else if (re == 1)
+									{
+										Space();
+										Color("red");
+										Writer(monName + " did " + attack + " hp to " + (string)Mark[3] + "!");
+										Color("null");
+            				(float)Mark[0] -= attack;
+										WILL -= Convert.ToInt32(attack - ATK/6);
+									}
+								}
+								else if((float)Mark[1] <= speed)
+								{
+									//monster death check
+									if(hp <= 0)
+									{
+										continue;
+									}
+									//monster
+									re = rando.Next(0, 2);
+									if(re == 0)
+									{
+										Space();
+										Color("red");
+										Writer(monName + " did " + attack + " hp to you!");
+										Color("null");
+            				HP -= attack;
+										WILL -= Convert.ToInt32(attack - ATK/6);
+									}
+
+									else if (re == 1)
+									{
+										Space();
+										Color("red");
+										Writer(monName + " did " + attack + " hp to " + (string)Mark[3] + "!");
+										Color("null");
+            				(float)Mark[0] -= attack;
+										WILL -= Convert.ToInt32(attack - ATK/6);
+									}
+									//Mark death check/attack
+									if((float)Mark[0] <= 0)
+									{
+										Space();
+										Writer("Mark is beat! He can't fight!");
+									}
+									else if ((float)Mark[0] > 0)
+									{
+										Space();
+										Color("green");
+										Writer((string)Mark[3] + " did " + (float)Mark[2] + " damage!");
+										hp -= (float)Mark[2];
+									}
+								}
+							}
+							if(SPE >= speed && SPE < (float)Mark[1])//mark first
+							{
+								//Mark death check/attack
+								if((float)Mark[0] <= 0)
+								{
+									Space();
+									Writer("Mark is beat! He can't fight!");
+								}
+								else if ((float)Mark[0] > 0)
+								{
+									Space();
+									Color("green");
+									Writer((string)Mark[3] + " did " + (float)Mark[2] + " damage!");
+									hp -= (float)Mark[2];
+								}
+								//player death check
+								if(HP <= 0)
+								{
+								Space(3);
+								Writer("YOU DIED!");
+								End(0);
+								}
+								//player
+            		Random r = new Random();
+								int re = r.Next(1, 13);
+								switch(re)//miss: 2(17%), weak: 2(17%), nutral: 5(42%), critical: 3(25%)
+								{
+									case 1: //weak
+										Space();
+										Color("yellow");
+										Writer("You chose attack! " + monName + " lost " + (int) ATK * 2/3 + " hp! That was a weak hit!");
+										Color("null");
+										hp -= (int) ATK * 2/3;
+										WILL += 5;
+									break;
+
+									case 2: //nutral
+										Space();
+										Color("green");
+										Writer("You chose attack! " + monName + " lost " + ATK + " hp!");
+										Color("null");
+										hp -= ATK;
+										WILL += 10;
+									break;
+
+									case 3: //critical
+										Space();
+										Color("green");
+										Writer("CRITICAL HIT!");
+										Writer(monName + " lost " + (int) ATK * 5/3 + " hp!");
+										Color("null");
+										hp -= (int) ATK * 5/3;
+										WILL += 20;
+									break;
+
+									case 4: //miss
+										Space();
+										Color("red");
+										Writer("You missed! " + monName + " didn't get hit!");
+										Color("null");
+										WILL -= 10;
+									break;
+
+									case 5: //nutral
+										Space();
+										Color("green");
+										Writer("You chose attack! " + monName + " lost " + ATK + " hp!");
+										Color("null");
+										hp -= ATK;
+										WILL += 10;
+									break;
+
+									case 6: //nutral
+										Space();
+										Color("green");
+										Writer("You chose attack! " + monName + " lost " + ATK + " hp!");
+										Color("null");
+										hp -= ATK;
+										WILL += 10;
+									break;
+
+									case 7: //critical hit
+										Space();
+										Color("green");
+										Writer("CRITICAL HIT!");
+										Writer(monName + " lost " + (int) ATK * 5/3 + " hp!");
+										Color("null");
+										hp -= (int) ATK * 5/3;
+										WILL += 20;
+									break;
+
+									case 8: //nutral
+										Space();
+										Color("green");
+										Writer("You chose attack! " + monName + " lost " + ATK + " hp!");
+										Color("null");
+										hp -= ATK;
+										WILL += 10;
+									break;
+
+									case 9: //weak
+										Space();
+										Color("yellow");
+										Writer("You chose attack! " + monName + " lost " + (int) ATK * 2/3 + " hp! That was a weak hit!");
+										Color("null");
+										hp -= (int) ATK * 2/3;
+										WILL += 5;
+									break;
+
+									case 10: //nutral
+										Space();
+										Color("green");
+										Writer("You chose attack! " + monName + " lost " + ATK + " hp!");
+										Color("null");
+										hp -= ATK;
+										WILL += 10;
+									break;
+
+									case 11: //miss
+										Space();
+										Color("red");
+										Writer("You missed! " + monName + " didn't get hit!");
+										Color("null");
+									break;
+
+									case 12: //critical hit
+										Space();
+										Color("green");
+										Writer("CRITICAL HIT!");
+										Writer(monName + " lost " + (int) ATK * 5/3 + " hp!");
+										Color("null");
+										hp -= (int) ATK * 5/3;
+										WILL += 20;
+									break;
+								}
+								//monster death check
+								if(hp <= 0)
+								{
+									continue;
+								}
+								//monster
+								re = rando.Next(0, 2);
+								if(re == 0)
+								{
+									Space();
+									Color("red");
+									Writer(monName + " did " + attack + " hp to you!");
+									Color("null");
+            			HP -= attack;
+									WILL -= Convert.ToInt32(attack - ATK/6);
+								}
+								else if (re == 1)
+								{
+									Space();
+									Color("red");
+									Writer(monName + " did " + attack + " hp to " + (string)Mark[3] + "!");
+									Color("null");
+            			(float)Mark[0] -= attack;
+									WILL -= Convert.ToInt32(attack - ATK/6);
+								}
+							}
+							if(SPE < speed && SPE >= (float)Mark[1])//monster first, mark last
+							{
+								//monster death check
+									if(hp <= 0)
+									{
+										continue;
+									}
+									//monster
+									re = rando.Next(0, 2);
+									if(re == 0)
+									{
+										Space();
+										Color("red");
+										Writer(monName + " did " + attack + " hp to you!");
+										Color("null");
+            				HP -= attack;
+										WILL -= Convert.ToInt32(attack - ATK/6);
+									}
+
+									else if (re == 1)
+									{
+										Space();
+										Color("red");
+										Writer(monName + " did " + attack + " hp to " + Mark[3] + "!");
+										Color("null");
+            				(float)Mark[0] -= attack;
+										WILL -= Convert.ToInt32(attack - ATK/6);
+									}
+								//player death check
+								if(HP <= 0)
+								{
+								Space(3);
+								Writer("YOU DIED!");
+								End(0);
+								}
+								re = rando.Next(1, 13);
+								//player
+								switch(re)//miss: 2(17%), weak: 2(17%), nutral: 5(42%), critical: 3(25%)
+								{
+									case 1: //weak
+										Space();
+										Color("yellow");
+										Writer("You chose attack! " + monName + " lost " + (int) ATK * 2/3 + " hp! That was a weak hit!");
+										Color("null");
+										hp -= (int) ATK * 2/3;
+										WILL += 5;
+									break;
+
+									case 2: //nutral
+										Space();
+										Color("green");
+										Writer("You chose attack! " + monName + " lost " + ATK + " hp!");
+										Color("null");
+										hp -= ATK;
+										WILL += 10;
+									break;
+
+									case 3: //critical
+										Space();
+										Color("green");
+										Writer("CRITICAL HIT!");
+										Writer(monName + " lost " + (int) ATK * 5/3 + " hp!");
+										Color("null");
+										hp -= (int) ATK * 5/3;
+										WILL += 20;
+									break;
+
+									case 4: //miss
+										Space();
+										Color("red");
+										Writer("You missed! " + monName + " didn't get hit!");
+										Color("null");
+										WILL -= 10;
+									break;
+
+									case 5: //nutral
+										Space();
+										Color("green");
+										Writer("You chose attack! " + monName + " lost " + ATK + " hp!");
+										Color("null");
+										hp -= ATK;
+										WILL += 10;
+									break;
+
+									case 6: //nutral
+										Space();
+										Color("green");
+										Writer("You chose attack! " + monName + " lost " + ATK + " hp!");
+										Color("null");
+										hp -= ATK;
+										WILL += 10;
+									break;
+
+									case 7: //critical hit
+										Space();
+										Color("green");
+										Writer("CRITICAL HIT!");
+										Writer(monName + " lost " + (int) ATK * 5/3 + " hp!");
+										Color("null");
+										hp -= (int) ATK * 5/3;
+										WILL += 20;
+									break;
+
+									case 8: //nutral
+										Space();
+										Color("green");
+										Writer("You chose attack! " + monName + " lost " + ATK + " hp!");
+										Color("null");
+										hp -= ATK;
+										WILL += 10;
+									break;
+
+									case 9: //weak
+										Space();
+										Color("yellow");
+										Writer("You chose attack! " + monName + " lost " + Convert.ToInt32(ATK * 2/3) + " hp! That was a weak hit!");
+										Color("null");
+										hp -= Convert.ToInt32(ATK * 2/3);
+										WILL += 5;
+									break;
+
+									case 10: //nutral
+										Space();
+										Color("green");
+										Writer("You chose attack! " + monName + " lost " + ATK + " hp!");
+										Color("null");
+										hp -= ATK;
+										WILL += 10;
+									break;
+
+									case 11: //miss
+										Space();
+										Color("red");
+										Writer("You missed! " + monName + " didn't get hit!");
+										Color("null");
+									break;
+
+									case 12: //critical hit
+										Space();
+										Color("green");
+										Writer("CRITICAL HIT!");
+										Writer(monName + " lost " + Convert.ToInt32(ATK * 5/3) + " hp!");
+										Color("null");
+										hp -= Convert.ToInt32(ATK * 5/3);
+										WILL += 20;
+									break;
+								}
+								//Mark death check/attack
+								if((float)Mark[0] <= 0)
+								{
+									Space();
+									Writer("Mark is beat! He can't fight!");
+								}
+								else if ((float)Mark[0] > 0)
+								{
+									Space();
+									Color("green");
+									Writer(Mark[3] + " did " + Mark[2] + " damage!");
+									hp -= Mark[2];
+								}
+							}
+							if(SPE < speed && SPE < (float)Mark[1])//player last
+							{
+								if((float)Mark[1] > speed)
+								{
+									//mark death check/attack
+									if((float)Mark[0] <= 0)
+									{
+										Space();
+										Writer("Mark is beat! He can't fight!");
+									}
+									else if ((float)Mark[0] > 0)
+									{
+										Space();
+										Color("green");
+										Writer((string)Mark[3] + " did " + (float)Mark[2] + " damage!");
+										hp -= Mark[2];
+									}
+									//monster death check
+									if(hp <= 0)
+									{
+										continue;
+									}
+									//monster
+									re = rando.Next(0, 2);
+									if(re == 0)
+									{
+										Space();
+										Color("red");
+										Writer(monName + " did " + attack + " hp to you!");
+										Color("null");
+            				HP -= attack;
+										WILL -= Convert.ToInt32(attack - ATK/6);
+									}
+
+									else if (re == 1)
+									{
+										Space();
+										Color("red");
+										Writer(monName + " did " + attack + " hp to " + Mark[3] + "!");
+										Color("null");
+            				Mark[0] -= attack;
+										WILL -= Convert.ToInt32(attack - ATK/6);
+									}
+								}
+
+								else if(Mark[1] <= speed)
+								{
+									//monster death check
+									if(hp <= 0)
+									{
+										continue;
+									}
+									//monster
+									re = rando.Next(0, 2);
+									if(re == 0)
+									{
+										Space();
+										Color("red");
+										Writer(monName + " did " + attack + " hp to you!");
+										Color("null");
+            				HP -= attack;
+										WILL -= Convert.ToInt32(attack - ATK/6);
+									}
+
+									else if (re == 1)
+									{
+										Space();
+										Color("red");
+										Writer(monName + " did " + attack + " hp to " + (string)Mark[3] + "!");
+										Color("null");
+            				(float)Mark[0] -= attack;
+										WILL -= Convert.ToInt32(attack - ATK/6);
+									}
+									//Mark death check/attack
+									if((float)Mark[0] <= 0)
+									{
+										Space();
+										Writer("Mark is beat! He can't fight!");
+									}
+									else if (Mark[0] > 0)
+									{
+										Space();
+										Color("green");
+										Writer((string)Mark[3] + " did " + Mark[2] + " damage!");
+										hp -= (float)Mark[2];
+									}
+								}
+
+								//player death check
+								if(HP <= 0)
+								{
+									Space(3);
+									Writer("YOU DIED!");
+									End(0);
+								}
+								//player
+            		Random r = new Random();
+								int re = r.Next(1, 13);
+								switch(re)//miss: 2(17%), weak: 2(17%), nutral: 5(42%), critical: 3(25%)
+								{
+									case 1: //weak
+										Space();
+										Color("yellow");
+										Writer("You chose attack! " + monName + " lost " + (int) ATK * 2/3 + " hp! That was a weak hit!");
+										Color("null");
+										hp -= (int) ATK * 2/3;
+										WILL += 5;
+									break;
+
+									case 2: //nutral
+										Space();
+										Color("green");
+										Writer("You chose attack! " + monName + " lost " + ATK + " hp!");
+										Color("null");
+										hp -= ATK;
+										WILL += 10;
+									break;
+
+									case 3: //critical
+										Space();
+										Color("green");
+										Writer("CRITICAL HIT!");
+										Writer(monName + " lost " + (int) ATK * 5/3 + " hp!");
+										Color("null");
+										hp -= (int) ATK * 5/3;
+										WILL += 20;
+									break;
+
+									case 4: //miss
+										Space();
+										Color("red");
+										Writer("You missed! " + monName + " didn't get hit!");
+										Color("null");
+										WILL -= 10;
+									break;
+
+									case 5: //nutral
+										Space();
+										Color("green");
+										Writer("You chose attack! " + monName + " lost " + ATK + " hp!");
+										Color("null");
+										hp -= ATK;
+										WILL += 10;
+									break;
+
+									case 6: //nutral
+										Space();
+										Color("green");
+										Writer("You chose attack! " + monName + " lost " + ATK + " hp!");
+										Color("null");
+										hp -= ATK;
+										WILL += 10;
+									break;
+
+									case 7: //critical hit
+										Space();
+										Color("green");
+										Writer("CRITICAL HIT!");
+										Writer(monName + " lost " + (int) ATK * 5/3 + " hp!");
+										Color("null");
+										hp -= (int) ATK * 5/3;
+										WILL += 20;
+									break;
+
+									case 8: //nutral
+										Space();
+										Color("green");
+										Writer("You chose attack! " + monName + " lost " + ATK + " hp!");
+										Color("null");
+										hp -= ATK;
+										WILL += 10;
+									break;
+
+									case 9: //weak
+										Space();
+										Color("yellow");
+										Writer("You chose attack! " + monName + " lost " + (int) ATK * 2/3 + " hp! That was a weak hit!");
+										Color("null");
+										hp -= (int) ATK * 2/3;
+										WILL += 5;
+									break;
+
+									case 10: //nutral
+										Space();
+										Color("green");
+										Writer("You chose attack! " + monName + " lost " + ATK + " hp!");
+										Color("null");
+										hp -= ATK;
+										WILL += 10;
+									break;
+
+									case 11: //miss
+										Space();
+										Color("red");
+										Writer("You missed! " + monName + " didn't get hit!");
+										Color("null");
+									break;
+
+									case 12: //critical hit
+										Space();
+										Color("green");
+										Writer("CRITICAL HIT!");
+										Writer(monName + " lost " + (int) ATK * 5/3 + " hp!");
+										Color("null");
+										hp -= (int) ATK * 5/3;
+										WILL += 20;
+									break;
+								}
+							}
+            	//end
+							Space(2);
+							Writer("You have " + HP + " HP, " + monName + " has " + hp + " HP, and " + Mark[3] + " has " + Mark[0] + " HP.");
+							//choosing
+            	if(HP <= 0)
+							{
+								Space(3);
+								Writer("YOU DIED!");
+								End(0);
+							}
+
+							if(hp <= 0)
+							{
+								continue;
+							}
+
+							Space();
+							Writer("What next?");
+							Space();
+      				Color("cyan");
+							Writer(toDo[3]);
+							Color("pink");
+							Writer(toDo[0]);
+							Color("blue");
+      				Writer(toDo[1]);
+							Color("green");
+      				Writer(toDo[2]);
+							Color("null");
+      				Space();
+      				Choose = Reader();
+						}
           break;
 
           case "3":
