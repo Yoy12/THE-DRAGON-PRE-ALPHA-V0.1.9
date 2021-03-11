@@ -68,7 +68,16 @@ Right now there is a very good arc, and I know you may want to play it in its en
 **3/10/2021:**
 **Changes:**
 - **Created Double Battles**.
-- Added **story** to the ***'springs'***
+- Added **story** to the ***'springs'***.
 
 **Fixes:**
 - Fixed many, **many** bugs on the **new** double battles mechanic.
+
+#
+**3/11/2021:**
+**Changes:**
+- **Double Battles are now usable!** They are exlusive to the **springs**, so the chllenge is worth it! Now you, Mark, and up to **two** enemies can battle it out! Have fun!
+
+**Fixes:**
+- Still fixing **double battle** bugs and errors...too manny for them...
+- Fixed bug where **Mark Conjure would not take damage in double battles**.

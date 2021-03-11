@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Threading;
 using System.Windows.Input;
+using System.Linq;
 // 
 // https://bluesock.org/~willkg/dev/ansi.html#ansicodes
 // RED: [0;31m
@@ -16,7 +17,7 @@ namespace DRAGONLake
   {
     //variables
     static float EXP, EXPNeed = 2000, SPE = 19, HP = 20, HEARTS = 20, ATK = 5;
-		static int level = 2, GOLD = 500, WILL = 400, re = 0;
+		static int level = 2, GOLD = 500, WILL = 0, re = 0;
 		static string[] inventory = {"potion", "potion", "potion", "null", "null", "null", "null", "null", "null", "null", "null"/*not used until aftergame*/};
 		static string[] go1 = {"springs", "hills", "forests", "debug"};
 		static string name;
@@ -25,7 +26,7 @@ namespace DRAGONLake
 		static bool noCabin = false, stop = false, dodge = false, debug = true;
 		static bool[] firstTime = {true/*SPECIAL*/, true/*attacking, grabbing, running*/, true/*options*/, true/*enter*/, true/*shopping*/, true}, From = {true/*springs*/, true/*hills*/, true/*forests*/};
 
-		static Object[] Mark = new Object[] {120/*hp, 0*/, 25/*speed, 1*/, 23/*attack, 2*/, "Mark Conjure"/*name, 3*/};
+		static Object[] Mark = new Object[] {60/*hp, 0*/, 25/*speed, 1*/, 23/*attack, 2*/, "Mark Conjure"/*name, 3*/};
 		
 		static Random rando = new Random();
 
@@ -768,9 +769,9 @@ namespace DRAGONLake
 				}
       }
 
-			if(option == go1[3] || option == "69")//DEBUG
+			if(option == go1[3] || option == "69" || option == "F I V E  N I G H T S  A T  F R E D D Y Y Y ' S .  I S  T H I S  W H E R E  Y O U  W A N T  T O  B E ????  I  J U S T D O N ' T  G E E E E T  I T T T .  W H Y  D O  Y O U  W A N T  T O  S T A Y ???")//DEBUG
 			{
-				MonsterEncounter(monName: "Debug Bug", exp: 2000F, gold: 3000,attack: 4 ,hp: 20, speed: 2, doubleBattle: true);
+				MonsterEncounter(monName: "Debug Bug", exp: 2000F, gold: 3000,attack: 4 ,hp: 90, speed: 2, doubleBattle: true, twoEnemy: false);
 				MonsterEncounter(monName: "Debug Bug", exp: 3000F, gold: 3000, doubleBattle: true);
 				Writer("END");
 				Enter();
@@ -2860,12 +2861,17 @@ namespace DRAGONLake
 		}
 		
 		static string monName = "Enemy";
-    static void MonsterEncounter(float hp = 10,  float speed = 3, float attack = 2, string monName = "Monster",  float exp = 200F, int gold = 30, bool boss = false, bool doubleBattle = false, bool twoEnemy = false,float hpTwo = 10,float speedTwo = 4,float attackTwo = 1,string monNameTwo = "Monster 2") 
+    static void MonsterEncounter(float hp = 10,  float speed = 3, float attack = 2, string monName = "Monster",  float exp = 200F, int gold = 30, bool boss = false, bool doubleBattle = false, bool twoEnemy = false, float hpTwo = 10, float speedTwo = 4, float attackTwo = 1, string monNameTwo = "Monster 2") 
 		{
       //variables
       string[] toDo = {"Attack", "Run", "Grab", "SPECIAL"};
       string Choose;
 			bool noSpecial = false;
+			int ra = 0;
+
+			float fMark0 = Convert.ToSingle(Mark[0]);
+			float fMark1 = Convert.ToSingle(Mark[1]);
+			float fMark2 = Convert.ToSingle(Mark[2]);
       //monster
       Space();
       if(doubleBattle == true)
@@ -2945,7 +2951,14 @@ namespace DRAGONLake
 				firstTime[1] = false;
 			}
 			//fight
-			Writer("Your HP: " + HP + ", " + monName + " HP: " + hp);
+			if(doubleBattle == false)
+			{
+				Writer("Your HP: " + HP + ", " + monName + " HP: " + hp);
+			}
+			else if(doubleBattle == true)
+			{
+				Writer("Your HP: " + HP + ", " + monName + " HP: " + hp + ", " + (string)Mark[3] + " HP: " + fMark0);
+			}
 			noSpecial = false;
 			Color("null");
       Space();
@@ -3620,7 +3633,11 @@ namespace DRAGONLake
 					case "Atttaaack":
 					case "ATtack":
 					case "Attack":
-            if(doubleBattle == false && twoEnemy == false)
+            fMark0 = Convert.ToSingle(Mark[0]);
+						fMark1 = Convert.ToSingle(Mark[1]);
+						fMark2 = Convert.ToSingle(Mark[2]);
+
+						if(doubleBattle == false && twoEnemy == false)
 						{
 							if(HP <= 0)
 							{
@@ -3949,7 +3966,7 @@ namespace DRAGONLake
 								continue;
 							}
 							//turn
-            	if(SPE >= speed && SPE >= (float)Mark[1])//player first
+            	if(SPE >= speed && SPE >= fMark1)//player first
 							{
 								//player death check
 								if(HP <= 0)
@@ -4071,20 +4088,20 @@ namespace DRAGONLake
 										WILL += 20;
 									break;
 								}
-								if((float)Mark[1] > speed)
+								if(fMark1 > speed)
 								{
 									//mark death check/attack
-									if((float)Mark[0] <= 0)
+									if(fMark0 <= 0)
 									{
 										Space();
-										Writer("Mark is beat! He can't fight!");
+										Writer((string)Mark[3] + " is beat! He can't fight!");
 									}
-									else if ((float)Mark[0] > 0)
+									else if (fMark0 > 0)
 									{
 										Space();
 										Color("green");
-										Writer((string)Mark[3] + " did " + (float)Mark[2] + " damage!");
-										hp -= (float)Mark[2];
+										Writer((string)Mark[3] + " did " + fMark2 + " damage!");
+										hp -= fMark2;
 									}
 									//monster death check
 									if(hp <= 0)
@@ -4109,11 +4126,11 @@ namespace DRAGONLake
 										Color("red");
 										Writer(monName + " did " + attack + " hp to " + (string)Mark[3] + "!");
 										Color("null");
-            				(float)Mark[0] -= attack;
+            				fMark0 -= attack;
 										WILL -= Convert.ToInt32(attack - ATK/6);
 									}
 								}
-								else if((float)Mark[1] <= speed)
+								else if(fMark1 <= speed)
 								{
 									//monster death check
 									if(hp <= 0)
@@ -4138,45 +4155,45 @@ namespace DRAGONLake
 										Color("red");
 										Writer(monName + " did " + attack + " hp to " + (string)Mark[3] + "!");
 										Color("null");
-            				(float)Mark[0] -= attack;
+            				fMark0 -= attack;
 										WILL -= Convert.ToInt32(attack - ATK/6);
 									}
 									//Mark death check/attack
-									if((float)Mark[0] <= 0)
+									if(fMark0 <= 0)
 									{
 										Space();
 										Writer("Mark is beat! He can't fight!");
 									}
-									else if ((float)Mark[0] > 0)
+									else if (fMark0 > 0)
 									{
 										Space();
 										Color("green");
-										Writer((string)Mark[3] + " did " + (float)Mark[2] + " damage!");
-										hp -= (float)Mark[2];
+										Writer((string)Mark[3] + " did " + fMark2 + " damage!");
+										hp -= fMark2;
 									}
 								}
 							}
-							if(SPE >= speed && SPE < (float)Mark[1])//mark first
+							if(SPE >= speed && SPE < fMark1)//mark first
 							{
 								//Mark death check/attack
-								if((float)Mark[0] <= 0)
+								if(fMark0 <= 0)
 								{
 									Space();
-									Writer("Mark is beat! He can't fight!");
+									Writer((string)Mark[3] + " is beat! He can't fight!");
 								}
-								else if ((float)Mark[0] > 0)
+								else if (fMark0 > 0)
 								{
 									Space();
 									Color("green");
-									Writer((string)Mark[3] + " did " + (float)Mark[2] + " damage!");
-									hp -= (float)Mark[2];
+									Writer((string)Mark[3] + " did " + fMark2 + " damage!");
+									hp -= fMark2;
 								}
 								//player death check
 								if(HP <= 0)
 								{
-								Space(3);
-								Writer("YOU DIED!");
-								End(0);
+									Space(3);
+									Writer("YOU DIED!");
+									End(0);
 								}
 								//player
             		Random r = new Random();
@@ -4313,11 +4330,11 @@ namespace DRAGONLake
 									Color("red");
 									Writer(monName + " did " + attack + " hp to " + (string)Mark[3] + "!");
 									Color("null");
-            			(float)Mark[0] -= attack;
+            			fMark0 -= attack;
 									WILL -= Convert.ToInt32(attack - ATK/6);
 								}
 							}
-							if(SPE < speed && SPE >= (float)Mark[1])//monster first, mark last
+							if(SPE < speed && SPE >= fMark1)//monster first, mark last
 							{
 								//monster death check
 									if(hp <= 0)
@@ -4342,7 +4359,7 @@ namespace DRAGONLake
 										Color("red");
 										Writer(monName + " did " + attack + " hp to " + Mark[3] + "!");
 										Color("null");
-            				(float)Mark[0] -= attack;
+            				fMark0 -= attack;
 										WILL -= Convert.ToInt32(attack - ATK/6);
 									}
 								//player death check
@@ -4465,35 +4482,35 @@ namespace DRAGONLake
 									break;
 								}
 								//Mark death check/attack
-								if((float)Mark[0] <= 0)
+								if(fMark0 <= 0)
 								{
 									Space();
-									Writer("Mark is beat! He can't fight!");
+									Writer((string)Mark[3] + " is beat! He can't fight!");
 								}
-								else if ((float)Mark[0] > 0)
+								else if (fMark0 > 0)
 								{
 									Space();
 									Color("green");
-									Writer(Mark[3] + " did " + Mark[2] + " damage!");
-									hp -= Mark[2];
+									Writer((float)Mark[3] + " did " + Mark[2] + " damage!");
+									hp -= fMark2;
 								}
 							}
-							if(SPE < speed && SPE < (float)Mark[1])//player last
+							if(SPE < speed && SPE < fMark1)//player last
 							{
-								if((float)Mark[1] > speed)
+								if(fMark1 > speed)
 								{
 									//mark death check/attack
-									if((float)Mark[0] <= 0)
+									if(fMark0 <= 0)
 									{
 										Space();
-										Writer("Mark is beat! He can't fight!");
+										Writer((string)Mark[3] + " is beat! He can't fight!");
 									}
-									else if ((float)Mark[0] > 0)
+									else if (fMark0 > 0)
 									{
 										Space();
 										Color("green");
-										Writer((string)Mark[3] + " did " + (float)Mark[2] + " damage!");
-										hp -= Mark[2];
+										Writer((string)Mark[3] + " did " + fMark2 + " damage!");
+										hp -= fMark2;
 									}
 									//monster death check
 									if(hp <= 0)
@@ -4501,8 +4518,8 @@ namespace DRAGONLake
 										continue;
 									}
 									//monster
-									re = rando.Next(0, 2);
-									if(re == 0)
+									ra = rando.Next(0, 2);
+									if(ra == 0)
 									{
 										Space();
 										Color("red");
@@ -4512,18 +4529,18 @@ namespace DRAGONLake
 										WILL -= Convert.ToInt32(attack - ATK/6);
 									}
 
-									else if (re == 1)
+									else if (ra == 1)
 									{
 										Space();
 										Color("red");
 										Writer(monName + " did " + attack + " hp to " + Mark[3] + "!");
 										Color("null");
-            				Mark[0] -= attack;
+            				fMark0 -= attack;
 										WILL -= Convert.ToInt32(attack - ATK/6);
 									}
 								}
 
-								else if(Mark[1] <= speed)
+								else if(fMark1 <= speed)
 								{
 									//monster death check
 									if(hp <= 0)
@@ -4531,8 +4548,8 @@ namespace DRAGONLake
 										continue;
 									}
 									//monster
-									re = rando.Next(0, 2);
-									if(re == 0)
+									ra = rando.Next(0, 2);
+									if(ra == 0)
 									{
 										Space();
 										Color("red");
@@ -4542,27 +4559,27 @@ namespace DRAGONLake
 										WILL -= Convert.ToInt32(attack - ATK/6);
 									}
 
-									else if (re == 1)
+									else if (ra == 1)
 									{
 										Space();
 										Color("red");
 										Writer(monName + " did " + attack + " hp to " + (string)Mark[3] + "!");
 										Color("null");
-            				(float)Mark[0] -= attack;
+            				fMark0 -= attack;
 										WILL -= Convert.ToInt32(attack - ATK/6);
 									}
 									//Mark death check/attack
-									if((float)Mark[0] <= 0)
+									if(fMark0 <= 0)
 									{
 										Space();
 										Writer("Mark is beat! He can't fight!");
 									}
-									else if (Mark[0] > 0)
+									else if (fMark0 > 0)
 									{
 										Space();
 										Color("green");
 										Writer((string)Mark[3] + " did " + Mark[2] + " damage!");
-										hp -= (float)Mark[2];
+										hp -= fMark2;
 									}
 								}
 
@@ -4688,6 +4705,9 @@ namespace DRAGONLake
 								}
 							}
             	//end
+							Mark[0] = fMark0;
+							Mark[1] = fMark1;
+							Mark[2] = fMark2;
 							Space(2);
 							Writer("You have " + HP + " HP, " + monName + " has " + hp + " HP, and " + Mark[3] + " has " + Mark[0] + " HP.");
 							//choosing
