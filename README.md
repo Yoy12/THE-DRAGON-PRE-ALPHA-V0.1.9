@@ -6,8 +6,10 @@
 - **Mono .NET Framework**
 
 ### Step 1
-- run ``` mcs -out:main.exe Functions.cs Functions2.cs main.cs ``` in terminal.
+- go into THE DRAGON folder in terminal.
 ### Step 2
-- run ``` mono main.exe ```
+- run ``` mcs -out:main.exe Functions.cs Functions2.cs Functions3.cs main.cs ``` in terminal.
 ### Step 3
+- run ``` mono main.exe ```
+### Step 4
 - enjoy! Remember ``` Ctrl-C ``` cancels the game.
